@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_API_URL = 'http://localhost:3001/';
+const BASE_API_URL = 'http://localhost:3001';
 
 class OnlyLocksAPI {
 	// the token for interacting with API will be stored here/
@@ -10,7 +10,7 @@ class OnlyLocksAPI {
 		console.debug('API Call:', endpoint, data, method);
 
 		const url = `${BASE_API_URL}/${endpoint}`;
-		const headers = { Authorization: `Bearer ${localStorage.token}` };
+		const headers = { authorization: localStorage.token };
 		const params = method === 'get' ? data : {};
 
 		try {
@@ -200,16 +200,23 @@ class OnlyLocksAPI {
 		return res.updatePlayerSeasonStats;
 	}
 
+	/** Update all player game stats by gameId */
+
+	static async updatePlayerGameStats(game) {
+		let res = await this.request(`players/stats/games`, { game }, 'patch');
+		return res.updatePlayerGameStats;
+	}
+
 	/** Update all player game stats */
 
-	static async updateAllPlayerGameStats() {
+	static async adminUpdateAllPlayerGameStats() {
 		let res = await this.request(`players/stats/games`, { method: 'all' }, 'patch');
 		return res.updatePlayerGameStats;
 	}
 
 	/** Update recent player game stats */
 
-	static async updatePlayerGameStats() {
+	static async adminUpdatePlayerGameStats() {
 		let res = await this.request(`players/stats/games`, 'patch');
 		return res.updatePlayerGameStats;
 	}

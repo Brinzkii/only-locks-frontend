@@ -1,0 +1,56 @@
+.RegisterForm, .LoginForm, .ProfileForm {
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    padding: 20px 0px 20px 0px;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    border: none;
+    border-radius: .15cm;
+    text-align: start;
+}
+
+.RegisterForm-title, .LoginForm-title, .ProfileForm-title {
+    margin-top: 0px;
+    text-align: center;
+}
+
+.RegisterForm-input, .LoginForm-input, .ProfileForm-input, .ProfileForm-input-disabled {
+    margin: 0px 20px 25px 20px;
+    height: 30px;
+    font-size: 18px;
+    border: 1px solid rgb(173, 173, 173);
+    border-radius: .15cm;
+}
+
+.RegisterForm-label, .LoginForm-label, .ProfileForm-label {
+    /* text-align: start; */
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0px 20px 10px 20px;
+}
+
+.ProfileForm-input-disabled {
+    background: rgb(204, 204, 204)
+}
+
+.RegisterForm-button, .LoginForm-button, .ProfileForm-button {
+    height: 40px;
+    width: 200px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: .15cm;
+    border: 1px solid white;
+    background-color: #0099FF;
+    color: white;
+    font-size: 20px;
+}
+
+.RegisterForm-button:hover, .LoginForm-button:hover, .ProfileForm-button:hover {
+    cursor: pointer;
+    
+}
+
