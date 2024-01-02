@@ -188,16 +188,30 @@ class OnlyLocksAPI {
 
 	/** Get player season stats by ID */
 
-	static async playerSeasonStats(player_id) {
-		let res = await this.request(`players/stats/season`);
+	static async playerSeasonStats(playerId) {
+		let res = await this.request(`players/${playerId}/stats/season`);
 		return res.seasonStats;
 	}
 
 	/** Update all player season stats */
 
 	static async updatePlayerSeasonStats() {
-		let res = await this.request(`players/stats`, 'patch');
+		let res = await this.request(`players/stats/season`, 'patch');
 		return res.updatePlayerSeasonStats;
+	}
+
+	/** Update all player game stats */
+
+	static async updateAllPlayerGameStats() {
+		let res = await this.request(`players/stats/games`, { method: 'all' }, 'patch');
+		return res.updatePlayerGameStats;
+	}
+
+	/** Update recent player game stats */
+
+	static async updatePlayerGameStats() {
+		let res = await this.request(`players/stats/games`, 'patch');
+		return res.updatePlayerGameStats;
 	}
 
 	/** Get a players game stats */
