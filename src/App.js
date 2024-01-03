@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navigation from './Navigation';
 import Home from './Home';
 import User from './User';
+import GameList from './GameList';
 import GameDetails from './GameDetails';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
@@ -12,16 +13,11 @@ import Moment from 'moment';
 import './App.css';
 
 function App() {
-	const [games, setGames] = useState([]);
 	const [teams, setTeams] = useState([]);
 	const [players, setPlayers] = useState([]);
 	const [user, setUser] = useState([]);
 	const updateUser = ({ username, token, picks, following }) => {
 		async function getData() {
-			const today = Moment().format('LL');
-			let games = await OnlyLocksAPI.gamesByDate(today);
-			setGames(games);
-
 			let teams = await OnlyLocksAPI.allTeams();
 			setTeams(teams);
 
@@ -56,6 +52,7 @@ function App() {
 		}
 		checkForUser();
 	}, []);
+	console.log(games);
 
 	return (
 		<div className="App">
@@ -77,7 +74,7 @@ function App() {
 						<Route path="/users/:username" element={<User />} />
 
 						{/* View Games By Date */}
-
+						<Route path="/games" element={<GameList games={games} setGames={setGames} />} />
 						{/* View Game Details */}
 						<Route path="/games/:gameId" element={<GameDetails />} />
 						{/* View All Teams */}
