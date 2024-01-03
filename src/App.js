@@ -3,10 +3,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navigation from './Navigation';
 import Home from './Home';
 import User from './User';
+import GameDetails from './GameDetails';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import OnlyLocksAPI from './OnlyLocksAPI';
 import PrivateRoutes from './PrivateRoutes';
+import Moment from 'moment';
 import './App.css';
 
 function App() {
@@ -16,7 +18,8 @@ function App() {
 	const [user, setUser] = useState([]);
 	const updateUser = ({ username, token, picks, following }) => {
 		async function getData() {
-			let games = await OnlyLocksAPI.allGames();
+			const today = Moment().format('LL');
+			let games = await OnlyLocksAPI.gamesByDate(today);
 			setGames(games);
 
 			let teams = await OnlyLocksAPI.allTeams();
@@ -73,10 +76,10 @@ function App() {
 						{/* View User Details */}
 						<Route path="/users/:username" element={<User />} />
 
-						{/* View All Games */}
+						{/* View Games By Date */}
 
 						{/* View Game Details */}
-
+						<Route path="/games/:gameId" element={<GameDetails />} />
 						{/* View All Teams */}
 
 						{/* View Team Details */}
