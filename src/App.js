@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Moment from 'moment';
 import Navigation from './Navigation';
 import Home from './Home';
 import User from './User';
@@ -9,7 +10,6 @@ import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import OnlyLocksAPI from './OnlyLocksAPI';
 import PrivateRoutes from './PrivateRoutes';
-import Moment from 'moment';
 import './App.css';
 
 function App() {
@@ -44,7 +44,8 @@ function App() {
 
 				let teams = await OnlyLocksAPI.allTeams();
 				let players = await OnlyLocksAPI.allPlayers();
-				let games = await OnlyLocksAPI.gamesByDate('today');
+				const today = Moment().format('l').replaceAll('/', '-');
+				let games = await OnlyLocksAPI.gamesByDate(today);
 
 				setData({ teams, players, games });
 
