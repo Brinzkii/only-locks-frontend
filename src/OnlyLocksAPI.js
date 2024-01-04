@@ -130,28 +130,28 @@ class OnlyLocksAPI {
 		return res.team;
 	}
 
-	/** Get all team stats */
+	/** Get all team season stats */
 
 	static async allTeamStats() {
 		let res = await this.request(`teams/stats`);
 		return res.teamStats;
 	}
 
-	/** Get team stats */
+	/** Get team season stats */
 
 	static async teamStats(teamId) {
 		let res = await this.request(`teams/${teamId}/stats`);
 		return res.teamStats;
 	}
 
-	/** Sort all teams by stats */
+	/** Sort all teams by season stats */
 
 	static async sortTeamStats({ stat, order }) {
 		let res = await this.request(`teams/stats/sort`, { stat, order });
 		return res.teamStats;
 	}
 
-	/** Update all team stats */
+	/** Update all team season stats */
 
 	static async updateTeamStats() {
 		let res = await this.request(`teams/stats`, 'patch');
@@ -247,6 +247,13 @@ class OnlyLocksAPI {
 	static async game(gameId) {
 		let res = await this.request(`games/${gameId}`);
 		return res.game;
+	}
+
+	/** Get team stats for a game by ID */
+
+	static async teamGameStats(gameId) {
+		let res = await this.request(`games/${gameId}/stats`);
+		return res.gameStats;
 	}
 
 	/** Filter games by date */

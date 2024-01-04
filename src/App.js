@@ -13,17 +13,10 @@ import Moment from 'moment';
 import './App.css';
 
 function App() {
-	const [teams, setTeams] = useState([]);
-	const [players, setPlayers] = useState([]);
+	const [data, setData] = useState({ teams: [], players: [], games: [] });
 	const [user, setUser] = useState([]);
 	const updateUser = ({ username, token, picks, following }) => {
-		async function getData() {
-			let teams = await OnlyLocksAPI.allTeams();
-			setTeams(teams);
-
-			let players = await OnlyLocksAPI.allPlayers();
-			setPlayers(players);
-		}
+		async function getData() {}
 		if (username) localStorage.setItem('username', username);
 		if (token) localStorage.setItem('token', token);
 		if (picks) localStorage.setItem('picks', JSON.stringify(picks));
@@ -42,17 +35,26 @@ function App() {
 		async function checkForUser() {
 			if (localStorage.token) {
 				let user = await OnlyLocksAPI.getUser(localStorage.username);
-				updateUser({
-					username: localStorage.username,
+				const info = {
+					username: user.username,
 					token: localStorage.token,
 					picks: user.picks.playerPicks.concat(user.picks.teamPicks),
 					following: user.followedTeams.concat(user.followedPlayers),
-				});
+				};
+
+				let teams = await OnlyLocksAPI.allTeams();
+				let players = await OnlyLocksAPI.allPlayers();
+				let games = await OnlyLocksAPI.gamesByDate('today');
+
+				setData({ teams, players, games });
+
+				localStorage.setItem('username', info.username);
+				localStorage.setItem('picks', JSON.stringify(info.picks));
+				localStorage.setItem('following', JSON.stringify(user.following));
 			}
 		}
 		checkForUser();
 	}, []);
-	console.log(games);
 
 	return (
 		<div className="App">
@@ -74,7 +76,7 @@ function App() {
 						<Route path="/users/:username" element={<User />} />
 
 						{/* View Games By Date */}
-						<Route path="/games" element={<GameList games={games} setGames={setGames} />} />
+						<Route path="/games/" element={<GameList data={data} setData={setData} />} />
 						{/* View Game Details */}
 						<Route path="/games/:gameId" element={<GameDetails />} />
 						{/* View All Teams */}

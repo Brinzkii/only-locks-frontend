@@ -6,6 +6,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
 import Logo from './static/only-locks-logo.png';
+import uuid from 'react-uuid';
 import './Navigation.css';
 // import 'bootstrap/js/src/collapse.js';
 
@@ -51,7 +52,7 @@ function Navigation({ logoutUser }) {
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="onlylocks-navbar-nav" />
 					<Navbar.Collapse className="flex-column align-items-end" id="onlylocks-navbar-nav">
-						<Nav className="">
+						<Nav>
 							<Nav.Link href="/games">Games</Nav.Link>
 
 							<Nav.Link href="/players">Players</Nav.Link>
@@ -64,24 +65,36 @@ function Navigation({ logoutUser }) {
 
 							<NavDropdown title="Teams" id="teams-dropdown">
 								{teams.map((t) => (
-									<NavDropdown.Item href={`/teams/${t.id}`}>{t.name}</NavDropdown.Item>
+									<NavDropdown.Item href={`/teams/${t.id}`} key={uuid()}>
+										{t.name}
+									</NavDropdown.Item>
 								))}
 							</NavDropdown>
 							{!localStorage.token ? (
-								<Stack className="Navigation-container-right ms-4" direction="horizontal" gap={2}>
-									<Button href="/login" variant="success">
+								<Stack
+									className="Navigation-container-right ms-4"
+									direction="horizontal"
+									gap={2}
+									key={uuid()}
+								>
+									<Button href="/login" variant="success" key={uuid()}>
 										Login
 									</Button>
-									<Button href="/register" className="p-2 ms-auto" variant="info">
+									<Button href="/register" className="p-2 ms-auto" variant="info" key={uuid()}>
 										Register
 									</Button>
 								</Stack>
 							) : (
-								<Stack className="Navigation-container-right ps-4" direction="horizontal" gap={2}>
-									<Button href={`/users/${localStorage.username}`} variant="info">
+								<Stack
+									className="Navigation-container-right ps-4"
+									direction="horizontal"
+									gap={2}
+									key={uuid()}
+								>
+									<Button href={`/users/${localStorage.username}`} variant="info" key={uuid()}>
 										{localStorage.username}
 									</Button>
-									<Button onClick={logoutUser} className="p-2 ms-auto" variant="warning">
+									<Button onClick={logoutUser} className="p-2 ms-auto" variant="warning" key={uuid()}>
 										Logout
 									</Button>
 								</Stack>

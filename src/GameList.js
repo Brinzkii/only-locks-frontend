@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from './OnlyLocksAPI';
@@ -8,71 +8,71 @@ import Stack from 'react-bootstrap/Stack';
 import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
+import uuid from 'react-uuid';
 import './GameList.css';
 
-function GameList() {
-	const [games, setGames] = useState(undefined);
-	const [day, setDay] = useState(Moment().format('l').replaceAll('/', '-'));
-	console.debug('Games', games);
+function GameList({ data, setData }) {
+	const dateRef = useRef(Moment().format('l').replaceAll('/', '-'));
+	console.debug('Games', data.games);
 	function handlePrevClick() {
 		async function prevDayGames() {
-			setGames(undefined);
-			const prev = Moment(day).subtract(1, 'days').format('l').replaceAll('/', '-');
-			console.log('Prev:', prev);
-			setDay(prev);
-			let games = await OnlyLocksAPI.gamesByDate(day);
-			setGames(games);
+			setData({ ...data, games: undefined });
+			console.debug('Games', data.games);
+			const day = dateRef.current;
+			dateRef.current = Moment(day).subtract(1, 'days').format('l').replaceAll('/', '-');
+			console.log('Prev:', dateRef.current);
+			let games = await OnlyLocksAPI.gamesByDate(dateRef.current);
+			setData({ ...data, games });
 		}
 		prevDayGames();
 	}
 	function handleNextClick() {
 		async function nextDayGames() {
-			setGames(undefined);
-			const next = Moment(day).add(1, 'days').format('l').replaceAll('/', '-');
-			console.log('Next:', next);
-			setDay(next);
-			let games = await OnlyLocksAPI.gamesByDate(day);
-			setGames(games);
+			setData({ ...data, games: undefined });
+			console.debug('Games', data.games);
+			const day = dateRef.current;
+			dateRef.current = Moment(day).add(1, 'days').format('l').replaceAll('/', '-');
+			console.log('Next:', dateRef.current);
+			let games = await OnlyLocksAPI.gamesByDate(dateRef.current);
+			setData({ ...data, games });
 		}
 		nextDayGames();
 	}
-	useEffect(() => {
-		async function getGames() {
-			let games = await OnlyLocksAPI.gamesByDate('today');
-			setGames(games);
-		}
-		getGames();
-	}, []);
-	if (games === undefined) {
+	if (data.games === undefined) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
 			<div className="GameList">
 				<Container>
-					<h2 className="GameList-date-header mt-4">{Moment(day).format('LL')}</h2>
+					<h2 className="GameList-date-header mt-4">{Moment(dateRef.current).format('LL')}</h2>
 					<Stack direction="horizontal">
 						<Button onClick={handlePrevClick}>Prev</Button>
 						<Button onClick={handleNextClick}>Next</Button>
 					</Stack>
 					<ul className="GameList-list m-0 p-0">
-						{games.map((g) => (
-							<li GameList-list-item>
+						{data.games.map((g) => (
+							<li className="GameList-list-item" key={uuid()}>
 								<Stack className="GameList-logos-container" direction="horizontal">
-									<Link to={`/teams/${g.homeId}`}></Link>
-									<Image className="GameList-logo GameList-logo-home" src={g.homeLogo} />
-									<Image className="GameList-logo GameList-logo-away" src={g.awayLogo} />
+									<Link to={`/teams/${g.homeId}`}>
+										<Image className="GameList-logo GameList-logo-home" src={g.homeLogo} />
+									</Link>
+									<Link to={`/teams/${g.awayId}`}>
+										<Image className="GameList-logo GameList-logo-away" src={g.awayLogo} />
+									</Link>
 								</Stack>
 
-								<Card className="GameList-card mt-2" style={{ width: '70%' }}>
-									<Card.Body>
-										<Card.Title>
-											{g.homeCode} vs. {g.awayCode}
-										</Card.Title>
-										<Card.Text>
-											The {g.awayName} are taking on the {g.homeName} at {g.location}
-										</Card.Text>
-									</Card.Body>
-								</Card>
+								<Link to={`/games/${g.id}`}>
+									<Card className="GameList-card mt-2" style={{ width: '70%' }}>
+										<Card.Body>
+											<Card.Title>
+												{g.homeCode} vs. {g.awayCode}
+											</Card.Title>
+											<Card.Text>
+												The {g.awayName} are taking on the {g.homeName} at {g.location}
+											</Card.Text>
+										</Card.Body>
+									</Card>
+								</Link>
 							</li>
 						))}
 					</ul>
