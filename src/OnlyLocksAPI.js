@@ -202,8 +202,8 @@ class OnlyLocksAPI {
 
 	/** Update all player game stats by gameId */
 
-	static async updatePlayerGameStats(game) {
-		let res = await this.request(`players/stats/games`, { game }, 'patch');
+	static async updatePlayerGameStats(gameId) {
+		let res = await this.request(`players/stats/game/${gameId}`, 'patch');
 		return res.updatePlayerGameStats;
 	}
 
@@ -254,6 +254,20 @@ class OnlyLocksAPI {
 	static async teamGameStats(gameId) {
 		let res = await this.request(`games/${gameId}/stats`);
 		return res.gameStats;
+	}
+
+	/** Get top game performers for both teams by game ID */
+
+	static async gameTopPerformers(gameId) {
+		let res = await this.request(`games/${gameId}/top`);
+		return res.topPerformers;
+	}
+
+	/** Get season top performers by team ID*/
+
+	static async seasonTopPerformers(teamId) {
+		let res = await this.request(`teams/${teamId}/stats/top`);
+		return res.topPerformers;
 	}
 
 	/** Filter games by date */
