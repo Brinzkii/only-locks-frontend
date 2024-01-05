@@ -12,17 +12,16 @@ import uuid from 'react-uuid';
 import './GameList.css';
 
 function GameList({ data, setData }) {
-	const dateRef = useRef(Moment().format('l').replaceAll('/', '-'));
 	console.debug('Games', data.games);
 	function handlePrevClick() {
 		async function prevDayGames() {
 			setData({ ...data, games: undefined });
 			console.debug('Games', data.games);
-			const day = dateRef.current;
-			dateRef.current = Moment(day).subtract(1, 'days').format('l').replaceAll('/', '-');
-			console.log('Prev:', dateRef.current);
-			let games = await OnlyLocksAPI.gamesByDate(dateRef.current);
-			setData({ ...data, games });
+			const currDay = data.date;
+			const prevDay = Moment(currDay).subtract(1, 'days').format('l').replaceAll('/', '-');
+			console.log('Prev:', prevDay);
+			let games = await OnlyLocksAPI.gamesByDate(prevDay);
+			setData({ ...data, games, date: prevDay });
 		}
 		prevDayGames();
 	}
@@ -30,11 +29,11 @@ function GameList({ data, setData }) {
 		async function nextDayGames() {
 			setData({ ...data, games: undefined });
 			console.debug('Games', data.games);
-			const day = dateRef.current;
-			dateRef.current = Moment(day).add(1, 'days').format('l').replaceAll('/', '-');
-			console.log('Next:', dateRef.current);
-			let games = await OnlyLocksAPI.gamesByDate(dateRef.current);
-			setData({ ...data, games });
+			const currDay = data.date;
+			const nextDay = Moment(currDay).add(1, 'days').format('l').replaceAll('/', '-');
+			console.log('Next:', nextDay);
+			let games = await OnlyLocksAPI.gamesByDate(nextDay);
+			setData({ ...data, games, date: nextDay });
 		}
 		nextDayGames();
 	}
@@ -44,7 +43,7 @@ function GameList({ data, setData }) {
 		return (
 			<div className="GameList">
 				<Container>
-					<h2 className="GameList-date-header mt-4">{Moment(dateRef.current).format('LL')}</h2>
+					<h2 className="GameList-date-header mt-4">{Moment(data.date).format('LL')}</h2>
 					<Stack direction="horizontal">
 						<Button onClick={handlePrevClick}>Prev</Button>
 						<Button onClick={handleNextClick}>Next</Button>
@@ -68,7 +67,7 @@ function GameList({ data, setData }) {
 												{g.homeCode} vs. {g.awayCode}
 											</Card.Title>
 											<Card.Text>
-												The {g.awayName} are taking on the {g.homeName} at {g.location}
+												The {g.awayName} are taking on the {g.homeName} at the {g.location}
 											</Card.Text>
 										</Card.Body>
 									</Card>

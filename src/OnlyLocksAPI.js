@@ -151,10 +151,22 @@ class OnlyLocksAPI {
 		return res.teamStats;
 	}
 
+	/** Update all team game stats */
+
+	static async updateAllTeamGameStats() {
+		let res = await this.request(`teams/stats/games`, { method: 'all' }, 'patch');
+	}
+
+	/** Update team game stats for recent games */
+
+	static async updateTeamGameStats() {
+		let res = await this.request(`teams/stats/games`, 'patch');
+	}
+
 	/** Update all team season stats */
 
 	static async updateTeamStats() {
-		let res = await this.request(`teams/stats`, 'patch');
+		let res = await this.request(`teams/stats/season`, 'patch');
 		return res.updateTeamStats;
 	}
 
@@ -228,10 +240,14 @@ class OnlyLocksAPI {
 		return res.gameStats;
 	}
 
-	/** Sort all players by stats */
+	/** Sort all players by stats
+	 *
+	 * 	Optionally can pass in teamId, time and order
+	 **/
 
-	static async sortPlayerStats({ time, stat, order }) {
-		let res = await this.request(`players/stats/sort`, { time, stat, order });
+	static async sortPlayerStats({ teamId, time, stat, order }) {
+		let data = { teamId, time, stat, order };
+		let res = await this.request(`players/stats/sort`, data, 'post');
 		return res.sortedStats;
 	}
 

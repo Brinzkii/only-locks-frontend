@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from './OnlyLocksAPI';
 import Table from 'react-bootstrap/Table';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
-import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
 import './GameDetails.css';
@@ -32,14 +31,19 @@ function GameDetails() {
 		blocks: 'Blocks',
 		plusMinus: 'Plus/Minus',
 	};
-	const [data, setData] = useState({
+	const INITIAL_STATE = {
 		game: undefined,
 		gameStats: { home: undefined, away: undefined },
 		teamStats: { home: undefined, away: undefined },
 		gameTopPlayers: { home: undefined, away: undefined },
 		seasonTopPlayers: { home: undefined, away: undefined },
-	});
+	};
+	const navigate = useNavigate();
+	const [data, setData] = useState(INITIAL_STATE);
 	let { gameId } = useParams();
+	const handlePlayerClick = (evt) => {
+		navigate(`/players/${evt.target.id}`);
+	};
 	useEffect(() => {
 		async function getData(gameId) {
 			const game = await OnlyLocksAPI.game(gameId);
@@ -124,7 +128,7 @@ function GameDetails() {
 							</tr>
 						</thead>
 						<tbody>
-							{!data.gameStats.home.points && !data.gameStats.away.points
+							{!data.gameStats.home && !data.gameStats.away
 								? Object.keys(data.teamStats.home).map((key, idx) => {
 										if (idx > 8) {
 											return (
@@ -162,8 +166,8 @@ function GameDetails() {
 						</tbody>
 					</Table>
 				</div>
-				;
-				{!data.gameTopPlayers.home.points ? (
+				{/* If game top performers is empty, loop over season top performers */}
+				{Object.keys(data.gameTopPlayers.home).length === 0 ? (
 					<div className="GameDetails-top-performers mt-5">
 						<h5 className="GameDetails-top-performers-header">Top Performers (23-24 Season Averages)</h5>
 						<Table className="GameDetails-top-performers-table">
@@ -172,7 +176,7 @@ function GameDetails() {
 									if (key !== 'team') {
 										return (
 											<tr key={uuid()}>
-												<td>
+												<td id={data.seasonTopPlayers.home[key].id} onClick={handlePlayerClick}>
 													{data.seasonTopPlayers.home[key].name} (
 													{key === 'plusMinus' ? (
 														<>
@@ -194,7 +198,7 @@ function GameDetails() {
 												</td>
 
 												<td>{categories[key]}</td>
-												<td>
+												<td id={data.seasonTopPlayers.away[key].id} onClick={handlePlayerClick}>
 													{data.seasonTopPlayers.away[key].name} (
 													{key === 'plusMinus'
 														? `+${Math.round(
@@ -216,16 +220,14 @@ function GameDetails() {
 					</div>
 				) : (
 					<div className="GameDetails-top-performers mt-5">
-						<h5 className="GameDetails-top-performers-header">
-							Top Performers ({Moment(data.game.date).format('LL')})
-						</h5>
+						<h5 className="GameDetails-top-performers-header">Top Performers</h5>
 						<Table striped className="GameDetails-top-performers-table">
 							<tbody>
 								{Object.keys(data.gameTopPlayers.home).map((key) => {
 									if (key !== 'team') {
 										return (
 											<tr key={uuid()}>
-												<td>
+												<td id={data.gameTopPlayers.home[key].id} onClick={handlePlayerClick}>
 													{data.gameTopPlayers.home[key].name} (
 													{key === 'plusMinus'
 														? `+${Math.round(data.gameTopPlayers.home[key].value)}`
@@ -233,7 +235,7 @@ function GameDetails() {
 													)
 												</td>
 												<td>{categories[key]}</td>
-												<td>
+												<td id={data.gameTopPlayers.away[key].id} onClick={handlePlayerClick}>
 													{data.gameTopPlayers.away[key].name} (
 													{key === 'plusMinus'
 														? `+${Math.round(data.gameTopPlayers.away[key].value)}`

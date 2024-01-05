@@ -6,6 +6,7 @@ import Home from './Home';
 import User from './User';
 import GameList from './GameList';
 import GameDetails from './GameDetails';
+import TeamDetails from './TeamDetails';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import OnlyLocksAPI from './OnlyLocksAPI';
@@ -13,8 +14,14 @@ import PrivateRoutes from './PrivateRoutes';
 import './App.css';
 
 function App() {
-	const [data, setData] = useState({ teams: [], players: [], games: [] });
+	const [data, setData] = useState({
+		teams: [],
+		players: [],
+		games: [],
+		date: Moment().format('l').replaceAll('/', '-'),
+	});
 	const [user, setUser] = useState([]);
+
 	const updateUser = ({ username, token, picks, following }) => {
 		async function getData() {}
 		if (username) localStorage.setItem('username', username);
@@ -83,7 +90,7 @@ function App() {
 						{/* View All Teams */}
 
 						{/* View Team Details */}
-
+						<Route path="/teams/:teamId" element={<TeamDetails />} />
 						{/* View all players */}
 
 						{/* View player details */}
