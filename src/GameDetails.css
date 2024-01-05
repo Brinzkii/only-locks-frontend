@@ -1,3 +1,9 @@
 .GameDetails-matchup-logo {
     width: 100px;
 }
+
+.GameDetails-player-link {
+    text-decoration: none;
+    padding: 0px;
+    margin: 0px;
+}

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from './OnlyLocksAPI';
 import Table from 'react-bootstrap/Table';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
+import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
 import './GameDetails.css';
@@ -80,9 +81,7 @@ function GameDetails() {
 				</h2>
 				<h4 className="GameDetails-location">{data.game.location}</h4>
 				<h5 className="GameDetails-date">{Moment(data.game.date).format('LL')}</h5>
-
 				{!data.game.clock ? <></> : <h4 className="GameDetails-clock">{data.game.clock}</h4>}
-
 				{!data.game.score ? (
 					<h4>TBD</h4>
 				) : (
@@ -90,7 +89,6 @@ function GameDetails() {
 						<small>{data.game.homeCode}</small> {data.game.score} <small>{data.game.awayCode}</small>
 					</h4>
 				)}
-
 				<div className="GameDetails-matchup">
 					<Table className="GameDetails-matchup-stats-table" size="sm" striped bordered hover>
 						<thead>
@@ -128,7 +126,7 @@ function GameDetails() {
 						<tbody>
 							{!data.gameStats.home.points && !data.gameStats.away.points
 								? Object.keys(data.teamStats.home).map((key, idx) => {
-										if (idx > 6) {
+										if (idx > 8) {
 											return (
 												<tr key={uuid()}>
 													<td>
@@ -164,136 +162,55 @@ function GameDetails() {
 						</tbody>
 					</Table>
 				</div>
-
+				;
 				{!data.gameTopPlayers.home.points ? (
 					<div className="GameDetails-top-performers mt-5">
 						<h5 className="GameDetails-top-performers-header">Top Performers (23-24 Season Averages)</h5>
 						<Table className="GameDetails-top-performers-table">
 							<tbody>
-								<tr key={uuid()}>
-									<td>
-										{data.seasonTopPlayers.home.points.name} (
-										{Math.round(
-											data.seasonTopPlayers.home.points.value /
-												data.seasonTopPlayers.home.points.games
-										)}
-										)
-									</td>
-									<td>Points</td>
-									<td>
-										{data.seasonTopPlayers.away.points.name} (
-										{Math.round(
-											data.seasonTopPlayers.away.points.value /
-												data.seasonTopPlayers.away.points.games
-										)}
-										)
-									</td>
-								</tr>
-								<tr key={uuid()}>
-									<td>
-										{data.seasonTopPlayers.home.totalReb.name} (
-										{Math.round(
-											data.seasonTopPlayers.home.totalReb.value /
-												data.seasonTopPlayers.home.totalReb.games
-										)}
-										)
-									</td>
-									<td>Rebounds</td>
-									<td>
-										{data.seasonTopPlayers.away.totalReb.name} (
-										{Math.round(
-											data.seasonTopPlayers.away.totalReb.value /
-												data.seasonTopPlayers.away.totalReb.games
-										)}
-										)
-									</td>
-								</tr>
-								<tr key={uuid()}>
-									<td>
-										{data.seasonTopPlayers.home.assists.name} (
-										{Math.round(
-											data.seasonTopPlayers.home.assists.value /
-												data.seasonTopPlayers.home.assists.games
-										)}
-										)
-									</td>
-									<td>Assists</td>
-									<td>
-										{data.seasonTopPlayers.away.assists.name} (
-										{Math.round(
-											data.seasonTopPlayers.away.assists.value /
-												data.seasonTopPlayers.away.assists.games
-										)}
-										)
-									</td>
-								</tr>
-								<tr key={uuid()}>
-									<td>
-										{data.seasonTopPlayers.home.blocks.name} (
-										{Math.round(
-											data.seasonTopPlayers.home.blocks.value /
-												data.seasonTopPlayers.home.blocks.games
-										)}
-										)
-									</td>
-									<td>Blocks</td>
-									<td>
-										{data.seasonTopPlayers.away.blocks.name} (
-										{Math.round(
-											data.seasonTopPlayers.away.blocks.value /
-												data.seasonTopPlayers.away.blocks.games
-										)}
-										)
-									</td>
-								</tr>
-								<tr key={uuid()}>
-									<td>
-										{data.seasonTopPlayers.home.steals.name} (
-										{Math.round(
-											data.seasonTopPlayers.home.steals.value /
-												data.seasonTopPlayers.home.steals.games
-										)}
-										)
-									</td>
-									<td>Steals</td>
-									<td>
-										{data.seasonTopPlayers.away.steals.name} (
-										{Math.round(
-											data.seasonTopPlayers.away.steals.value /
-												data.seasonTopPlayers.away.steals.games
-										)}
-										)
-									</td>
-								</tr>
-								<tr key={uuid()}>
-									<td>
-										{data.seasonTopPlayers.home.plusMinus.name} (
-										{data.seasonTopPlayers.home.plusMinus.value > 0
-											? `+${Math.round(
-													data.seasonTopPlayers.home.plusMinus.value /
-														data.seasonTopPlayers.home.plusMinus.games
-											  )}`
-											: Math.round(
-													data.seasonTopPlayers.home.plusMinus.value /
-														data.seasonTopPlayers.home.plusMinus.games
-											  )}
-										)
-									</td>
-									<td>Plus/Minus</td>
-									<td>
-										{data.seasonTopPlayers.away.plusMinus.name} (
-										{data.seasonTopPlayers.away.plusMinus.value > 0
-											? `+${Math.round(
-													data.seasonTopPlayers.away.plusMinus.value /
-														data.seasonTopPlayers.away.plusMinus.games
-											  )}`
-											: Math.round(
-													data.seasonTopPlayers.away.plusMinus.value /
-														data.seasonTopPlayers.away.plusMinus.games
-											  )}
-										)
-									</td>
-								</tr>
+								{Object.keys(data.seasonTopPlayers.home).map((key) => {
+									if (key !== 'team') {
+										return (
+											<tr key={uuid()}>
+												<td>
+													{data.seasonTopPlayers.home[key].name} (
+													{key === 'plusMinus' ? (
+														<>
+															`+$
+															{Math.round(
+																data.seasonTopPlayers.home[key].value /
+																	data.seasonTopPlayers.home[key].games
+															)}
+															`
+														</>
+													) : (
+														<>
+															{Math.round(
+																data.seasonTopPlayers.home[key].value /
+																	data.seasonTopPlayers.home[key].games
+															)}
+														</>
+													)}
+												</td>
+
+												<td>{categories[key]}</td>
+												<td>
+													{data.seasonTopPlayers.away[key].name} (
+													{key === 'plusMinus'
+														? `+${Math.round(
+																data.seasonTopPlayers.away[key].value /
+																	data.seasonTopPlayers.away[key].games
+														  )}`
+														: Math.round(
+																data.seasonTopPlayers.away[key].value /
+																	data.seasonTopPlayers.away[key].games
+														  )}
+													)
+												</td>
+											</tr>
+										);
+									}
+								})}
 							</tbody>
 						</Table>
 					</div>
@@ -302,74 +219,31 @@ function GameDetails() {
 						<h5 className="GameDetails-top-performers-header">
 							Top Performers ({Moment(data.game.date).format('LL')})
 						</h5>
-						<Table className="GameDetails-top-performers-table">
+						<Table striped className="GameDetails-top-performers-table">
 							<tbody>
-								<tr key={uuid()}>
-									<td>
-										{data.gameTopPlayers.home.points.name} ({data.gameTopPlayers.home.points.value})
-									</td>
-									<td>Points</td>
-									<td>
-										{data.gameTopPlayers.away.points.name} ({data.gameTopPlayers.away.points.value})
-									</td>
-								</tr>
-								<tr key={uuid()}>
-									<td>
-										{data.gameTopPlayers.home.totalReb.name} (
-										{data.gameTopPlayers.home.totalReb.value})
-									</td>
-									<td>Rebounds</td>
-									<td>
-										{data.gameTopPlayers.away.totalReb.name} (
-										{data.gameTopPlayers.away.totalReb.value})
-									</td>
-								</tr>
-								<tr key={uuid()}>
-									<td>
-										{data.gameTopPlayers.home.assists.name} (
-										{data.gameTopPlayers.home.assists.value})
-									</td>
-									<td>Assists</td>
-									<td>
-										{data.gameTopPlayers.away.assists.name} (
-										{data.gameTopPlayers.away.assists.value})
-									</td>
-								</tr>
-								<tr key={uuid()}>
-									<td>
-										{data.gameTopPlayers.home.blocks.name} ({data.gameTopPlayers.home.blocks.value})
-									</td>
-									<td>Blocks</td>
-									<td>
-										{data.gameTopPlayers.away.blocks.name} ({data.gameTopPlayers.away.blocks.value})
-									</td>
-								</tr>
-								<tr key={uuid()}>
-									<td>
-										{data.gameTopPlayers.home.steals.name} ({data.gameTopPlayers.home.steals.value})
-									</td>
-									<td>Steals</td>
-									<td>
-										{data.gameTopPlayers.away.steals.name} ({data.gameTopPlayers.away.steals.value})
-									</td>
-								</tr>
-								<tr key={uuid()}>
-									<td>
-										{data.gameTopPlayers.home.plusMinus.name} (
-										{data.gameTopPlayers.home.plusMinus.value > 0
-											? `+${data.gameTopPlayers.home.plusMinus.value}`
-											: data.gameTopPlayers.home.plusMinus.value}
-										)
-									</td>
-									<td>Plus/Minus</td>
-									<td>
-										{data.gameTopPlayers.away.plusMinus.name} (
-										{data.gameTopPlayers.away.plusMinus.value > 0
-											? `+${data.gameTopPlayers.away.plusMinus.value}`
-											: data.gameTopPlayers.away.plusMinus.value}
-										)
-									</td>
-								</tr>
+								{Object.keys(data.gameTopPlayers.home).map((key) => {
+									if (key !== 'team') {
+										return (
+											<tr key={uuid()}>
+												<td>
+													{data.gameTopPlayers.home[key].name} (
+													{key === 'plusMinus'
+														? `+${Math.round(data.gameTopPlayers.home[key].value)}`
+														: Math.round(data.gameTopPlayers.home[key].value)}
+													)
+												</td>
+												<td>{categories[key]}</td>
+												<td>
+													{data.gameTopPlayers.away[key].name} (
+													{key === 'plusMinus'
+														? `+${Math.round(data.gameTopPlayers.away[key].value)}`
+														: Math.round(data.gameTopPlayers.away[key].value)}
+													)
+												</td>
+											</tr>
+										);
+									}
+								})}
 							</tbody>
 						</Table>
 					</div>
