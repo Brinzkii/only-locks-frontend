@@ -272,6 +272,13 @@ class OnlyLocksAPI {
 		return res.gameStats;
 	}
 
+	/** Get head to head stats for two teams by IDs */
+
+	static async h2h(team1, team2) {
+		let res = await this.request(`games/h2h/${team1}/${team2}`);
+		return res.gameStats;
+	}
+
 	/** Get top game performers for both teams by game ID */
 
 	static async gameTopPerformers(gameId) {
@@ -298,6 +305,20 @@ class OnlyLocksAPI {
 	static async gamesByTeam(teamId) {
 		let res = await this.request(`games/filter/team/${teamId}`);
 		return res.games;
+	}
+
+	/** Update all games in database */
+
+	static async updateAllGames() {
+		let res = await this.request(`games/all`, 'patch');
+		return res.updateAllGames;
+	}
+
+	/** Update recent games (yesterday and today) */
+
+	static async updateRecentGames() {
+		let res = await this.request(`games/recent`, 'patch');
+		return res.updateRecentGames;
 	}
 }
 
