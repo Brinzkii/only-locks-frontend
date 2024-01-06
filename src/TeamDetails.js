@@ -156,6 +156,10 @@ function TeamDetails() {
 						idx++;
 					}
 				}
+				console.log('GAMES:', games);
+				console.log('IDX:', idx);
+				console.log('NEXT GAME:', games[idx]);
+				console.log('MOST RECENT', games[idx - 1]);
 				let recentGames = [games[idx - 1], games[idx - 2], games[idx - 3], games[idx - 4], games[idx - 5]];
 
 				let nextGames = [games[idx], games[idx + 1], games[idx + 2], games[idx + 3], games[idx + 4]];
@@ -268,7 +272,7 @@ function TeamDetails() {
 															className="GameList-logos-container"
 															direction="horizontal"
 														>
-															<Link to={`/teams/${g.home.Id}`}>
+															<Link to={`/teams/${g.home.id}`}>
 																<Image
 																	className="GameList-logo GameList-logo-home"
 																	src={g.home.logo}
@@ -310,7 +314,7 @@ function TeamDetails() {
 															className="GameList-logos-container"
 															direction="horizontal"
 														>
-															<Link to={`/teams/${g.home.Id}`}>
+															<Link to={`/teams/${g.home.id}`}>
 																<Image
 																	className="GameList-logo GameList-logo-home"
 																	src={g.home.logo}

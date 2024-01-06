@@ -37,6 +37,7 @@ function GameDetails() {
 		teamStats: { home: undefined, away: undefined },
 		gameTopPlayers: { home: undefined, away: undefined },
 		seasonTopPlayers: { home: undefined, away: undefined },
+		h2h: { totals: undefined, games: undefined, gameStats: undefined },
 	};
 	const navigate = useNavigate();
 	const [data, setData] = useState(INITIAL_STATE);
@@ -53,6 +54,7 @@ function GameDetails() {
 			const topGamePerformers = await OnlyLocksAPI.gameTopPerformers(gameId);
 			const homeSeasonPerformers = await OnlyLocksAPI.seasonTopPerformers(game.homeId);
 			const awaySeasonPerformers = await OnlyLocksAPI.seasonTopPerformers(game.awayId);
+			const h2h = await OnlyLocksAPI.h2h(game.homeId, game.awayId);
 			setData({
 				game,
 				gameStats: {
@@ -71,6 +73,27 @@ function GameDetails() {
 					home: homeSeasonPerformers,
 					away: awaySeasonPerformers,
 				},
+				h2h,
+			});
+			console.log({
+				game,
+				gameStats: {
+					home: gameStats.home,
+					away: gameStats.away,
+				},
+				teamStats: {
+					home: homeTeamStats,
+					away: awayTeamStats,
+				},
+				gameTopPlayers: {
+					home: topGamePerformers.home,
+					away: topGamePerformers.away,
+				},
+				seasonTopPlayers: {
+					home: homeSeasonPerformers,
+					away: awaySeasonPerformers,
+				},
+				h2h,
 			});
 		}
 		getData(gameId);
@@ -86,8 +109,8 @@ function GameDetails() {
 				<h4 className="GameDetails-location">{data.game.location}</h4>
 				<h5 className="GameDetails-date">{Moment(data.game.date).format('LL')}</h5>
 				{!data.game.clock ? <></> : <h4 className="GameDetails-clock">{data.game.clock}</h4>}
-				{!data.game.score ? (
-					<h4>TBD</h4>
+				{data.game.score === 'TBD' ? (
+					<h4>{Moment(data.game.date).format('LT')}</h4>
 				) : (
 					<h4 className="GameDetails-score">
 						<small>{data.game.homeCode}</small> {data.game.score} <small>{data.game.awayCode}</small>
@@ -166,6 +189,100 @@ function GameDetails() {
 						</tbody>
 					</Table>
 				</div>
+
+				{/* Head to Head comparison for team if they've played this season */}
+				{data.h2h.gameStats.length ? (
+					<div className="GameDetails-h2h mt-5">
+						<h5 className="GameDetails-h2h-header">H2H</h5>
+						<Table className="GameDetails-h2h-table">
+							<thead>
+								<tr>
+									<th>
+										<Stack>
+											<Link to={`/teams/${data.game.homeId}`}>
+												<Image className="GameDetails-matchup-logo" src={data.game.homeLogo} />
+											</Link>
+											<h5>
+												<small>
+													({data.h2h.totals[data.game.homeCode].wins}-
+													{data.h2h.totals[data.game.homeCode].losses})
+												</small>
+											</h5>
+										</Stack>
+									</th>
+									<th>
+										<small>stat (per game)</small>
+									</th>
+									<th>
+										<Stack>
+											<Link to={`/teams/${data.game.awayId}`}>
+												<Image className="GameDetails-matchup-logo" src={data.game.awayLogo} />
+											</Link>
+
+											<h5>
+												<small>
+													({data.h2h.totals[data.game.awayCode].wins}-
+													{data.h2h.totals[data.game.awayCode].losses})
+												</small>
+											</h5>
+										</Stack>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{Object.keys(data.h2h.totals[data.game.homeCode]).map((key) => {
+									if (key !== 'wins' && key !== 'losses') {
+										return (
+											// <tr key={uuid()}>
+											// 	<td>
+											// 		{(
+											// 			data.h2h.totals[data.game.homeCode][key] /
+											// 			data.h2h.gameStats.length
+											// 		).toFixed(1)}
+											// 	</td>
+											// 	<td>{categories[key] || key}</td>
+											// 	<td>
+											// 		{(
+											// 			data.h2h.totals[data.game.awayCode][key] /
+											// 			data.h2h.gameStats.length
+											// 		).toFixed(1)}
+											// 	</td>
+											// </tr>
+											<tr key={uuid()}>
+												<td>
+													{key === 'fgp' || key === 'ftp' || key === 'tpp'
+														? (
+																data.h2h.totals[data.game.homeCode][key] /
+																data.h2h.gameStats.length
+														  ).toFixed(1)
+														: Math.round(
+																data.h2h.totals[data.game.homeCode][key] /
+																	data.h2h.gameStats.length
+														  )}
+												</td>
+												<td>{categories[key] || key}</td>
+												<td>
+													{key === 'fgp' || key === 'ftp' || key === 'tpp'
+														? (
+																data.h2h.totals[data.game.awayCode][key] /
+																data.h2h.gameStats.length
+														  ).toFixed(1)
+														: Math.round(
+																data.h2h.totals[data.game.awayCode][key] /
+																	data.h2h.gameStats.length
+														  )}
+												</td>
+											</tr>
+										);
+									}
+								})}
+							</tbody>
+						</Table>
+					</div>
+				) : (
+					<></>
+				)}
+
 				{/* If game top performers is empty, loop over season top performers */}
 				{Object.keys(data.gameTopPlayers.home).length === 0 ? (
 					<div className="GameDetails-top-performers mt-5">
@@ -178,23 +295,16 @@ function GameDetails() {
 											<tr key={uuid()}>
 												<td id={data.seasonTopPlayers.home[key].id} onClick={handlePlayerClick}>
 													{data.seasonTopPlayers.home[key].name} (
-													{key === 'plusMinus' ? (
-														<>
-															`+$
-															{Math.round(
+													{key === 'plusMinus'
+														? `+${Math.round(
 																data.seasonTopPlayers.home[key].value /
 																	data.seasonTopPlayers.home[key].games
-															)}
-															`
-														</>
-													) : (
-														<>
-															{Math.round(
+														  )}`
+														: Math.round(
 																data.seasonTopPlayers.home[key].value /
 																	data.seasonTopPlayers.home[key].games
-															)}
-														</>
-													)}
+														  )}
+													)
 												</td>
 
 												<td>{categories[key]}</td>
@@ -230,7 +340,9 @@ function GameDetails() {
 												<td id={data.gameTopPlayers.home[key].id} onClick={handlePlayerClick}>
 													{data.gameTopPlayers.home[key].name} (
 													{key === 'plusMinus'
-														? `+${Math.round(data.gameTopPlayers.home[key].value)}`
+														? `+${Math.round(data.gameTopPlayers.home[key].value)} in ${
+																data.gameTopPlayers.home[key].minutes
+														  }min`
 														: Math.round(data.gameTopPlayers.home[key].value)}
 													)
 												</td>
@@ -238,7 +350,9 @@ function GameDetails() {
 												<td id={data.gameTopPlayers.away[key].id} onClick={handlePlayerClick}>
 													{data.gameTopPlayers.away[key].name} (
 													{key === 'plusMinus'
-														? `+${Math.round(data.gameTopPlayers.away[key].value)}`
+														? `+${Math.round(data.gameTopPlayers.away[key].value)} in ${
+																data.gameTopPlayers.away[key].minutes
+														  }min`
 														: Math.round(data.gameTopPlayers.away[key].value)}
 													)
 												</td>

@@ -154,13 +154,13 @@ class OnlyLocksAPI {
 	/** Update all team game stats */
 
 	static async updateAllTeamGameStats() {
-		let res = await this.request(`teams/stats/games`, { method: 'all' }, 'patch');
+		await this.request(`teams/stats/games`, { method: 'all' }, 'patch');
 	}
 
 	/** Update team game stats for recent games */
 
 	static async updateTeamGameStats() {
-		let res = await this.request(`teams/stats/games`, 'patch');
+		await this.request(`teams/stats/games`, 'patch');
 	}
 
 	/** Update all team season stats */
@@ -276,7 +276,7 @@ class OnlyLocksAPI {
 
 	static async h2h(team1, team2) {
 		let res = await this.request(`games/h2h/${team1}/${team2}`);
-		return res.gameStats;
+		return res.h2h;
 	}
 
 	/** Get top game performers for both teams by game ID */
