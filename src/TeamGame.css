@@ -1,0 +1,20 @@
+.TeamGame-card-win {
+    border: 3px solid green;
+}
+
+.TeamGame-card-loss {
+    border: 3px solid red;
+}
+
+.TeamGame-logo{
+    width: 75px;
+}
+
+.TeamGame-recent-games, .TeamGame-next-games{
+    width: 100%;
+    margin: auto;
+}
+
+a {
+    text-decoration: none;
+}
