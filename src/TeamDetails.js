@@ -14,30 +14,7 @@ import Card from 'react-bootstrap/Card';
 import uuid from 'react-uuid';
 import './TeamDetails.css';
 
-function TeamDetails() {
-	const categories = {
-		gp: 'GP',
-		minutes: 'MIN',
-		points: 'PTS',
-		fgm: 'FGM',
-		fga: 'FGA',
-		fgp: 'FG%',
-		ftm: 'FTM',
-		fta: 'FTA',
-		ftp: 'FT%',
-		tpm: 'TPM',
-		tpa: 'TPA',
-		tpp: 'TP%',
-		totalReb: 'REB',
-		offReb: 'ORB',
-		defReb: 'DRB',
-		assists: 'AST',
-		fouls: 'PF',
-		steals: 'STL',
-		turnovers: 'TO',
-		blocks: 'BLK',
-		plusMinus: '+/-',
-	};
+function TeamDetails({ categories }) {
 	const { teamId } = useParams();
 	const navigate = useNavigate();
 	const INITIAL_STATE = {

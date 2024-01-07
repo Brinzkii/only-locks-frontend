@@ -1,36 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from './OnlyLocksAPI';
+import TeamComparisonTable from './TeamComparisonTable';
+import TeamH2HTable from './TeamH2HTable';
+import TopPerformersTable from './TopPerformersTable';
 import Table from 'react-bootstrap/Table';
-import Image from 'react-bootstrap/Image';
-import Stack from 'react-bootstrap/Stack';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
 import './GameDetails.css';
 
-function GameDetails() {
-	const categories = {
-		points: 'Points',
-		fgm: 'Field Goals Made',
-		fga: 'Field Goal Attempts',
-		fgp: 'Field Goal %',
-		ftm: 'Free Throws Made',
-		fta: 'Free Throw Attempts',
-		ftp: 'Free Throw %',
-		tpm: 'Three Pointers Made',
-		tpa: 'Three Point Attempts',
-		tpp: 'Three Point %',
-		offReb: 'Offensive Rebounds',
-		defReb: 'Defensive Rebounds',
-		totalReb: 'Rebounds',
-		assists: 'Assists',
-		fouls: 'Fouls',
-		steals: 'Steals',
-		turnovers: 'Turnovers',
-		blocks: 'Blocks',
-		plusMinus: 'Plus/Minus',
-	};
+function GameDetails({ categories }) {
 	const INITIAL_STATE = {
 		game: undefined,
 		gameStats: { home: undefined, away: undefined },
@@ -107,261 +87,57 @@ function GameDetails() {
 					{data.game.homeName} vs. {data.game.awayName}
 				</h2>
 				<h4 className="GameDetails-location">{data.game.location}</h4>
-				<h5 className="GameDetails-date">{Moment(data.game.date).format('LL')}</h5>
-				{!data.game.clock ? <></> : <h4 className="GameDetails-clock">{data.game.clock}</h4>}
-				{data.game.score === 'TBD' ? (
-					<h4>{Moment(data.game.date).format('LT')}</h4>
+				{!data.game.clock ? (
+					<h4>{Moment(data.game.date).format('LLL')}</h4>
 				) : (
-					<h4 className="GameDetails-score">
-						<small>{data.game.homeCode}</small> {data.game.score} <small>{data.game.awayCode}</small>
-					</h4>
+					<>
+						<h4 className="GameDetails-clock">{data.game.clock}</h4>
+						<h4 className="GameDetails-score">
+							<small>{data.game.homeCode}</small> {data.game.score} <small>{data.game.awayCode}</small>
+						</h4>
+					</>
 				)}
 				<div className="GameDetails-matchup">
-					<Table className="GameDetails-matchup-stats-table" size="sm" striped bordered hover>
-						<thead>
-							<tr>
-								<th>
-									<Stack>
-										<Link to={`/teams/${data.game.homeId}`}>
-											<Image className="GameDetails-matchup-logo" src={data.game.homeLogo} />
-										</Link>
-										<h5>
-											<small>
-												({data.teamStats.home.wins}-{data.teamStats.home.losses})
-											</small>
-										</h5>
-									</Stack>
-								</th>
-								<th>
-									<small>stat (per game)</small>
-								</th>
-								<th>
-									<Stack>
-										<Link to={`/teams/${data.game.awayId}`}>
-											<Image className="GameDetails-matchup-logo" src={data.game.awayLogo} />
-										</Link>
-
-										<h5>
-											<small>
-												({data.teamStats.away.wins}-{data.teamStats.away.losses})
-											</small>
-										</h5>
-									</Stack>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{!data.gameStats.home && !data.gameStats.away
-								? Object.keys(data.teamStats.home).map((key, idx) => {
-										if (idx > 8) {
-											return (
-												<tr key={uuid()}>
-													<td>
-														{key === 'fgp' || key === 'ftp' || key === 'tpp'
-															? data.teamStats.home[key]
-															: Math.round(
-																	data.teamStats.home[key] / data.teamStats.home.games
-															  )}
-													</td>
-													<td>{categories[key] || key}</td>
-													<td>
-														{key === 'fgp' || key === 'ftp' || key === 'tpp'
-															? data.teamStats.away[key]
-															: Math.round(
-																	data.teamStats.away[key] / data.teamStats.away.games
-															  )}
-													</td>
-												</tr>
-											);
-										}
-								  })
-								: Object.keys(data.gameStats.home).map((key, idx) => {
-										if (idx > 5) {
-											return (
-												<tr key={uuid()}>
-													<td>{data.gameStats.home[key]}</td>
-													<td>{categories[key]}</td>
-													<td>{data.gameStats.away[key]}</td>
-												</tr>
-											);
-										}
-								  })}
-						</tbody>
-					</Table>
+					{!data.gameStats.home && !data.gameStats.away ? (
+						<TeamComparisonTable game={data.game} teamStats={data.teamStats} categories={categories} />
+					) : (
+						<TeamComparisonTable
+							game={data.game}
+							gameStats={data.gameStats}
+							teamStats={data.teamStats}
+							categories={categories}
+						/>
+					)}
 				</div>
 
 				{/* Head to Head comparison for team if they've played this season */}
 				{data.h2h.gameStats.length ? (
 					<div className="GameDetails-h2h mt-5">
-						<h5 className="GameDetails-h2h-header">H2H</h5>
-						<Table className="GameDetails-h2h-table">
-							<thead>
-								<tr>
-									<th>
-										<Stack>
-											<Link to={`/teams/${data.game.homeId}`}>
-												<Image className="GameDetails-matchup-logo" src={data.game.homeLogo} />
-											</Link>
-											<h5>
-												<small>
-													({data.h2h.totals[data.game.homeCode].wins}-
-													{data.h2h.totals[data.game.homeCode].losses})
-												</small>
-											</h5>
-										</Stack>
-									</th>
-									<th>
-										<small>stat (per game)</small>
-									</th>
-									<th>
-										<Stack>
-											<Link to={`/teams/${data.game.awayId}`}>
-												<Image className="GameDetails-matchup-logo" src={data.game.awayLogo} />
-											</Link>
-
-											<h5>
-												<small>
-													({data.h2h.totals[data.game.awayCode].wins}-
-													{data.h2h.totals[data.game.awayCode].losses})
-												</small>
-											</h5>
-										</Stack>
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{Object.keys(data.h2h.totals[data.game.homeCode]).map((key) => {
-									if (key !== 'wins' && key !== 'losses') {
-										return (
-											// <tr key={uuid()}>
-											// 	<td>
-											// 		{(
-											// 			data.h2h.totals[data.game.homeCode][key] /
-											// 			data.h2h.gameStats.length
-											// 		).toFixed(1)}
-											// 	</td>
-											// 	<td>{categories[key] || key}</td>
-											// 	<td>
-											// 		{(
-											// 			data.h2h.totals[data.game.awayCode][key] /
-											// 			data.h2h.gameStats.length
-											// 		).toFixed(1)}
-											// 	</td>
-											// </tr>
-											<tr key={uuid()}>
-												<td>
-													{key === 'fgp' || key === 'ftp' || key === 'tpp'
-														? (
-																data.h2h.totals[data.game.homeCode][key] /
-																data.h2h.gameStats.length
-														  ).toFixed(1)
-														: Math.round(
-																data.h2h.totals[data.game.homeCode][key] /
-																	data.h2h.gameStats.length
-														  )}
-												</td>
-												<td>{categories[key] || key}</td>
-												<td>
-													{key === 'fgp' || key === 'ftp' || key === 'tpp'
-														? (
-																data.h2h.totals[data.game.awayCode][key] /
-																data.h2h.gameStats.length
-														  ).toFixed(1)
-														: Math.round(
-																data.h2h.totals[data.game.awayCode][key] /
-																	data.h2h.gameStats.length
-														  )}
-												</td>
-											</tr>
-										);
-									}
-								})}
-							</tbody>
-						</Table>
+						<TeamH2HTable game={data.game} h2h={data.h2h} categories={categories} />
 					</div>
 				) : (
 					<></>
 				)}
 
-				{/* If game top performers is empty, loop over season top performers */}
+				{/* Show game top performers if game has taken place, otherwise show season top performers */}
 				{Object.keys(data.gameTopPlayers.home).length === 0 ? (
 					<div className="GameDetails-top-performers mt-5">
 						<h5 className="GameDetails-top-performers-header">Top Performers (23-24 Season Averages)</h5>
-						<Table className="GameDetails-top-performers-table">
-							<tbody>
-								{Object.keys(data.seasonTopPlayers.home).map((key) => {
-									if (key !== 'team') {
-										return (
-											<tr key={uuid()}>
-												<td id={data.seasonTopPlayers.home[key].id} onClick={handlePlayerClick}>
-													{data.seasonTopPlayers.home[key].name} (
-													{key === 'plusMinus'
-														? `+${Math.round(
-																data.seasonTopPlayers.home[key].value /
-																	data.seasonTopPlayers.home[key].games
-														  )}`
-														: Math.round(
-																data.seasonTopPlayers.home[key].value /
-																	data.seasonTopPlayers.home[key].games
-														  )}
-													)
-												</td>
-
-												<td>{categories[key]}</td>
-												<td id={data.seasonTopPlayers.away[key].id} onClick={handlePlayerClick}>
-													{data.seasonTopPlayers.away[key].name} (
-													{key === 'plusMinus'
-														? `+${Math.round(
-																data.seasonTopPlayers.away[key].value /
-																	data.seasonTopPlayers.away[key].games
-														  )}`
-														: Math.round(
-																data.seasonTopPlayers.away[key].value /
-																	data.seasonTopPlayers.away[key].games
-														  )}
-													)
-												</td>
-											</tr>
-										);
-									}
-								})}
-							</tbody>
-						</Table>
+						<TopPerformersTable
+							seasonTopPlayers={data.seasonTopPlayers}
+							handlePlayerClick={handlePlayerClick}
+							categories={categories}
+						/>
 					</div>
 				) : (
 					<div className="GameDetails-top-performers mt-5">
 						<h5 className="GameDetails-top-performers-header">Top Performers</h5>
-						<Table striped className="GameDetails-top-performers-table">
-							<tbody>
-								{Object.keys(data.gameTopPlayers.home).map((key) => {
-									if (key !== 'team') {
-										return (
-											<tr key={uuid()}>
-												<td id={data.gameTopPlayers.home[key].id} onClick={handlePlayerClick}>
-													{data.gameTopPlayers.home[key].name} (
-													{key === 'plusMinus'
-														? `+${Math.round(data.gameTopPlayers.home[key].value)} in ${
-																data.gameTopPlayers.home[key].minutes
-														  }min`
-														: Math.round(data.gameTopPlayers.home[key].value)}
-													)
-												</td>
-												<td>{categories[key]}</td>
-												<td id={data.gameTopPlayers.away[key].id} onClick={handlePlayerClick}>
-													{data.gameTopPlayers.away[key].name} (
-													{key === 'plusMinus'
-														? `+${Math.round(data.gameTopPlayers.away[key].value)} in ${
-																data.gameTopPlayers.away[key].minutes
-														  }min`
-														: Math.round(data.gameTopPlayers.away[key].value)}
-													)
-												</td>
-											</tr>
-										);
-									}
-								})}
-							</tbody>
-						</Table>
+						<TopPerformersTable
+							seasonTopPlayers={data.seasonTopPlayers}
+							gameTopPlayers={data.gameTopPlayers}
+							handlePlayerClick={handlePlayerClick}
+							categories={categories}
+						/>
 					</div>
 				)}
 			</div>

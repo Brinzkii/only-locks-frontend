@@ -21,6 +21,50 @@ function App() {
 		date: Moment().format('l').replaceAll('/', '-'),
 	});
 	const [user, setUser] = useState([]);
+	const teamCategories = {
+		points: 'Points',
+		fgm: 'Field Goals Made',
+		fga: 'Field Goal Attempts',
+		fgp: 'Field Goal %',
+		ftm: 'Free Throws Made',
+		fta: 'Free Throw Attempts',
+		ftp: 'Free Throw %',
+		tpm: 'Three Pointers Made',
+		tpa: 'Three Point Attempts',
+		tpp: 'Three Point %',
+		offReb: 'Offensive Rebounds',
+		defReb: 'Defensive Rebounds',
+		totalReb: 'Rebounds',
+		assists: 'Assists',
+		fouls: 'Fouls',
+		steals: 'Steals',
+		turnovers: 'Turnovers',
+		blocks: 'Blocks',
+		plusMinus: 'Plus/Minus',
+	};
+	const playerCategories = {
+		gp: 'GP',
+		minutes: 'MIN',
+		points: 'PTS',
+		fgm: 'FGM',
+		fga: 'FGA',
+		fgp: 'FG%',
+		ftm: 'FTM',
+		fta: 'FTA',
+		ftp: 'FT%',
+		tpm: 'TPM',
+		tpa: 'TPA',
+		tpp: 'TP%',
+		totalReb: 'REB',
+		offReb: 'ORB',
+		defReb: 'DRB',
+		assists: 'AST',
+		fouls: 'PF',
+		steals: 'STL',
+		turnovers: 'TO',
+		blocks: 'BLK',
+		plusMinus: '+/-',
+	};
 
 	const updateUser = ({ username, token, picks, following }) => {
 		async function getData() {}
@@ -86,11 +130,11 @@ function App() {
 						{/* View Games By Date */}
 						<Route path="/games/" element={<GameList data={data} setData={setData} />} />
 						{/* View Game Details */}
-						<Route path="/games/:gameId" element={<GameDetails />} />
+						<Route path="/games/:gameId" element={<GameDetails categories={teamCategories} />} />
 						{/* View All Teams */}
 
 						{/* View Team Details */}
-						<Route path="/teams/:teamId" element={<TeamDetails />} />
+						<Route path="/teams/:teamId" element={<TeamDetails categories={playerCategories} />} />
 						{/* View all players */}
 
 						{/* View player details */}
