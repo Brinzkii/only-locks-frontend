@@ -1,30 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import React from 'react';
 import Moment from 'moment';
-import OnlyLocksAPI from './OnlyLocksAPI';
-import PlayerStatsTable from './PlayerStatsTable';
-import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner';
 import Image from 'react-bootstrap/Image';
-import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import uuid from 'react-uuid';
-import './TeamGame.css';
+import './TeamGames.css';
 
-function TeamGames({ team, games }) {
-	const navigate = useNavigate();
-	const navToGame = (evt) => {
-		console.log('EVT TARGET', evt.target);
-		navigate(`/games/${evt.target.id}`);
-	};
-	const navToTeam = (evt) => {
-		console.log('EVT TARGET ID', evt.target.id);
-		navigate(`/teams/${evt.target.id}`);
-	};
+function TeamGames({ team, games, navToGame, navToTeam }) {
 	if (!games) {
 		return <Spinner animation="border" variant="info" />;
 	} else {

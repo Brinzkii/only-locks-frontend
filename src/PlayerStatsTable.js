@@ -1,69 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import OnlyLocksAPI from './OnlyLocksAPI';
+import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
 import uuid from 'react-uuid';
 import './TeamDetails.css';
 
-function PlayerStatsTable({ data, setData, categories }) {
+function PlayerStatsTable({ stats, categories, navToPlayer, handleCategoryClick }) {
+	console.log(stats);
 	const [display, setDisplay] = useState('totals');
 	const handleStatClick = (evt) => {
 		if (evt.target.id !== display) setDisplay(evt.target.id);
 	};
-	const handleCategoryClick = (evt) => {
-		async function sortPlayers(teamId, stat) {
-			setData({ ...data, playerStats: undefined });
-			const conversions = {
-				totalReb: 'total_reb',
-				offReb: 'off_reb',
-				defReb: 'def_reb',
-				plusMinus: 'plus_minus',
-			};
-			stat = conversions[stat] || stat;
-			const playerStats = await OnlyLocksAPI.sortPlayerStats({ teamId, stat });
 
-			setData({ ...data, playerStats });
-		}
-		sortPlayers(data.team.id, evt.target.id);
-	};
-	if (!data.playerStats) {
-		return <Spinner animation="border" variant="info" />;
-	} else
-		return (
-			<Table className="TeamDetails-player-stats-table" size="sm">
-				<thead>
-					<tr key={uuid()}>
-						<th>
-							<Button id="per36" className="TeamDetails-stat-sort-button" onClick={handleStatClick}>
-								per36
-							</Button>
-							<Button id="perGame" className="TeamDetails-stat-sort-button" onClick={handleStatClick}>
-								perGame
-							</Button>
-							<Button id="totals" className="TeamDetails-stat-sort-button" onClick={handleStatClick}>
-								Total
-							</Button>
-						</th>
-						{Object.keys(categories).map((key) => {
-							if (key !== 'id' || key !== 'name') {
-								return (
-									<th id={key} onClick={handleCategoryClick}>
-										{categories[key]}
-									</th>
-								);
-							}
-						})}
-					</tr>
-				</thead>
-				<tbody>
-					{data.playerStats[display].map((p) => {
+	return (
+		<Table className="TeamDetails-player-stats-table" size="sm">
+			<thead>
+				<tr key={uuid()}>
+					<th>
+						<Button id="per36" className="TeamDetails-stat-sort-button" onClick={handleStatClick}>
+							per36
+						</Button>
+						<Button id="perGame" className="TeamDetails-stat-sort-button" onClick={handleStatClick}>
+							perGame
+						</Button>
+						<Button id="totals" className="TeamDetails-stat-sort-button" onClick={handleStatClick}>
+							Total
+						</Button>
+					</th>
+					{Object.keys(categories).map((key) => {
+						if (key !== 'id' || key !== 'name') {
+							return (
+								<th id={key} onClick={handleCategoryClick}>
+									{categories[key]}
+								</th>
+							);
+						}
+					})}
+				</tr>
+			</thead>
+			<tbody>
+				{!stats ? (
+					<Spinner animation="border" variant="info" />
+				) : (
+					stats[display].map((p) => {
 						return (
 							<tr key={uuid()}>
-								<Link to={`/players/${p.id}`}>
-									<td>{p.name}</td>
-								</Link>
+								<td id={`${p.id}`} onClick={navToPlayer}>
+									{p.name}
+								</td>
+
 								<td>{p.gp.toFixed(1)}</td>
 								<td>{p.minutes !== 0 ? p.minutes.toFixed(1) : 0}</td>
 								<td>{p.points !== 0 ? p.points.toFixed(1) : 0}</td>
@@ -87,10 +72,11 @@ function PlayerStatsTable({ data, setData, categories }) {
 								<td>{p.plusMinus !== 0 ? p.plusMinus.toFixed(1) : 0}</td>
 							</tr>
 						);
-					})}
-				</tbody>
-			</Table>
-		);
+					})
+				)}
+			</tbody>
+		</Table>
+	);
 }
 
 export default PlayerStatsTable;

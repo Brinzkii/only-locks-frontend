@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from './OnlyLocksAPI';
 import PlayerStatsTable from './PlayerStatsTable';
@@ -18,7 +18,6 @@ import './TeamDetails.css';
 
 function TeamDetails({ categories }) {
 	const { teamId } = useParams();
-	const navigate = useNavigate();
 	const INITIAL_STATE = {
 		team: undefined,
 		recentGames: undefined,
@@ -28,10 +27,33 @@ function TeamDetails({ categories }) {
 		playerStats: undefined,
 	};
 	const [data, setData] = useState(INITIAL_STATE);
-
-	const handlePlayerClick = (evt) => {
+	const navigate = useNavigate();
+	const navToGame = (evt) => {
+		navigate(`/games/${evt.target.id}`);
+	};
+	const navToTeam = (evt) => {
+		navigate(`/teams/${evt.target.id}`);
+	};
+	const navToPlayer = (evt) => {
 		navigate(`/players/${evt.target.id}`);
 	};
+	const handleCategoryClick = (evt) => {
+		async function sortPlayers(teamId, stat) {
+			setData({ ...data, playerStats: undefined });
+			const conversions = {
+				totalReb: 'total_reb',
+				offReb: 'off_reb',
+				defReb: 'def_reb',
+				plusMinus: 'plus_minus',
+			};
+			stat = conversions[stat] || stat;
+			const playerStats = await OnlyLocksAPI.sortPlayerStats({ teamId, stat });
+
+			setData({ ...data, playerStats });
+		}
+		sortPlayers(data.team.id, evt.target.id);
+	};
+
 	useEffect(() => {
 		async function getData(teamId) {
 			const team = await OnlyLocksAPI.team(teamId);
@@ -89,20 +111,35 @@ function TeamDetails({ categories }) {
 
 				<div className="TeamDetails-player-stats mt-4">
 					<h5>Roster</h5>
-					<PlayerStatsTable data={data} setData={setData} categories={categories} />
+					<PlayerStatsTable
+						stats={data.playerStats}
+						categories={categories}
+						navToPlayer={navToPlayer}
+						handleCategoryClick={handleCategoryClick}
+					/>
 				</div>
 				<Container fluid="lg">
 					<Row>
 						<Col>
 							<div className="TeamDetails-recent-games">
 								<h5>Last 5</h5>
-								<TeamGames team={data.team} games={data.recentGames} />
+								<TeamGames
+									team={data.team}
+									games={data.recentGames}
+									navToGame={navToGame}
+									navToTeam={navToTeam}
+								/>
 							</div>
 						</Col>
 						<Col>
 							<div className="TeamDetails-next-games">
 								<h5>Next 5</h5>
-								<TeamGames team={data.team} games={data.nextGames} />
+								<TeamGames
+									team={data.team}
+									games={data.nextGames}
+									navToGame={navToGame}
+									navToTeam={navToTeam}
+								/>
 							</div>
 						</Col>
 					</Row>

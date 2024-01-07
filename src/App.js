@@ -7,6 +7,7 @@ import User from './User';
 import GameList from './GameList';
 import GameDetails from './GameDetails';
 import TeamDetails from './TeamDetails';
+import PlayerStats from './PlayerStats';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import OnlyLocksAPI from './OnlyLocksAPI';
@@ -16,7 +17,6 @@ import './App.css';
 function App() {
 	const [data, setData] = useState({
 		teams: [],
-		players: [],
 		games: [],
 		date: Moment().format('l').replaceAll('/', '-'),
 	});
@@ -94,11 +94,11 @@ function App() {
 				};
 
 				let teams = await OnlyLocksAPI.allTeams();
-				let players = await OnlyLocksAPI.allPlayers();
 				const today = Moment().format('l').replaceAll('/', '-');
 				let games = await OnlyLocksAPI.gamesByDate(today);
+				let players = await OnlyLocksAPI.sortPlayerStats({ stat: 'minutes' });
 
-				setData({ teams, players, games });
+				setData({ teams, games });
 
 				localStorage.setItem('username', info.username);
 				localStorage.setItem('picks', JSON.stringify(info.picks));
@@ -128,15 +128,15 @@ function App() {
 						<Route path="/users/:username" element={<User />} />
 
 						{/* View Games By Date */}
-						<Route path="/games/" element={<GameList data={data} setData={setData} />} />
+						<Route path="/games" element={<GameList data={data} setData={setData} />} />
 						{/* View Game Details */}
 						<Route path="/games/:gameId" element={<GameDetails categories={teamCategories} />} />
-						{/* View All Teams */}
+						{/* View All Team Stats */}
 
 						{/* View Team Details */}
 						<Route path="/teams/:teamId" element={<TeamDetails categories={playerCategories} />} />
-						{/* View all players */}
-
+						{/* View All Player Stats */}
+						<Route path="/players/stats" element={<PlayerStats categories={playerCategories} />} />
 						{/* View player details */}
 					</Route>
 				</Routes>

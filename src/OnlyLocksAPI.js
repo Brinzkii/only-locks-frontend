@@ -246,7 +246,12 @@ class OnlyLocksAPI {
 	 **/
 
 	static async sortPlayerStats({ teamId, time, stat, order }) {
-		let data = { teamId, time, stat, order };
+		let data = {};
+		if (teamId) {
+			data = { teamId, time, stat, order };
+		} else {
+			data = { time, stat, order };
+		}
 		let res = await this.request(`players/stats/sort`, data, 'post');
 		return res.sortedStats;
 	}

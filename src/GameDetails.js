@@ -19,12 +19,19 @@ function GameDetails({ categories }) {
 		seasonTopPlayers: { home: undefined, away: undefined },
 		h2h: { totals: undefined, games: undefined, gameStats: undefined },
 	};
-	const navigate = useNavigate();
 	const [data, setData] = useState(INITIAL_STATE);
 	let { gameId } = useParams();
-	const handlePlayerClick = (evt) => {
+	const navigate = useNavigate();
+	const navToGame = (evt) => {
+		navigate(`/games/${evt.target.id}`);
+	};
+	const navToTeam = (evt) => {
+		navigate(`/teams/${evt.target.id}`);
+	};
+	const navToPlayer = (evt) => {
 		navigate(`/players/${evt.target.id}`);
 	};
+
 	useEffect(() => {
 		async function getData(gameId) {
 			const game = await OnlyLocksAPI.game(gameId);
@@ -87,11 +94,11 @@ function GameDetails({ categories }) {
 					{data.game.homeName} vs. {data.game.awayName}
 				</h2>
 				<h4 className="GameDetails-location">{data.game.location}</h4>
-				{!data.game.clock ? (
+				{data.game.status === 'scheduled' ? (
 					<h4>{Moment(data.game.date).format('LLL')}</h4>
 				) : (
 					<>
-						<h4 className="GameDetails-clock">{data.game.clock}</h4>
+						<h4 className="GameDetails-clock">{data.game.clock || 'Final'}</h4>
 						<h4 className="GameDetails-score">
 							<small>{data.game.homeCode}</small> {data.game.score} <small>{data.game.awayCode}</small>
 						</h4>
@@ -125,7 +132,7 @@ function GameDetails({ categories }) {
 						<h5 className="GameDetails-top-performers-header">Top Performers (23-24 Season Averages)</h5>
 						<TopPerformersTable
 							seasonTopPlayers={data.seasonTopPlayers}
-							handlePlayerClick={handlePlayerClick}
+							navToPlayer={navToPlayer}
 							categories={categories}
 						/>
 					</div>
@@ -135,7 +142,7 @@ function GameDetails({ categories }) {
 						<TopPerformersTable
 							seasonTopPlayers={data.seasonTopPlayers}
 							gameTopPlayers={data.gameTopPlayers}
-							handlePlayerClick={handlePlayerClick}
+							navToPlayer={navToPlayer}
 							categories={categories}
 						/>
 					</div>

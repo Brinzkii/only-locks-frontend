@@ -58,9 +58,9 @@ function Navigation({ logoutUser }) {
 							<Nav.Link href="/players">Players</Nav.Link>
 
 							<NavDropdown title="Stats" id="stats-dropdown">
-								<NavDropdown.Item href={`/stats/players`}>Players</NavDropdown.Item>
+								<NavDropdown.Item href={`/players/stats`}>Players</NavDropdown.Item>
 
-								<NavDropdown.Item href={`/stats/teams`}>Teams</NavDropdown.Item>
+								<NavDropdown.Item href={`/teams/stats`}>Teams</NavDropdown.Item>
 							</NavDropdown>
 
 							<NavDropdown title="Teams" id="teams-dropdown">
