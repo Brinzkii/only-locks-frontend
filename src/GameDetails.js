@@ -5,9 +5,7 @@ import OnlyLocksAPI from './OnlyLocksAPI';
 import TeamComparisonTable from './TeamComparisonTable';
 import TeamH2HTable from './TeamH2HTable';
 import TeamTopPerformersTable from './TeamTopPerformersTable';
-import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner';
-import uuid from 'react-uuid';
 import './GameDetails.css';
 
 function GameDetails() {
@@ -41,7 +39,7 @@ function GameDetails() {
 		plusMinus: 'Plus/Minus',
 	};
 	const [data, setData] = useState(INITIAL_STATE);
-	let { gameId } = useParams();
+	const { gameId } = useParams();
 	const navigate = useNavigate();
 	const navToGame = (evt) => {
 		navigate(`/games/${evt.target.id}`);
@@ -127,13 +125,19 @@ function GameDetails() {
 				)}
 				<div className="GameDetails-matchup">
 					{!data.gameStats.home && !data.gameStats.away ? (
-						<TeamComparisonTable game={data.game} teamStats={data.teamStats} categories={categories} />
+						<TeamComparisonTable
+							game={data.game}
+							teamStats={data.teamStats}
+							categories={categories}
+							navToTeam={navToTeam}
+						/>
 					) : (
 						<TeamComparisonTable
 							game={data.game}
 							gameStats={data.gameStats}
 							teamStats={data.teamStats}
 							categories={categories}
+							navToTeam={navToTeam}
 						/>
 					)}
 				</div>
@@ -141,7 +145,7 @@ function GameDetails() {
 				{/* Head to Head comparison for team if they've played this season */}
 				{data.h2h.gameStats.length ? (
 					<div className="GameDetails-h2h mt-5">
-						<TeamH2HTable game={data.game} h2h={data.h2h} categories={categories} />
+						<TeamH2HTable game={data.game} h2h={data.h2h} categories={categories} navToTeam={navToTeam} />
 					</div>
 				) : (
 					<></>

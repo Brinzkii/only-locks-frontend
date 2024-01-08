@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
@@ -7,7 +6,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
 // import './GameDetails.css';
 
-function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefined }) {
+function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefined, navToTeam }) {
 	const categories = {
 		points: 'Points',
 		fgm: 'Field Goals Made',
@@ -40,10 +39,13 @@ function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefine
 					<thead>
 						<tr>
 							<th>
-								<Stack>
-									<Link to={`/teams/${game.homeId}`}>
-										<Image className="GameDetails-matchup-logo" src={game.homeLogo} />
-									</Link>
+								<Stack direction="vertical">
+									<Image
+										id={game.homeId}
+										onClick={navToTeam}
+										className="GameDetails-matchup-logo mx-auto"
+										src={game.homeLogo}
+									/>
 									<h5>
 										<small>
 											({teamStats.home.wins}-{teamStats.home.losses})
@@ -56,9 +58,12 @@ function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefine
 							</th>
 							<th>
 								<Stack>
-									<Link to={`/teams/${game.awayId}`}>
-										<Image className="GameDetails-matchup-logo" src={game.awayLogo} />
-									</Link>
+									<Image
+										id={game.awayId}
+										onClick={navToTeam}
+										className="GameDetails-matchup-logo mx-auto"
+										src={game.awayLogo}
+									/>
 
 									<h5>
 										<small>

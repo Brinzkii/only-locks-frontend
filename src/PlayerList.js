@@ -6,7 +6,6 @@ import PlayerStatsCard from './PlayerStatsCard';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Stack from 'react-bootstrap/Stack';
 import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';

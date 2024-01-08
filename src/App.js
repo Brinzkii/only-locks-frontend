@@ -7,6 +7,7 @@ import User from './User';
 import GameList from './GameList';
 import GameDetails from './GameDetails';
 import TeamDetails from './TeamDetails';
+import PlayerDetails from './PlayerDetails';
 import PlayerStats from './PlayerStats';
 import TeamStats from './TeamStats';
 import LoginForm from './LoginForm';
@@ -135,6 +136,7 @@ function App() {
 						{/* View All Player Stats */}
 						<Route path="/players/stats" element={<PlayerStats categories={playerCategories} />} />
 						{/* View player details */}
+						<Route path="/players/:playerId" element={<PlayerDetails />} />
 					</Route>
 				</Routes>
 			</BrowserRouter>

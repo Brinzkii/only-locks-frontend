@@ -7,12 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
 // import './GameDetails.css';
 
-function TeamTopPerformersTable({
-	gameTopPlayers = undefined,
-	seasonTopPlayers = undefined,
-	handlePlayerClick,
-	categories,
-}) {
+function TeamTopPerformersTable({ gameTopPlayers = undefined, seasonTopPlayers = undefined, navToPlayer, categories }) {
 	if (!gameTopPlayers && !seasonTopPlayers) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
@@ -24,7 +19,7 @@ function TeamTopPerformersTable({
 								if (key !== 'team') {
 									return (
 										<tr key={uuid()}>
-											<td id={seasonTopPlayers.home[key].id} onClick={handlePlayerClick}>
+											<td id={seasonTopPlayers.home[key].id} onClick={navToPlayer}>
 												{seasonTopPlayers.home[key].name} (
 												{key === 'plusMinus'
 													? `+${Math.round(
@@ -39,7 +34,7 @@ function TeamTopPerformersTable({
 											</td>
 
 											<td>{categories[key]}</td>
-											<td id={seasonTopPlayers.away[key].id} onClick={handlePlayerClick}>
+											<td id={seasonTopPlayers.away[key].id} onClick={navToPlayer}>
 												{seasonTopPlayers.away[key].name} (
 												{key === 'plusMinus'
 													? `+${Math.round(
@@ -60,7 +55,7 @@ function TeamTopPerformersTable({
 								if (key !== 'team') {
 									return (
 										<tr key={uuid()}>
-											<td id={gameTopPlayers.home[key].id} onClick={handlePlayerClick}>
+											<td id={gameTopPlayers.home[key].id} onClick={navToPlayer}>
 												{gameTopPlayers.home[key].name}&ensp;
 												{key === 'plusMinus'
 													? `+${Math.round(gameTopPlayers.home[key].value)} in ${
@@ -77,7 +72,7 @@ function TeamTopPerformersTable({
 													: Math.round(gameTopPlayers.home[key].value)}
 											</td>
 											<td>{categories[key]}</td>
-											<td id={gameTopPlayers.away[key].id} onClick={handlePlayerClick}>
+											<td id={gameTopPlayers.away[key].id} onClick={navToPlayer}>
 												{gameTopPlayers.away[key].name} (
 												{key === 'plusMinus'
 													? `+${Math.round(gameTopPlayers.away[key].value)} in ${
