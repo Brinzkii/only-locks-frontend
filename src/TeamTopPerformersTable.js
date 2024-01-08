@@ -7,7 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
 // import './GameDetails.css';
 
-function TopPerformersTable({
+function TeamTopPerformersTable({
 	gameTopPlayers = undefined,
 	seasonTopPlayers = undefined,
 	handlePlayerClick,
@@ -96,4 +96,4 @@ function TopPerformersTable({
 	}
 }
 
-export default TopPerformersTable;
+export default TeamTopPerformersTable;

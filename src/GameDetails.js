@@ -4,7 +4,7 @@ import Moment from 'moment';
 import OnlyLocksAPI from './OnlyLocksAPI';
 import TeamComparisonTable from './TeamComparisonTable';
 import TeamH2HTable from './TeamH2HTable';
-import TopPerformersTable from './TopPerformersTable';
+import TeamTopPerformersTable from './TeamTopPerformersTable';
 import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
@@ -151,7 +151,7 @@ function GameDetails() {
 				{Object.keys(data.gameTopPlayers.home).length === 0 ? (
 					<div className="GameDetails-top-performers mt-5">
 						<h5 className="GameDetails-top-performers-header">Top Performers (23-24 Season Averages)</h5>
-						<TopPerformersTable
+						<TeamTopPerformersTable
 							seasonTopPlayers={data.seasonTopPlayers}
 							navToPlayer={navToPlayer}
 							categories={categories}
@@ -160,7 +160,7 @@ function GameDetails() {
 				) : (
 					<div className="GameDetails-top-performers mt-5">
 						<h5 className="GameDetails-top-performers-header">Top Performers</h5>
-						<TopPerformersTable
+						<TeamTopPerformersTable
 							seasonTopPlayers={data.seasonTopPlayers}
 							gameTopPlayers={data.gameTopPlayers}
 							navToPlayer={navToPlayer}

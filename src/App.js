@@ -14,11 +14,13 @@ import RegisterForm from './RegisterForm';
 import OnlyLocksAPI from './OnlyLocksAPI';
 import PrivateRoutes from './PrivateRoutes';
 import './App.css';
+import PlayerList from './PlayerList';
 
 function App() {
 	const [data, setData] = useState({
 		teams: [],
 		games: [],
+		players: { points: [], tpm: [], assists: [], rebounds: [], blocks: [], steals: [] },
 		date: Moment().format('l').replaceAll('/', '-'),
 	});
 	const [user, setUser] = useState([]);
@@ -77,9 +79,21 @@ function App() {
 				let teams = await OnlyLocksAPI.allTeams();
 				const today = Moment().format('l').replaceAll('/', '-');
 				let games = await OnlyLocksAPI.gamesByDate(today);
-				let players = await OnlyLocksAPI.sortPlayerStats({ stat: 'minutes' });
+				let players = {};
+				let points = await OnlyLocksAPI.sortPlayerStats({ time: today, stat: 'points' });
+				let tpm = await OnlyLocksAPI.sortPlayerStats({ time: today, stat: 'tpm' });
+				let assists = await OnlyLocksAPI.sortPlayerStats({ time: today, stat: 'assists' });
+				let rebounds = await OnlyLocksAPI.sortPlayerStats({ time: today, stat: 'total_reb' });
+				let blocks = await OnlyLocksAPI.sortPlayerStats({ time: today, stat: 'blocks' });
+				let steals = await OnlyLocksAPI.sortPlayerStats({ time: today, stat: 'steals' });
+				players.points = points;
+				players.tpm = tpm;
+				players.assists = assists;
+				players.rebounds = rebounds;
+				players.blocks = blocks;
+				players.steals = steals;
 
-				setData({ teams, games });
+				setData({ teams, games, players });
 
 				localStorage.setItem('username', info.username);
 				localStorage.setItem('picks', JSON.stringify(info.picks));
@@ -116,6 +130,8 @@ function App() {
 						<Route path="/teams/stats" element={<TeamStats />} />
 						{/* View Team Details */}
 						<Route path="/teams/:teamId" element={<TeamDetails categories={playerCategories} />} />
+						{/* View Top Performing Players By Date */}
+						<Route path="/players" element={<PlayerList data={data} setData={setData} />} />
 						{/* View All Player Stats */}
 						<Route path="/players/stats" element={<PlayerStats categories={playerCategories} />} />
 						{/* View player details */}

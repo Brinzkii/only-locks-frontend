@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from './OnlyLocksAPI';
+import GameCard from './GameCard';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
@@ -12,7 +13,14 @@ import uuid from 'react-uuid';
 import './GameList.css';
 
 function GameList({ data, setData }) {
-	console.debug('Games', data.games);
+	const navigate = useNavigate();
+	const navToGame = (evt) => {
+		console.log('GAME ID:', evt.target);
+		navigate(`/games/${evt.target.id}`);
+	};
+	const navToTeam = (evt) => {
+		navigate(`/teams/${evt.target.id}`);
+	};
 	function handlePrevClick() {
 		async function prevDayGames() {
 			setData({ ...data, games: undefined });
@@ -50,29 +58,7 @@ function GameList({ data, setData }) {
 					</Stack>
 					<ul className="GameList-list m-0 p-0">
 						{data.games.map((g) => (
-							<li className="GameList-list-item" key={uuid()}>
-								<Stack className="GameList-logos-container" direction="horizontal">
-									<Link to={`/teams/${g.homeId}`}>
-										<Image className="GameList-logo GameList-logo-home" src={g.homeLogo} />
-									</Link>
-									<Link to={`/teams/${g.awayId}`}>
-										<Image className="GameList-logo GameList-logo-away" src={g.awayLogo} />
-									</Link>
-								</Stack>
-
-								<Link to={`/games/${g.id}`}>
-									<Card className="GameList-card mt-2" style={{ width: '70%' }}>
-										<Card.Body>
-											<Card.Title>
-												{g.homeCode} vs. {g.awayCode}
-											</Card.Title>
-											<Card.Text>
-												The {g.awayName} are taking on the {g.homeName} at the {g.location}
-											</Card.Text>
-										</Card.Body>
-									</Card>
-								</Link>
-							</li>
+							<GameCard game={g} navToGame={navToGame} navToTeam={navToTeam} />
 						))}
 					</ul>
 				</Container>
