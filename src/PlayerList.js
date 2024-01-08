@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from './OnlyLocksAPI';
 import PlayerStatsCard from './PlayerStatsCard';
-import Card from 'react-bootstrap/Card';
-import Image from 'react-bootstrap/Image';
+import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
@@ -14,6 +13,7 @@ import Button from 'react-bootstrap/Button';
 // import './PlayerList.css';
 
 function PlayerList({ data, setData }) {
+	// const [datePicker, setDatePicker] = useState(Moment(data.date).format('YYYY-MM-DD'));
 	const conversions = {
 		Points: 'points',
 		'3 Pointers': 'tpm',
@@ -31,7 +31,7 @@ function PlayerList({ data, setData }) {
 			setData({ ...data, players: undefined });
 			console.debug('Players', data.players);
 			const currDay = data.date;
-			const prevDay = Moment(currDay).subtract(1, 'days').format('l').replaceAll('/', '-');
+			const prevDay = Moment(currDay).subtract(1, 'days').format('YYYYMMDD');
 			console.log('Prev:', prevDay);
 			let players = {};
 			let points = await OnlyLocksAPI.sortPlayerStats({ time: prevDay, stat: 'points' });
@@ -55,7 +55,7 @@ function PlayerList({ data, setData }) {
 			setData({ ...data, players: undefined });
 			console.debug('Players', data.players);
 			const currDay = data.date;
-			const nextDay = Moment(currDay).add(1, 'days').format('l').replaceAll('/', '-');
+			const nextDay = Moment(currDay).add(1, 'days').format('YYYYMMDD');
 			console.log('Next:', nextDay);
 			let players = {};
 			let points = await OnlyLocksAPI.sortPlayerStats({ time: nextDay, stat: 'points' });
@@ -74,18 +74,63 @@ function PlayerList({ data, setData }) {
 		}
 		nextDayGames();
 	}
-	console.log('DATA:', data.players);
+	function handleDateSelection(evt) {
+		console.log('DATE SELECTED');
+		console.log(evt.target);
+		async function getStats(date) {
+			setData({ ...data, date: Moment(date), players: undefined });
+			let players = {};
+			let points = await OnlyLocksAPI.sortPlayerStats({ time: date, stat: 'points' });
+			let tpm = await OnlyLocksAPI.sortPlayerStats({ time: date, stat: 'tpm' });
+			let assists = await OnlyLocksAPI.sortPlayerStats({ time: date, stat: 'assists' });
+			let rebounds = await OnlyLocksAPI.sortPlayerStats({ time: date, stat: 'total_reb' });
+			let blocks = await OnlyLocksAPI.sortPlayerStats({ time: date, stat: 'blocks' });
+			let steals = await OnlyLocksAPI.sortPlayerStats({ time: date, stat: 'steals' });
+			players.points = points;
+			players.tpm = tpm;
+			players.assists = assists;
+			players.rebounds = rebounds;
+			players.blocks = blocks;
+			players.steals = steals;
+			setData({ ...data, date: Moment(date), players });
+			console.log('DATA:', data);
+		}
+		getStats(Moment(evt.target.value).format('YYYYMMDD'));
+	}
 	return (
-		<div className="PlayerList">
+		<div className="PlayerList mt-4">
 			<h2>{Moment(data.date).format('LL')}</h2>
-			<Stack direction="horizontal">
-				<Button onClick={handlePrevClick}>Prev</Button>
-				<Button onClick={handleNextClick}>Next</Button>
-			</Stack>
+			<Container>
+				<Row>
+					<Col></Col>
+					<Col>
+						<Button onClick={handlePrevClick}>Prev</Button>
+					</Col>
+					<Col xs>
+						<Form.Control
+							type="date"
+							value={Moment(data.date).format('YYYY-MM-DD')}
+							onChange={handleDateSelection}
+						/>
+					</Col>
+					<Col>
+						<Button onClick={handleNextClick}>Next</Button>
+					</Col>
+					<Col></Col>
+				</Row>
+			</Container>
+			{/* <Stack className="ms-auto" direction="horizontal" gap={5}>
+				<Button className="" onClick={handlePrevClick}>
+					Prev
+				</Button>
+				<Button className="" onClick={handleNextClick}>
+					Next
+				</Button>
+			</Stack> */}
 			{!data.players ? (
 				<Spinner animation="border" variant="info" />
 			) : (
-				<Container>
+				<Container className="PlayerList-cards-container mt-4">
 					<Row>
 						<Col>
 							<div>

@@ -21,7 +21,7 @@ function App() {
 		teams: [],
 		games: [],
 		players: { points: [], tpm: [], assists: [], rebounds: [], blocks: [], steals: [] },
-		date: Moment().format('l').replaceAll('/', '-'),
+		date: Moment(),
 	});
 	const [user, setUser] = useState([]);
 
@@ -77,7 +77,7 @@ function App() {
 				};
 
 				let teams = await OnlyLocksAPI.allTeams();
-				const today = Moment().format('l').replaceAll('/', '-');
+				const today = Moment().format('YYYYMMDD');
 				let games = await OnlyLocksAPI.gamesByDate(today);
 				let players = {};
 				let points = await OnlyLocksAPI.sortPlayerStats({ time: today, stat: 'points' });
