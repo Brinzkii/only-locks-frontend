@@ -8,6 +8,7 @@ import GameList from './GameList';
 import GameDetails from './GameDetails';
 import TeamDetails from './TeamDetails';
 import PlayerStats from './PlayerStats';
+import TeamStats from './TeamStats';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import OnlyLocksAPI from './OnlyLocksAPI';
@@ -21,27 +22,7 @@ function App() {
 		date: Moment().format('l').replaceAll('/', '-'),
 	});
 	const [user, setUser] = useState([]);
-	const teamCategories = {
-		points: 'Points',
-		fgm: 'Field Goals Made',
-		fga: 'Field Goal Attempts',
-		fgp: 'Field Goal %',
-		ftm: 'Free Throws Made',
-		fta: 'Free Throw Attempts',
-		ftp: 'Free Throw %',
-		tpm: 'Three Pointers Made',
-		tpa: 'Three Point Attempts',
-		tpp: 'Three Point %',
-		offReb: 'Offensive Rebounds',
-		defReb: 'Defensive Rebounds',
-		totalReb: 'Rebounds',
-		assists: 'Assists',
-		fouls: 'Fouls',
-		steals: 'Steals',
-		turnovers: 'Turnovers',
-		blocks: 'Blocks',
-		plusMinus: 'Plus/Minus',
-	};
+
 	const playerCategories = {
 		gp: 'GP',
 		minutes: 'MIN',
@@ -130,9 +111,9 @@ function App() {
 						{/* View Games By Date */}
 						<Route path="/games" element={<GameList data={data} setData={setData} />} />
 						{/* View Game Details */}
-						<Route path="/games/:gameId" element={<GameDetails categories={teamCategories} />} />
+						<Route path="/games/:gameId" element={<GameDetails />} />
 						{/* View All Team Stats */}
-
+						<Route path="/teams/stats" element={<TeamStats />} />
 						{/* View Team Details */}
 						<Route path="/teams/:teamId" element={<TeamDetails categories={playerCategories} />} />
 						{/* View All Player Stats */}

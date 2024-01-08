@@ -10,7 +10,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
 import './GameDetails.css';
 
-function GameDetails({ categories }) {
+function GameDetails() {
 	const INITIAL_STATE = {
 		game: undefined,
 		gameStats: { home: undefined, away: undefined },
@@ -18,6 +18,27 @@ function GameDetails({ categories }) {
 		gameTopPlayers: { home: undefined, away: undefined },
 		seasonTopPlayers: { home: undefined, away: undefined },
 		h2h: { totals: undefined, games: undefined, gameStats: undefined },
+	};
+	const categories = {
+		points: 'Points',
+		fgm: 'Field Goals Made',
+		fga: 'Field Goal Attempts',
+		fgp: 'Field Goal %',
+		ftm: 'Free Throws Made',
+		fta: 'Free Throw Attempts',
+		ftp: 'Free Throw %',
+		tpm: 'Three Pointers Made',
+		tpa: 'Three Point Attempts',
+		tpp: 'Three Point %',
+		offReb: 'Offensive Rebounds',
+		defReb: 'Defensive Rebounds',
+		totalReb: 'Rebounds',
+		assists: 'Assists',
+		fouls: 'Fouls',
+		steals: 'Steals',
+		turnovers: 'Turnovers',
+		blocks: 'Blocks',
+		plusMinus: 'Plus/Minus',
 	};
 	const [data, setData] = useState(INITIAL_STATE);
 	let { gameId } = useParams();

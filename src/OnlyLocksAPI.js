@@ -147,7 +147,7 @@ class OnlyLocksAPI {
 	/** Sort all teams by season stats */
 
 	static async sortTeamStats({ stat, order }) {
-		let res = await this.request(`teams/stats/sort`, { stat, order });
+		let res = await this.request(`teams/stats/sort`, { stat, order }, 'post');
 		return res.teamStats;
 	}
 
@@ -233,10 +233,17 @@ class OnlyLocksAPI {
 		return res.updatePlayerGameStats;
 	}
 
-	/** Get a players game stats */
+	/** Get a players stats for a specific game */
 
-	static async playerGameStats({ playerId, gameId }) {
-		let res = await this.request(`players/${playerId}/stats/game/${gameId}`);
+	static async playerGameStats(playerId, gameId) {
+		let res = await this.request(`players/${playerId}/stats/game`, { gameId }, 'post');
+		return res.gameStats;
+	}
+
+	/** Get all of a players game stats for the season */
+
+	static async allPlayerGameStats(playerId) {
+		let res = await this.request(`players/${playerId}/stats/game`, 'post');
 		return res.gameStats;
 	}
 

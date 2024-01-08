@@ -7,7 +7,7 @@ import './TeamDetails.css';
 
 function PlayerStatsTable({ stats, categories, navToPlayer, handleCategoryClick }) {
 	console.log(stats);
-	const [display, setDisplay] = useState('totals');
+	const [display, setDisplay] = useState('perGame');
 	const handleStatClick = (evt) => {
 		if (evt.target.id !== display) setDisplay(evt.target.id);
 	};
