@@ -249,17 +249,15 @@ class OnlyLocksAPI {
 
 	/** Sort all players by stats
 	 *
+	 * Time can be a date string, 'yesterday', 'today', 'season', or 'allGames'
+	 *
+	 * Other parameters are optional
+	 *
 	 * 	Optionally can pass in teamId, time and order
 	 **/
 
-	static async sortPlayerStats({ teamId, time, stat, order }) {
-		let data = {};
-		if (teamId) {
-			data = { teamId, time, stat, order };
-		} else {
-			data = { time, stat, order };
-		}
-		let res = await this.request(`players/stats/sort`, data, 'post');
+	static async sortPlayerStats({ playerId, teamId, gameId, time, stat, order }) {
+		let res = await this.request(`players/stats/sort`, { playerId, teamId, gameId, time, stat, order }, 'post');
 		return res.sortedStats;
 	}
 

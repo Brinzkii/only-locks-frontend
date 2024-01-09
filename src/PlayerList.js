@@ -118,14 +118,6 @@ function PlayerList({ data, setData }) {
 					<Col></Col>
 				</Row>
 			</Container>
-			{/* <Stack className="ms-auto" direction="horizontal" gap={5}>
-				<Button className="" onClick={handlePrevClick}>
-					Prev
-				</Button>
-				<Button className="" onClick={handleNextClick}>
-					Next
-				</Button>
-			</Stack> */}
 			{!data.players ? (
 				<Spinner animation="border" variant="info" />
 			) : (

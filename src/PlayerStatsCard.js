@@ -18,7 +18,7 @@ function PlayerStatsCard({ title, stats, conversions, navToPlayer }) {
 					stats.map((p) => {
 						return (
 							<tr id={p.id} onClick={navToPlayer} key={uuid()}>
-								<td>
+								<td id={p.id}>
 									{p.name} {`(${p.code})`} {p[conversions[title]]}
 								</td>
 							</tr>
