@@ -243,7 +243,7 @@ class OnlyLocksAPI {
 	/** Get all of a players game stats for the season */
 
 	static async allPlayerGameStats(playerId) {
-		let res = await this.request(`players/${playerId}/stats/game`, 'post');
+		let res = await this.request(`players/${playerId}/stats/game`, {}, 'post');
 		return res.gameStats;
 	}
 

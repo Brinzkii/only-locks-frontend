@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from './OnlyLocksAPI';
-import PlayerStatsTable from './PlayerStatsTable';
+import PlayerStatsTable from './PlayerSeasonStatsTable';
 import TeamGames from './TeamGames';
 import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner';

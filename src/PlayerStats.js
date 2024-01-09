@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OnlyLocksAPI from './OnlyLocksAPI';
-import PlayerStatsTable from './PlayerStatsTable';
+import PlayerSeasonStatsTable from './PlayerSeasonStatsTable';
 import Spinner from 'react-bootstrap/Spinner';
 
 function PlayerStats({ categories }) {
@@ -40,7 +40,7 @@ function PlayerStats({ categories }) {
 			{!stats ? (
 				<Spinner animation="border" variant="info" />
 			) : (
-				<PlayerStatsTable
+				<PlayerSeasonStatsTable
 					stats={stats}
 					categories={categories}
 					navToPlayer={navToPlayer}

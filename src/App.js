@@ -36,9 +36,9 @@ function App() {
 		ftm: 'FTM',
 		fta: 'FTA',
 		ftp: 'FT%',
-		tpm: 'TPM',
-		tpa: 'TPA',
-		tpp: 'TP%',
+		tpm: '3PM',
+		tpa: '3PA',
+		tpp: '3P%',
 		totalReb: 'REB',
 		offReb: 'ORB',
 		defReb: 'DRB',
@@ -136,7 +136,7 @@ function App() {
 						{/* View All Player Stats */}
 						<Route path="/players/stats" element={<PlayerStats categories={playerCategories} />} />
 						{/* View player details */}
-						<Route path="/players/:playerId" element={<PlayerDetails />} />
+						<Route path="/players/:playerId" element={<PlayerDetails categories={playerCategories} />} />
 					</Route>
 				</Routes>
 			</BrowserRouter>

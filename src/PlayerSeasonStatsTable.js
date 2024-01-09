@@ -5,8 +5,7 @@ import Button from 'react-bootstrap/Button';
 import uuid from 'react-uuid';
 import './TeamDetails.css';
 
-function PlayerStatsTable({ stats, categories, navToPlayer, handleCategoryClick }) {
-	console.log(stats);
+function PlayerSeasonStatsTable({ stats, categories, navToPlayer, handleCategoryClick = undefined }) {
 	const [display, setDisplay] = useState('perGame');
 	const handleStatClick = (evt) => {
 		if (evt.target.id !== display) setDisplay(evt.target.id);
@@ -30,7 +29,7 @@ function PlayerStatsTable({ stats, categories, navToPlayer, handleCategoryClick 
 					{Object.keys(categories).map((key) => {
 						if (key !== 'id' || key !== 'name') {
 							return (
-								<th id={key} onClick={handleCategoryClick}>
+								<th id={key} onClick={!handleCategoryClick ? null : handleCategoryClick}>
 									{categories[key]}
 								</th>
 							);
@@ -79,4 +78,4 @@ function PlayerStatsTable({ stats, categories, navToPlayer, handleCategoryClick 
 	);
 }
 
-export default PlayerStatsTable;
+export default PlayerSeasonStatsTable;
