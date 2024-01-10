@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const BASE_API_URL = 'http://localhost:3001';
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 class OnlyLocksAPI {
 	// the token for interacting with API will be stored here/
@@ -351,8 +352,10 @@ class OnlyLocksAPI {
 
 	static async regularUpdate() {
 		await this.updateRecentGames();
-		await this.updateRecentPlayerGameStats();
+		await delay(15000);
 		await this.updateTeamGameStats();
+		await delay(15000);
+		await this.updateRecentPlayerGameStats();
 	}
 
 	/** Daily update method (intended to run early in the morning to update team and player season stats) */

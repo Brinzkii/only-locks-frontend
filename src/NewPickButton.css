@@ -1,0 +1,24 @@
+/* .NewPickButton-stack {
+    position: sticky;
+    width: 98;
+    /* margin-bottom: ; 
+}
+*/
+
+.NewPickButton {
+    position: sticky;
+    bottom: 30px;
+    left: 100%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 30px;
+    /* margin-bottom: 30px; */
+}
+
+.NewPickButton-icon {
+    position: relative;
+    right: 1.5px;
+    bottom: 2px;
+    font-size: 25px;
+}

@@ -2,9 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Moment from 'moment';
+import schedule from 'node-schedule';
 import Navigation from './Navigation';
 import Home from './Home';
 import User from './User';
+import NewPickButton from './NewPickButton';
 import GameList from './GameList';
 import GameDetails from './GameDetails';
 import TeamDetails from './TeamDetails';
@@ -103,45 +105,20 @@ function App() {
 			}
 		}
 		checkForUser();
+
 		// Schedule updates to run
-		const currTime = Moment();
-		const regularExecTime = new Date().setHours(18, 0, 0, 0);
-		const dailyExecTime = Moment(regularExecTime).add(8, 'hours');
-		let timeLeftRegular;
-		let timeLeftDaily;
 
-		if (currTime < regularExecTime) {
-			timeLeftRegular = regularExecTime - currTime;
-		} else {
-			timeLeftRegular = regularExecTime + 900000 - currTime;
-		}
+		// Game details (score, clock, quarter), player game stats and team stats will update every 15 minutes starting at 7pm each day and ending at 2 am
+		const regularUpdateJob = schedule.scheduleJob('0,15,30,45 0-1,19-23 * * *', async function (fireTime) {
+			console.log('REGULAR UPDATES RAN AT:', fireTime);
+			await OnlyLocksAPI.regularUpdate();
+		});
 
-		if (currTime < dailyExecTime) {
-			timeLeftDaily = dailyExecTime - currTime;
-		} else {
-			timeLeftDaily = dailyExecTime + 86400000 - currTime;
-		}
-
-		console.log(timeLeftRegular);
-
-		// Update games, player and game stats every 15min starting at 6pm and stopping at 2am
-		setTimeout(function () {
-			let calls = 0;
-			let interval = setInterval(async function () {
-				calls++;
-				if (calls === 33) clearInterval(interval);
-
-				console.log('INSIDE REGULAR UPDATE');
-				await OnlyLocksAPI.regularUpdate();
-			}, 900000);
-		}, timeLeftRegular);
-
-		setTimeout(function () {
-			setInterval(async function () {
-				console.log('INSIDE DAILY UPDATE');
-				await OnlyLocksAPI.dailyUpdate();
-			}, 86400000);
-		}, timeLeftDaily);
+		// Team season stats and player season stats will update once a day at 2 am
+		const dailyUpdateJob = schedule.scheduleJob('0 2 * * *', async function (fireTime) {
+			console.log('DAILY UPDATES RAN AT:', fireTime);
+			await OnlyLocksAPI.dailyUpdate();
+		});
 	}, []);
 
 	return (
@@ -179,6 +156,7 @@ function App() {
 						<Route path="/players/:playerId" element={<PlayerDetails categories={playerCategories} />} />
 					</Route>
 				</Routes>
+				<NewPickButton />
 			</BrowserRouter>
 		</div>
 	);
