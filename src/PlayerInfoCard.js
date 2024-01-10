@@ -2,9 +2,6 @@ import React from 'react';
 import Moment from 'moment';
 import Card from 'react-bootstrap/Card';
 import Stack from 'react-bootstrap/Stack';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import './PlayerInfoCard.css';
 
 function PlayerInfoCard({ player, team, navToTeam }) {
@@ -24,22 +21,33 @@ function PlayerInfoCard({ player, team, navToTeam }) {
 			<Card.Img
 				id={team.id}
 				onClick={navToTeam}
-				className="PlayerInfoCard-image mx-auto"
+				className="PlayerInfoCard-image mx-auto mt-2"
 				variant="top"
 				src={team.logo}
 			/>
-			<Card.Title className="mt-3 mb-0">
-				{positions[player.position]} for the {team.name}
+			<Card.Title className="mt-3 mb-0 mx-auto">
+				<Stack gap={3} direction="horizontal">
+					<div>{`#${player.number}`}</div>
+					<div className="vr"></div>
+					<div>{`${positions[player.position]}`}</div>
+				</Stack>
 			</Card.Title>
 			<Card.Body className="mt-0">
 				<Stack className="" direction="vertical" gap={2}>
-					<hr />
-					<div className="">
-						Age: {Moment(Moment(player.birthday).format('YYYYMMDD'), 'YYYYMMDD').fromNow().slice(0, 2)}
-					</div>
-					<div className="">Height: {player.height}</div>
-					<div className="">Weight: {player.weight}</div>
-					<div className="">College: {player.college}</div>
+					{player.birthday ? (
+						<>
+							<hr />
+							<div className="">
+								Age:{' '}
+								{Moment(Moment(player.birthday).format('YYYYMMDD'), 'YYYYMMDD').fromNow().slice(0, 2)}
+							</div>
+						</>
+					) : (
+						<></>
+					)}
+					{player.height !== 'Unknown' ? <div className="">Height: {player.height}</div> : <></>}
+					{player.weight !== 'Unknown' ? <div className="">Weight: {player.weight}</div> : <></>}
+					{player.college ? <div className="">College: {player.college}</div> : <></>}
 				</Stack>
 			</Card.Body>
 		</Card>

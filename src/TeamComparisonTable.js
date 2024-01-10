@@ -6,7 +6,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
 // import './GameDetails.css';
 
-function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefined, navToTeam }) {
+function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefined, navToTeam, title }) {
 	const categories = {
 		points: 'Points',
 		fgm: 'Field Goals Made',
@@ -54,7 +54,7 @@ function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefine
 								</Stack>
 							</th>
 							<th>
-								<small>stat (per game)</small>
+								<small>{title}</small>
 							</th>
 							<th>
 								<Stack>

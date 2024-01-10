@@ -5,6 +5,7 @@ import OnlyLocksAPI from './OnlyLocksAPI';
 import TeamComparisonTable from './TeamComparisonTable';
 import TeamH2HTable from './TeamH2HTable';
 import TeamTopPerformersTable from './TeamTopPerformersTable';
+import PlayerGameStatsTable from './PlayerGameStatsTable';
 import Spinner from 'react-bootstrap/Spinner';
 import './GameDetails.css';
 
@@ -41,9 +42,6 @@ function GameDetails() {
 	const [data, setData] = useState(INITIAL_STATE);
 	const { gameId } = useParams();
 	const navigate = useNavigate();
-	const navToGame = (evt) => {
-		navigate(`/games/${evt.target.id}`);
-	};
 	const navToTeam = (evt) => {
 		navigate(`/teams/${evt.target.id}`);
 	};
@@ -55,6 +53,7 @@ function GameDetails() {
 		async function getData(gameId) {
 			const game = await OnlyLocksAPI.game(gameId);
 			const gameStats = await OnlyLocksAPI.teamGameStats(gameId);
+			const playerGameStats = await OnlyLocksAPI.sortPlayerStats({ time: 'all games', gameId: game.id });
 			const homeTeamStats = await OnlyLocksAPI.teamStats(game.homeId);
 			const awayTeamStats = await OnlyLocksAPI.teamStats(game.awayId);
 			const topGamePerformers = await OnlyLocksAPI.gameTopPerformers(gameId);
@@ -80,6 +79,7 @@ function GameDetails() {
 					away: awaySeasonPerformers,
 				},
 				h2h,
+				playerGameStats,
 			});
 			console.log({
 				game,
@@ -117,6 +117,7 @@ function GameDetails() {
 					<h4>{Moment(data.game.date).format('LLL')}</h4>
 				) : (
 					<>
+						<h4>{Moment(data.game.date).format('LLL')}</h4>
 						<h4 className="GameDetails-clock">{data.game.clock || 'Final'}</h4>
 						<h4 className="GameDetails-score">
 							<small>{data.game.homeCode}</small> {data.game.score} <small>{data.game.awayCode}</small>
@@ -126,6 +127,7 @@ function GameDetails() {
 				<div className="GameDetails-matchup">
 					{!data.gameStats.home && !data.gameStats.away ? (
 						<TeamComparisonTable
+							title="stat (per game)"
 							game={data.game}
 							teamStats={data.teamStats}
 							categories={categories}
@@ -133,6 +135,7 @@ function GameDetails() {
 						/>
 					) : (
 						<TeamComparisonTable
+							title="stat"
 							game={data.game}
 							gameStats={data.gameStats}
 							teamStats={data.teamStats}
@@ -143,7 +146,7 @@ function GameDetails() {
 				</div>
 
 				{/* Head to Head comparison for team if they've played this season */}
-				{data.h2h.gameStats.length ? (
+				{data.h2h.gameStats.length && !data.gameStats.home && !data.gameStats.away ? (
 					<div className="GameDetails-h2h mt-5">
 						<TeamH2HTable game={data.game} h2h={data.h2h} categories={categories} navToTeam={navToTeam} />
 					</div>
@@ -162,15 +165,21 @@ function GameDetails() {
 						/>
 					</div>
 				) : (
-					<div className="GameDetails-top-performers mt-5">
-						<h5 className="GameDetails-top-performers-header">Top Performers</h5>
-						<TeamTopPerformersTable
-							seasonTopPlayers={data.seasonTopPlayers}
-							gameTopPlayers={data.gameTopPlayers}
-							navToPlayer={navToPlayer}
-							categories={categories}
-						/>
-					</div>
+					<>
+						<div className="GameDetails-top-performers mt-5">
+							<h5 className="GameDetails-top-performers-header">Top Performers</h5>
+							<TeamTopPerformersTable
+								seasonTopPlayers={data.seasonTopPlayers}
+								gameTopPlayers={data.gameTopPlayers}
+								navToPlayer={navToPlayer}
+								categories={categories}
+							/>
+						</div>
+						<div className="GameDetails-player-game-stats-table mt-4">
+							<h4>Box Score</h4>
+							<PlayerGameStatsTable gameStats={data.playerGameStats} navToPlayer={navToPlayer} />
+						</div>
+					</>
 				)}
 			</div>
 		);

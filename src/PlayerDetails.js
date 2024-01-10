@@ -24,6 +24,7 @@ function PlayerDetails({ categories }) {
 	const navToTeam = (evt) => {
 		navigate(`/teams/${evt.target.id}`);
 	};
+
 	useEffect(() => {
 		async function getData(playerId) {
 			const player = await OnlyLocksAPI.player(playerId);
@@ -41,15 +42,13 @@ function PlayerDetails({ categories }) {
 	} else {
 		return (
 			<div className="PlayerDetails mt-4">
-				<h2>
-					{data.player.name} {`(${data.player.position})`}
-				</h2>
+				<h2>{data.player.name}</h2>
 				<PlayerInfoCard player={data.player} team={data.team} navToTeam={navToTeam} />
 				<h4 className="mt-2">Season Stats</h4>
 				<PlayerSeasonStatsTable stats={data.seasonStats} categories={categories} />
 				<h4>Game Stats</h4>
 				<PlayerGameStatsTable
-					stats={data.gameStats}
+					gameStats={data.gameStats}
 					games={data.games}
 					navToGame={navToGame}
 					player={data.player}

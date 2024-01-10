@@ -29,7 +29,7 @@ function PlayerSeasonStatsTable({ stats, categories, navToPlayer, handleCategory
 					{Object.keys(categories).map((key) => {
 						if (key !== 'id' || key !== 'name') {
 							return (
-								<th id={key} onClick={!handleCategoryClick ? null : handleCategoryClick}>
+								<th id={key} key={uuid()} onClick={!handleCategoryClick ? null : handleCategoryClick}>
 									{categories[key]}
 								</th>
 							);

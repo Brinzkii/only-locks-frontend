@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import OnlyLocksAPI from './OnlyLocksAPI';
 import Moment from 'moment';
 import Table from 'react-bootstrap/Table';
+import Image from 'react-bootstrap/Image';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
-// import './TeamDetails.css';
+import './PlayerGameStatsTable.css';
 
-function PlayerGameStatsTable({ stats, navToGame, player = undefined, games = undefined }) {
+function PlayerGameStatsTable({ gameStats, player = undefined, games = undefined, navToGame, navToPlayer }) {
+	const [stats, setStats] = useState(gameStats);
 	const categories = {
 		minutes: 'MIN',
 		points: 'PTS',
@@ -29,9 +32,23 @@ function PlayerGameStatsTable({ stats, navToGame, player = undefined, games = un
 		plusMinus: '+/-',
 	};
 	function handleCategoryClick(evt) {
-		console.log(evt.target.id);
+		evt.preventDefault();
+		async function sortGameStats(stat) {
+			setStats(undefined);
+			const conversions = {
+				totalReb: 'total_reb',
+				offReb: 'off_reb',
+				defReb: 'def_reb',
+				plusMinus: 'plus_minus',
+			};
+			stat = conversions[stat] || stat;
+			const gameStats = await OnlyLocksAPI.sortPlayerStats({ stat, time: 'all games', playerId: player.id });
+
+			setStats(gameStats);
+		}
+		sortGameStats(evt.target.id);
 	}
-	console.log(games);
+
 	return (
 		<Table className="PlayerGameStatsTable" size="sm">
 			<thead>
@@ -39,7 +56,7 @@ function PlayerGameStatsTable({ stats, navToGame, player = undefined, games = un
 					<th></th>
 					{Object.keys(categories).map((key) => {
 						return (
-							<th id={key} onClick={!handleCategoryClick ? null : handleCategoryClick}>
+							<th id={key} key={uuid()} onClick={!handleCategoryClick ? null : handleCategoryClick}>
 								{categories[key]}
 							</th>
 						);
@@ -53,20 +70,44 @@ function PlayerGameStatsTable({ stats, navToGame, player = undefined, games = un
 					stats.map((g) => {
 						return (
 							<tr key={uuid()}>
-								<td id={`${g.gameId}`} onClick={navToGame}>
-									{games
-										? games.map((game) => {
-												if (game.id === g.gameId) {
-													if (game.home.id === player.teamId) {
-														return `VS ${game.away.code} (${Moment(game.date).format(
-															'l'
-														)})`;
-													} else {
-														return `@ ${game.home.code} (${Moment(game.date).format('l')})`;
-													}
+								<td id={`${g.gameId || g.id}`} onClick={navToGame || navToPlayer}>
+									{games ? (
+										games.map((game) => {
+											if (game.id === g.gameId) {
+												if (game.home.id === player.teamId) {
+													return (
+														<span id={`${g.gameId}`} key={uuid()}>
+															VS{' '}
+															<Image
+																id={`${g.gameId}`}
+																src={game.away.logo}
+																alt=""
+																className="PlayerGameStatsTable-logo"
+															/>
+															{Moment(game.date).format('l')}
+														</span>
+													);
+												} else {
+													return (
+														<span id={`${g.gameId}`} key={uuid()}>
+															@{' '}
+															<Image
+																id={`${g.gameId}`}
+																src={game.home.logo}
+																alt=""
+																className="PlayerGameStatsTable-logo"
+															/>
+															{Moment(game.date).format('l')}
+														</span>
+													);
 												}
-										  })
-										: g.name}
+											}
+										})
+									) : (
+										<span id={g.id}>
+											{g.name} {`(${g.code})`}
+										</span>
+									)}
 								</td>
 
 								<td>{g.minutes || 0}</td>
