@@ -1,3 +1,4 @@
+// import dotenv from 'dotenv';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Moment from 'moment';
@@ -10,12 +11,12 @@ import TeamDetails from './TeamDetails';
 import PlayerDetails from './PlayerDetails';
 import PlayerStats from './PlayerStats';
 import TeamStats from './TeamStats';
+import PlayerList from './PlayerList';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import OnlyLocksAPI from './OnlyLocksAPI';
 import PrivateRoutes from './PrivateRoutes';
 import './App.css';
-import PlayerList from './PlayerList';
 
 function App() {
 	const [data, setData] = useState({
@@ -102,6 +103,45 @@ function App() {
 			}
 		}
 		checkForUser();
+		// Schedule updates to run
+		const currTime = Moment();
+		const regularExecTime = new Date().setHours(18, 0, 0, 0);
+		const dailyExecTime = Moment(regularExecTime).add(8, 'hours');
+		let timeLeftRegular;
+		let timeLeftDaily;
+
+		if (currTime < regularExecTime) {
+			timeLeftRegular = regularExecTime - currTime;
+		} else {
+			timeLeftRegular = regularExecTime + 900000 - currTime;
+		}
+
+		if (currTime < dailyExecTime) {
+			timeLeftDaily = dailyExecTime - currTime;
+		} else {
+			timeLeftDaily = dailyExecTime + 86400000 - currTime;
+		}
+
+		console.log(timeLeftRegular);
+
+		// Update games, player and game stats every 15min starting at 6pm and stopping at 2am
+		setTimeout(function () {
+			let calls = 0;
+			let interval = setInterval(async function () {
+				calls++;
+				if (calls === 33) clearInterval(interval);
+
+				console.log('INSIDE REGULAR UPDATE');
+				await OnlyLocksAPI.regularUpdate();
+			}, 900000);
+		}, timeLeftRegular);
+
+		setTimeout(function () {
+			setInterval(async function () {
+				console.log('INSIDE DAILY UPDATE');
+				await OnlyLocksAPI.dailyUpdate();
+			}, 86400000);
+		}, timeLeftDaily);
 	}, []);
 
 	return (

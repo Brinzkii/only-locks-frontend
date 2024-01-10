@@ -22,6 +22,22 @@ class OnlyLocksAPI {
 		}
 	}
 
+	static async adminRequest(endpoint, data = {}, method = 'patch') {
+		console.debug('ADMIN API Call:', endpoint, data, method);
+
+		const url = `${BASE_API_URL}/${endpoint}`;
+		const headers = { authorization: 'SPECIAL UPDATE REQUEST' };
+		const params = data;
+
+		try {
+			return (await axios({ url, method, data, params, headers })).data;
+		} catch (err) {
+			console.error('API Error:', err.response);
+			let message = err.response.data.error.message;
+			throw Array.isArray(message) ? message : [message];
+		}
+	}
+
 	// Individual API routes
 
 	/** Register user */
@@ -151,25 +167,6 @@ class OnlyLocksAPI {
 		return res.teamStats;
 	}
 
-	/** Update all team game stats */
-
-	static async updateAllTeamGameStats() {
-		await this.request(`teams/stats/games`, { method: 'all' }, 'patch');
-	}
-
-	/** Update team game stats for recent games */
-
-	static async updateTeamGameStats() {
-		await this.request(`teams/stats/games`, 'patch');
-	}
-
-	/** Update all team season stats */
-
-	static async updateTeamStats() {
-		let res = await this.request(`teams/stats/season`, 'patch');
-		return res.updateTeamStats;
-	}
-
 	/** List of teams games */
 
 	static async teamGames(teamId) {
@@ -203,34 +200,6 @@ class OnlyLocksAPI {
 	static async playerSeasonStats(playerId) {
 		let res = await this.request(`players/${playerId}/stats/season`);
 		return res.seasonStats;
-	}
-
-	/** Update all player season stats */
-
-	static async updatePlayerSeasonStats() {
-		let res = await this.request(`players/stats/season`, 'patch');
-		return res.updatePlayerSeasonStats;
-	}
-
-	/** Update all player game stats by gameId */
-
-	static async updatePlayerGameStats(gameId) {
-		let res = await this.request(`players/stats/game/${gameId}`, 'patch');
-		return res.updatePlayerGameStats;
-	}
-
-	/** Update all player game stats */
-
-	static async adminUpdateAllPlayerGameStats() {
-		let res = await this.request(`players/stats/games`, { method: 'all' }, 'patch');
-		return res.updatePlayerGameStats;
-	}
-
-	/** Update recent player game stats */
-
-	static async adminUpdatePlayerGameStats() {
-		let res = await this.request(`players/stats/games`, 'patch');
-		return res.updatePlayerGameStats;
 	}
 
 	/** Get a players stats for a specific game */
@@ -317,18 +286,80 @@ class OnlyLocksAPI {
 		return res.games;
 	}
 
+	/** Update all team game stats */
+
+	static async updateAllTeamGameStats() {
+		await this.adminRequest(`update/teams/games`, { method: 'all' });
+	}
+
+	/** Update team game stats for recent games */
+
+	static async updateTeamGameStats() {
+		await this.adminRequest(`update/teams/games`);
+	}
+
+	/** Update all team season stats */
+
+	static async updateTeamStats() {
+		let res = await this.adminRequest(`update/teams/season`);
+		return res.updateTeamStats;
+	}
+
+	/** Update all player season stats */
+
+	static async updatePlayerSeasonStats() {
+		let res = await this.adminRequest(`update/players/season`);
+		return res.updatePlayerSeasonStats;
+	}
+
+	/** Update all player game stats by gameId */
+
+	static async updatePlayerGameStats(gameId) {
+		let res = await this.adminRequest(`update/players/game/${gameId}`);
+		return res.updatePlayerGameStats;
+	}
+
+	/** Update all player game stats */
+
+	static async updateAllPlayerGameStats() {
+		let res = await this.adminRequest(`update/players/games`, { method: 'all' });
+		return res.updatePlayerGameStats;
+	}
+
+	/** Update recent player game stats */
+
+	static async updateRecentPlayerGameStats() {
+		let res = await this.adminRequest(`update/players/games`);
+		return res.updatePlayerGameStats;
+	}
+
 	/** Update all games in database */
 
 	static async updateAllGames() {
-		let res = await this.request(`games/all`, 'patch');
+		let res = await this.adminRequest(`update/games/all`);
 		return res.updateAllGames;
 	}
 
 	/** Update recent games (yesterday and today) */
 
 	static async updateRecentGames() {
-		let res = await this.request(`games/recent`, 'patch');
+		let res = await this.adminRequest(`update/games/recent`);
 		return res.updateRecentGames;
+	}
+
+	/** Regular update method (intended to be run every 15min once games start) - updates games, team game stats and player game stats */
+
+	static async regularUpdate() {
+		await this.updateRecentGames();
+		await this.updateRecentPlayerGameStats();
+		await this.updateTeamGameStats();
+	}
+
+	/** Daily update method (intended to run early in the morning to update team and player season stats) */
+
+	static async dailyUpdate() {
+		await this.updateTeamStats();
+		await this.updatePlayerSeasonStats();
 	}
 }
 
