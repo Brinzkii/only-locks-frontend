@@ -6,13 +6,15 @@ import TeamComparisonTable from './TeamComparisonTable';
 import TeamH2HTable from './TeamH2HTable';
 import TeamTopPerformersTable from './TeamTopPerformersTable';
 import PlayerGameStatsTable from './PlayerGameStatsTable';
+import Stack from 'react-bootstrap/Stack';
 import Spinner from 'react-bootstrap/Spinner';
 import './GameDetails.css';
 
-function GameDetails() {
+function GameDetails({ quarters }) {
 	const INITIAL_STATE = {
 		game: undefined,
 		gameStats: { home: undefined, away: undefined },
+		playerGameStats: {},
 		teamStats: { home: undefined, away: undefined },
 		gameTopPlayers: { home: undefined, away: undefined },
 		seasonTopPlayers: { home: undefined, away: undefined },
@@ -48,6 +50,26 @@ function GameDetails() {
 	const navToPlayer = (evt) => {
 		navigate(`/players/${evt.target.id}`);
 	};
+	function handleCategoryClick(stat) {
+		async function sortGameStats(stat) {
+			setData({ ...data, playerGameStats: undefined });
+			const conversions = {
+				totalReb: 'total_reb',
+				offReb: 'off_reb',
+				defReb: 'def_reb',
+				plusMinus: 'plus_minus',
+			};
+			stat = conversions[stat] || stat;
+			const playerGameStats = await OnlyLocksAPI.sortPlayerStats({
+				stat,
+				time: 'all games',
+				gameId: data.game.id,
+			});
+
+			setData({ ...data, playerGameStats });
+		}
+		sortGameStats(stat);
+	}
 
 	useEffect(() => {
 		async function getData(gameId) {
@@ -108,7 +130,7 @@ function GameDetails() {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<div className="GameDetails mt-4">
+			<div className="GameDetails mt-4 text-center">
 				<h2 className="GameDetails-header">
 					{data.game.homeName} vs. {data.game.awayName}
 				</h2>
@@ -118,8 +140,19 @@ function GameDetails() {
 				) : (
 					<>
 						<h4>{Moment(data.game.date).format('LLL')}</h4>
-						<h4 className="GameDetails-clock">{data.game.clock || 'Final'}</h4>
-						<h4 className="GameDetails-score">
+						<h4 className="GameDetails-clock mb-0">
+							<Stack direction="vertical">
+								{data.game.clock ? (
+									<>
+										<small>{quarters[data.game.quarter]}</small>
+										<div>{data.game.clock}</div>
+									</>
+								) : (
+									<div>Final</div>
+								)}
+							</Stack>
+						</h4>
+						<h4 className="GameDetails-score mt-0">
 							<small>{data.game.homeCode}</small> {data.game.score} <small>{data.game.awayCode}</small>
 						</h4>
 					</>
@@ -177,7 +210,11 @@ function GameDetails() {
 						</div>
 						<div className="GameDetails-player-game-stats-table mt-4">
 							<h4>Box Score</h4>
-							<PlayerGameStatsTable gameStats={data.playerGameStats} navToPlayer={navToPlayer} />
+							<PlayerGameStatsTable
+								gameStats={data.playerGameStats}
+								navToPlayer={navToPlayer}
+								handleCategoryClick={handleCategoryClick}
+							/>
 						</div>
 					</>
 				)}

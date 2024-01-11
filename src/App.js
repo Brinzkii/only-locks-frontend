@@ -6,7 +6,6 @@ import schedule from 'node-schedule';
 import Navigation from './Navigation';
 import Home from './Home';
 import User from './User';
-import NewPickButton from './NewPickButton';
 import GameList from './GameList';
 import GameDetails from './GameDetails';
 import TeamDetails from './TeamDetails';
@@ -14,6 +13,7 @@ import PlayerDetails from './PlayerDetails';
 import PlayerStats from './PlayerStats';
 import TeamStats from './TeamStats';
 import PlayerList from './PlayerList';
+import FormContainer from './FormContainer';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import OnlyLocksAPI from './OnlyLocksAPI';
@@ -52,6 +52,12 @@ function App() {
 		blocks: 'BLK',
 		plusMinus: '+/-',
 	};
+	const quarters = {
+		1: '1st',
+		2: '2nd',
+		3: '3rd',
+		4: '4th',
+	};
 
 	const updateUser = ({ username, token, picks, following }) => {
 		async function getData() {}
@@ -69,6 +75,7 @@ function App() {
 		localStorage.setItem('following', JSON.stringify([]));
 		setUser(undefined);
 	};
+
 	useEffect(() => {
 		async function checkForUser() {
 			if (localStorage.token) {
@@ -141,9 +148,9 @@ function App() {
 						<Route path="/users/:username" element={<User />} />
 
 						{/* View Games By Date */}
-						<Route path="/games" element={<GameList data={data} setData={setData} />} />
+						<Route path="/games" element={<GameList data={data} setData={setData} quarters={quarters} />} />
 						{/* View Game Details */}
-						<Route path="/games/:gameId" element={<GameDetails />} />
+						<Route path="/games/:gameId" element={<GameDetails quarters={quarters} />} />
 						{/* View All Team Stats */}
 						<Route path="/teams/stats" element={<TeamStats />} />
 						{/* View Team Details */}
@@ -156,7 +163,7 @@ function App() {
 						<Route path="/players/:playerId" element={<PlayerDetails categories={playerCategories} />} />
 					</Route>
 				</Routes>
-				<NewPickButton />
+				<FormContainer />
 			</BrowserRouter>
 		</div>
 	);

@@ -7,7 +7,6 @@ import PlayerGameStatsTable from './PlayerGameStatsTable';
 import Spinner from 'react-bootstrap/Spinner';
 
 function PlayerDetails({ categories }) {
-	console.log('CATS IN PLAYER DETAILS:', categories);
 	const INITIAL_STATE = {
 		player: undefined,
 		team: undefined,
@@ -24,11 +23,26 @@ function PlayerDetails({ categories }) {
 	const navToTeam = (evt) => {
 		navigate(`/teams/${evt.target.id}`);
 	};
+	function handleCategoryClick(stat) {
+		async function sortGameStats(stat) {
+			setData({ ...data, gameStats: undefined });
+			const conversions = {
+				totalReb: 'total_reb',
+				offReb: 'off_reb',
+				defReb: 'def_reb',
+				plusMinus: 'plus_minus',
+			};
+			stat = conversions[stat] || stat;
+			const gameStats = await OnlyLocksAPI.sortPlayerStats({ stat, time: 'all games', playerId: data.player.id });
+
+			setData({ ...data, gameStats });
+		}
+		sortGameStats(stat);
+	}
 
 	useEffect(() => {
 		async function getData(playerId) {
 			const player = await OnlyLocksAPI.player(playerId);
-			console.log('PLAYER:', player);
 			const seasonStats = await OnlyLocksAPI.playerSeasonStats(playerId);
 			const gameStats = await OnlyLocksAPI.allPlayerGameStats(playerId);
 			const games = await OnlyLocksAPI.teamGames(player.teamId);
@@ -52,6 +66,7 @@ function PlayerDetails({ categories }) {
 					games={data.games}
 					navToGame={navToGame}
 					player={data.player}
+					handleCategoryClick={handleCategoryClick}
 				/>
 			</div>
 		);

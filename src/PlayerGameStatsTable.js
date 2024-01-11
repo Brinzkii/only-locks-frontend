@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import OnlyLocksAPI from './OnlyLocksAPI';
 import Moment from 'moment';
 import Table from 'react-bootstrap/Table';
 import Image from 'react-bootstrap/Image';
@@ -7,8 +6,14 @@ import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
 import './PlayerGameStatsTable.css';
 
-function PlayerGameStatsTable({ gameStats, player = undefined, games = undefined, navToGame, navToPlayer }) {
-	const [stats, setStats] = useState(gameStats);
+function PlayerGameStatsTable({
+	gameStats,
+	player = undefined,
+	games = undefined,
+	navToGame,
+	navToPlayer,
+	handleCategoryClick,
+}) {
 	const categories = {
 		minutes: 'MIN',
 		points: 'PTS',
@@ -31,24 +36,11 @@ function PlayerGameStatsTable({ gameStats, player = undefined, games = undefined
 		blocks: 'BLK',
 		plusMinus: '+/-',
 	};
-	function handleCategoryClick(evt) {
-		evt.preventDefault();
-		async function sortGameStats(stat) {
-			setStats(undefined);
-			const conversions = {
-				totalReb: 'total_reb',
-				offReb: 'off_reb',
-				defReb: 'def_reb',
-				plusMinus: 'plus_minus',
-			};
-			stat = conversions[stat] || stat;
-			const gameStats = await OnlyLocksAPI.sortPlayerStats({ stat, time: 'all games', playerId: player.id });
-
-			setStats(gameStats);
-		}
-		sortGameStats(evt.target.id);
-	}
-
+	const [active, setActive] = useState(false);
+	const toggleClass = (evt) => {
+		setActive(evt.target.id);
+		handleCategoryClick(evt.target.id);
+	};
 	return (
 		<Table className="PlayerGameStatsTable" size="sm">
 			<thead>
@@ -56,7 +48,7 @@ function PlayerGameStatsTable({ gameStats, player = undefined, games = undefined
 					<th></th>
 					{Object.keys(categories).map((key) => {
 						return (
-							<th id={key} key={uuid()} onClick={!handleCategoryClick ? null : handleCategoryClick}>
+							<th id={key} key={uuid()} onClick={toggleClass}>
 								{categories[key]}
 							</th>
 						);
@@ -64,13 +56,13 @@ function PlayerGameStatsTable({ gameStats, player = undefined, games = undefined
 				</tr>
 			</thead>
 			<tbody>
-				{!stats ? (
+				{!gameStats ? (
 					<Spinner animation="border" variant="info" />
 				) : (
-					stats.map((g) => {
+					gameStats.map((g) => {
 						return (
 							<tr key={uuid()}>
-								<td id={`${g.gameId || g.id}`} onClick={navToGame || navToPlayer}>
+								<td id={`${games ? g.gameId : g.id}`} onClick={games ? navToGame : navToPlayer}>
 									{games ? (
 										games.map((game) => {
 											if (game.id === g.gameId) {
@@ -110,26 +102,48 @@ function PlayerGameStatsTable({ gameStats, player = undefined, games = undefined
 									)}
 								</td>
 
-								<td>{g.minutes || 0}</td>
-								<td>{g.points || 0}</td>
-								<td>{g.fgm || 0}</td>
-								<td>{g.fga || 0}</td>
-								<td>{g.fgp || 0}</td>
-								<td>{g.ftm || 0}</td>
-								<td>{g.fta || 0}</td>
-								<td>{g.ftp || 0}</td>
-								<td>{g.tpm || 0}</td>
-								<td>{g.tpa || 0}</td>
-								<td>{g.tpp || 0}</td>
-								<td>{g.totalReb || 0}</td>
-								<td>{g.offReb || 0}</td>
-								<td>{g.defReb || 0}</td>
-								<td>{g.assists || 0}</td>
-								<td>{g.fouls || 0}</td>
-								<td>{g.steals || 0}</td>
-								<td>{g.turnovers || 0}</td>
-								<td>{g.blocks || 0}</td>
-								<td>{g.plusMinus || 0}</td>
+								<td id={active === 'minutes' ? 'PlayerGameStatsTable-sorted-col' : null}>
+									{g.minutes || 0}
+								</td>
+								<td id={active === 'points' ? 'PlayerGameStatsTable-sorted-col' : null}>
+									{g.points || 0}
+								</td>
+								<td id={active === 'fgm' ? 'PlayerGameStatsTable-sorted-col' : null}>{g.fgm || 0}</td>
+								<td id={active === 'fga' ? 'PlayerGameStatsTable-sorted-col' : null}>{g.fga || 0}</td>
+								<td id={active === 'fgp' ? 'PlayerGameStatsTable-sorted-col' : null}>{g.fgp || 0}</td>
+								<td id={active === 'ftm' ? 'PlayerGameStatsTable-sorted-col' : null}>{g.ftm || 0}</td>
+								<td id={active === 'fta' ? 'PlayerGameStatsTable-sorted-col' : null}>{g.fta || 0}</td>
+								<td id={active === 'ftp' ? 'PlayerGameStatsTable-sorted-col' : null}>{g.ftp || 0}</td>
+								<td id={active === 'tpm' ? 'PlayerGameStatsTable-sorted-col' : null}>{g.tpm || 0}</td>
+								<td id={active === 'tpa' ? 'PlayerGameStatsTable-sorted-col' : null}>{g.tpa || 0}</td>
+								<td id={active === 'tpp' ? 'PlayerGameStatsTable-sorted-col' : null}>{g.tpp || 0}</td>
+								<td id={active === 'totalReb' ? 'PlayerGameStatsTable-sorted-col' : null}>
+									{g.totalReb || 0}
+								</td>
+								<td id={active === 'offReb' ? 'PlayerGameStatsTable-sorted-col' : null}>
+									{g.offReb || 0}
+								</td>
+								<td id={active === 'defReb' ? 'PlayerGameStatsTable-sorted-col' : null}>
+									{g.defReb || 0}
+								</td>
+								<td id={active === 'assists' ? 'PlayerGameStatsTable-sorted-col' : null}>
+									{g.assists || 0}
+								</td>
+								<td id={active === 'fouls' ? 'PlayerGameStatsTable-sorted-col' : null}>
+									{g.fouls || 0}
+								</td>
+								<td id={active === 'steals' ? 'PlayerGameStatsTable-sorted-col' : null}>
+									{g.steals || 0}
+								</td>
+								<td id={active === 'turnovers' ? 'PlayerGameStatsTable-sorted-col' : null}>
+									{g.turnovers || 0}
+								</td>
+								<td id={active === 'blocks' ? 'PlayerGameStatsTable-sorted-col' : null}>
+									{g.blocks || 0}
+								</td>
+								<td id={active === 'plusMinus' ? 'PlayerGameStatsTable-sorted-col' : null}>
+									{g.plusMinus || 0}
+								</td>
 							</tr>
 						);
 					})

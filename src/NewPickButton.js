@@ -3,14 +3,11 @@ import Button from 'react-bootstrap/Button';
 import { HandIndex } from 'react-bootstrap-icons';
 import './NewPickButton.css';
 
-function NewPickButton() {
+function NewPickButton({ handleClick }) {
 	return (
-		// <Stack className="NewPickButton-stack" direction="horizontal">
-		<Button className="NewPickButton ms-auto">
+		<Button className="NewPickButton ms-auto" onClick={handleClick}>
 			<HandIndex className="NewPickButton-icon" />
 		</Button>
-
-		// </Stack>
 	);
 }
 

@@ -27,7 +27,7 @@ function PlayerInfoCard({ player, team, navToTeam }) {
 			/>
 			<Card.Title className="mt-3 mb-0 mx-auto">
 				<Stack gap={3} direction="horizontal">
-					<div>{`#${player.number}`}</div>
+					<div>{`#${player.number || 0}`}</div>
 					<div className="vr"></div>
 					<div>{`${positions[player.position]}`}</div>
 				</Stack>
