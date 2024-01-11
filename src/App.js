@@ -13,7 +13,7 @@ import PlayerDetails from './PlayerDetails';
 import PlayerStats from './PlayerStats';
 import TeamStats from './TeamStats';
 import PlayerList from './PlayerList';
-import FormContainer from './FormContainer';
+import PickFormContainer from './PickFormContainer';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import OnlyLocksAPI from './OnlyLocksAPI';
@@ -104,6 +104,7 @@ function App() {
 				players.blocks = blocks;
 				players.steals = steals;
 
+				console.log({ teams, games, players });
 				setData({ teams, games, players });
 
 				localStorage.setItem('username', info.username);
@@ -163,7 +164,7 @@ function App() {
 						<Route path="/players/:playerId" element={<PlayerDetails categories={playerCategories} />} />
 					</Route>
 				</Routes>
-				<FormContainer />
+				<PickFormContainer />
 			</BrowserRouter>
 		</div>
 	);

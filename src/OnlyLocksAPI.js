@@ -111,7 +111,7 @@ class OnlyLocksAPI {
 	/** Remove player pick */
 
 	static async deletePlayerPick({ username, pickId }) {
-		let res = await this.request(`users/picks/players/${pickId}`, 'delete');
+		let res = await this.request(`users/${username}/picks/players/${pickId}`, 'delete');
 		return res.removed;
 	}
 
@@ -229,6 +229,16 @@ class OnlyLocksAPI {
 	static async sortPlayerStats({ playerId, teamId, gameId, time, stat, order }) {
 		let res = await this.request(`players/stats/sort`, { playerId, teamId, gameId, time, stat, order }, 'post');
 		return res.sortedStats;
+	}
+
+	/** Get player pick data
+	 *
+	 * 	Requires an array of games
+	 */
+
+	static async playerPickData(games) {
+		let res = await this.request(`players/stats/picks`, { games }, 'post');
+		return res.playerPickData;
 	}
 
 	/** Get all NBA games */
@@ -356,6 +366,8 @@ class OnlyLocksAPI {
 		await this.updateTeamGameStats();
 		await delay(15000);
 		await this.updateRecentPlayerGameStats();
+		await delay(15000);
+		await this.updateRecentGames();
 	}
 
 	/** Daily update method (intended to run early in the morning to update team and player season stats) */
