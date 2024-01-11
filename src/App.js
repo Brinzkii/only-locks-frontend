@@ -86,6 +86,10 @@ function App() {
 					picks: user.picks.playerPicks.concat(user.picks.teamPicks),
 					following: user.followedTeams.concat(user.followedPlayers),
 				};
+				localStorage.setItem('username', info.username);
+				localStorage.setItem('picks', JSON.stringify(info.picks));
+				localStorage.setItem('following', JSON.stringify(user.following));
+				setUser(info);
 
 				let teams = await OnlyLocksAPI.allTeams();
 				const today = Moment().format('YYYYMMDD');
@@ -106,10 +110,6 @@ function App() {
 
 				console.log({ teams, games, players });
 				setData({ teams, games, players });
-
-				localStorage.setItem('username', info.username);
-				localStorage.setItem('picks', JSON.stringify(info.picks));
-				localStorage.setItem('following', JSON.stringify(user.following));
 			}
 		}
 		checkForUser();
@@ -164,7 +164,7 @@ function App() {
 						<Route path="/players/:playerId" element={<PlayerDetails categories={playerCategories} />} />
 					</Route>
 				</Routes>
-				<PickFormContainer />
+				{localStorage.token ? <PickFormContainer /> : <></>}
 			</BrowserRouter>
 		</div>
 	);
