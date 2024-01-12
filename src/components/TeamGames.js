@@ -5,7 +5,7 @@ import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
 import Card from 'react-bootstrap/Card';
 import uuid from 'react-uuid';
-import './TeamGames.css';
+import '../styles/TeamGames.css';
 
 function TeamGames({ team, games, navToGame, navToTeam }) {
 	if (!games) {

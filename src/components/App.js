@@ -17,9 +17,9 @@ import PlayerList from './PlayerList';
 import PickFormContainer from './PickFormContainer';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-import OnlyLocksAPI from './OnlyLocksAPI';
+import OnlyLocksAPI from '../api/OnlyLocksAPI';
 import PrivateRoutes from './PrivateRoutes';
-import './App.css';
+import '../styles/App.css';
 
 function App() {
 	const [data, setData] = useState({
@@ -72,7 +72,6 @@ function App() {
 			const playerList = await OnlyLocksAPI.allPlayers();
 			setData({ ...data, teams, playerList });
 		}
-		
 
 		getData();
 	};

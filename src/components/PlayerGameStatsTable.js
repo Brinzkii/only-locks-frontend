@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 import Image from 'react-bootstrap/Image';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
-import './PlayerGameStatsTable.css';
+import '../styles/PlayerGameStatsTable.css';
 
 function PlayerGameStatsTable({
 	gameStats,

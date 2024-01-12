@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Moment from 'moment';
-import OnlyLocksAPI from './OnlyLocksAPI';
+import OnlyLocksAPI from '../api/OnlyLocksAPI';
 import PlayerStatsCard from './PlayerStatsCard';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
-// import './PlayerList.css';
+// import '../styles/PlayerList.css';
 
 function PlayerList({ data, setData }) {
 	// const [datePicker, setDatePicker] = useState(Moment(data.date).format('YYYY-MM-DD'));

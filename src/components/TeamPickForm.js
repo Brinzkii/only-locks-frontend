@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import SelectSearch from 'react-select-search';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-import OnlyLocksAPI from './OnlyLocksAPI';
+import OnlyLocksAPI from '../api/OnlyLocksAPI';
 
 function TeamPickForm({ notifySuccess, notifyError }) {
 	const INITIAL_STATE = {

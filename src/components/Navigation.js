@@ -6,11 +6,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
-import Logo from './static/only-locks-logo.png';
+import Logo from '../static/only-locks-logo.png';
 import SelectSearch from 'react-select-search';
 import uuid from 'react-uuid';
-import './Navigation.css';
-import './SelectSearch.css';
+import '../styles/Navigation.css';
+import '../styles/SelectSearch.css';
 
 function Navigation({ logoutUser, teams, players }) {
 	const navigate = useNavigate();

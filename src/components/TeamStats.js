@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import OnlyLocksAPI from './OnlyLocksAPI';
+import OnlyLocksAPI from '../api/OnlyLocksAPI';
 import TeamStatsTable from './TeamStatsTable';
 import Spinner from 'react-bootstrap/Spinner';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Moment from 'moment';
-import OnlyLocksAPI from './OnlyLocksAPI';
+import OnlyLocksAPI from '../api/OnlyLocksAPI';
 import GameCard from './GameCard';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,7 +10,7 @@ import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
 import uuid from 'react-uuid';
-import './GameList.css';
+import '../styles/GameList.css';
 
 function GameList({ data, setData }) {
 	const navigate = useNavigate();

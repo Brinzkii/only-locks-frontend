@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import OnlyLocksAPI from './OnlyLocksAPI';
+import OnlyLocksAPI from '../api/OnlyLocksAPI';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-// import './Forms.css';
+// import '../styles/Forms.css';
 
 function LoginForm({ updateUser, notifySuccess, notifyError }) {
 	const INITIAL_DATA = {

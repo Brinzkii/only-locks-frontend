@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Moment from 'moment';
-import OnlyLocksAPI from './OnlyLocksAPI';
+import OnlyLocksAPI from '../api/OnlyLocksAPI';
 import TeamComparisonTable from './TeamComparisonTable';
 import TeamH2HTable from './TeamH2HTable';
 import TeamTopPerformersTable from './TeamTopPerformersTable';
 import PlayerGameStatsTable from './PlayerGameStatsTable';
 import Stack from 'react-bootstrap/Stack';
 import Spinner from 'react-bootstrap/Spinner';
-import './GameDetails.css';
+import '../styles/GameDetails.css';
 
 function GameDetails({ quarters }) {
 	const INITIAL_STATE = {

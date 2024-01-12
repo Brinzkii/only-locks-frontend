@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { HandIndex } from 'react-bootstrap-icons';
-import './NewPickButton.css';
+import '../styles/NewPickButton.css';
 
 function NewPickButton({ handleClick }) {
 	return (

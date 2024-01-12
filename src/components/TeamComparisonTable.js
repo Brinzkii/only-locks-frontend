@@ -4,7 +4,7 @@ import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
-// import './GameDetails.css';
+// import '../styles/GameDetails.css';
 
 function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefined, navToTeam, title }) {
 	const categories = {

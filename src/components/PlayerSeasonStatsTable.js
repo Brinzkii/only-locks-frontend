@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
 import uuid from 'react-uuid';
-import './TeamDetails.css';
+import '../styles/TeamDetails.css';
 
 function PlayerSeasonStatsTable({ stats, categories, navToPlayer, handleCategoryClick = undefined }) {
 	const [display, setDisplay] = useState('perGame');

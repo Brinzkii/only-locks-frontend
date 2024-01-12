@@ -2,7 +2,7 @@ import React from 'react';
 import Moment from 'moment';
 import Card from 'react-bootstrap/Card';
 import Stack from 'react-bootstrap/Stack';
-import './PlayerInfoCard.css';
+import '../styles/PlayerInfoCard.css';
 
 function PlayerInfoCard({ player, team, navToTeam }) {
 	const positions = {

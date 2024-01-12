@@ -1,11 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
-// import './GameDetails.css';
+// import '../styles/GameDetails.css';
 
 function TeamTopPerformersTable({ gameTopPlayers = undefined, seasonTopPlayers = undefined, navToPlayer, categories }) {
 	if (!gameTopPlayers && !seasonTopPlayers) {

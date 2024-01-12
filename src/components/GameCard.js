@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
 import uuid from 'react-uuid';
-import './GameList.css';
+import '../styles/GameList.css';
 
 function GameCard({ game, navToGame, navToTeam }) {
 	return (
