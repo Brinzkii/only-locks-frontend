@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OnlyLocksAPI from './OnlyLocksAPI';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import './Forms.css';
 
-function RegisterForm({ updateUser }) {
+function RegisterForm({ updateUser, notifySuccess, notifyError }) {
 	const INITIAL_DATA = {
 		username: '',
 		password: '',
@@ -23,26 +25,45 @@ function RegisterForm({ updateUser }) {
 			const token = await OnlyLocksAPI.register(formData);
 			updateUser({ username: formData.username, token });
 			navigate('/');
+			notifySuccess(`Thanks for signing up, ${formData.username}!`);
 		} catch (err) {
-			console.error(err);
+			notifyError(err);
 		}
 	};
 
 	return (
-		<form className="RegisterForm" onSubmit={handleSubmit}>
+		<Form className="RegisterForm" onSubmit={handleSubmit}>
 			<h1 className="RegisterForm-title">Sign Up</h1>
-			<label htmlFor="username" className="RegisterForm-label">
-				Username:
-			</label>
-			<input name="username" onChange={handleChange} className="RegisterForm-input" />
+			<Form.Group>
+				<Form.Label htmlFor="username" className="RegisterForm-label">
+					Username:
+				</Form.Label>
+				<Form.Control
+					type="text"
+					name="username"
+					onChange={handleChange}
+					className="RegisterForm-input"
+					autoComplete="new-username"
+				/>
+			</Form.Group>
 
-			<label htmlFor="password" className="RegisterForm-label">
-				Password:
-			</label>
-			<input name="password" type="password" onChange={handleChange} className="RegisterForm-input" />
+			<Form.Group>
+				<Form.Label htmlFor="password" className="RegisterForm-label">
+					Password:
+				</Form.Label>
+				<Form.Control
+					name="password"
+					type="password"
+					onChange={handleChange}
+					className="RegisterForm-input"
+					autoComplete="new-password"
+				/>
+			</Form.Group>
 
-			<button className="RegisterForm-button">Register</button>
-		</form>
+			<Button className="RegisterForm-button" type="submit">
+				Register
+			</Button>
+		</Form>
 	);
 }
 

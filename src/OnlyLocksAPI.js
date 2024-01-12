@@ -117,12 +117,8 @@ class OnlyLocksAPI {
 
 	/** New team pick */
 
-	static async teamPick({ username, teamId, gameId, win_spread, value }) {
-		let res = await this.request(
-			`users/${username}/picks/teams`,
-			{ username, teamId, gameId, win_spread, value },
-			'post'
-		);
+	static async teamPick({ username, teamId, gameId }) {
+		let res = await this.request(`users/${username}/picks/teams`, { teamId, gameId }, 'post');
 		return res.pick;
 	}
 
@@ -173,6 +169,16 @@ class OnlyLocksAPI {
 	static async teamGames(teamId) {
 		let res = await this.request(`teams/${teamId}/games`);
 		return res.teamGames;
+	}
+
+	/** Get team pick data
+	 *
+	 * 	Requires an array of games
+	 */
+
+	static async teamPickData(games) {
+		let res = await this.request(`teams/stats/picks`, { games }, 'post');
+		return res.teamPickData;
 	}
 
 	/** List of players on team */

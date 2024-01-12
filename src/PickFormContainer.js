@@ -5,16 +5,15 @@ import NewPickButton from './NewPickButton';
 import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import Button from 'react-bootstrap/Button';
+import './SelectSearch.css';
 
-function PickFormContainer() {
+function PickFormContainer({ notifySuccess, notifyError }) {
 	const [data, setData] = useState({
 		show: false,
-		playerPick: <PlayerPickForm />,
-		teamPick: <TeamPickForm />,
+		playerPick: <PlayerPickForm notifyError={notifyError} notifySuccess={notifySuccess} />,
+		teamPick: <TeamPickForm notifyError={notifyError} notifySuccess={notifySuccess} />,
 	});
 	const handlePickButton = () => (!data.show ? setData({ ...data, show: true }) : setData({ ...data, show: false }));
-
 	return (
 		<>
 			<Modal show={data.show} onHide={handlePickButton}>

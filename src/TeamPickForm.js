@@ -5,43 +5,55 @@ import Form from 'react-bootstrap/Form';
 import SelectSearch from 'react-select-search';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-import Alert from 'react-bootstrap/Alert';
 import OnlyLocksAPI from './OnlyLocksAPI';
-import Utils from './utils';
-import 'react-select-search/style.css';
 
-function TeamPickForm() {
+function TeamPickForm({ notifySuccess, notifyError }) {
 	const INITIAL_STATE = {
-		teams: undefined,
 		games: undefined,
+		pickOptions: undefined,
 		selectedTeam: undefined,
 		gameId: undefined,
 		selectOptions: undefined,
 	};
 	const [data, setData] = useState(INITIAL_STATE);
 	const handleTeamSelection = (teamId) => {
-		console.log(teamId);
-		setData({ ...data, selectedTeam: teamId });
+		console.log('SELECTED:', data.teams[teamId]);
+		const gameId = data.teams[teamId].gameId;
+		console.log('GAME INFO:', data.games[gameId].homeCode);
+		console.log('GAME ID:', gameId);
+		setData({ ...data, selectedTeam: teamId, gameId });
+	};
+	const handleSubmit = async (evt) => {
+		evt.preventDefault();
+		try {
+			const pick = await OnlyLocksAPI.teamPick({
+				username: localStorage.username,
+				teamId: data.selectedTeam,
+				gameId: data.gameId,
+			});
+			console.log('PICK:', pick);
+			const msg = `Your ${data.teams[data.selectedTeam].name} pick has been locked in!`;
+			setData({ ...data, selectedTeam: undefined, gameId: undefined });
+			notifySuccess(msg);
+		} catch (err) {
+			notifyError(err);
+		}
 	};
 	useEffect(() => {
 		async function getData() {
 			let games = {};
-			let teams = {};
 			const gamesRes = await OnlyLocksAPI.gamesByDate(Moment().format('YYYYMMDD'));
 			for (let game of gamesRes) {
 				games[game.id] = game;
-				const t1 = await OnlyLocksAPI.team(game.awayId);
-				const t2 = await OnlyLocksAPI.team(game.homeId);
-				teams[t1.id] = t1;
-				teams[t2.id] = t2;
 			}
+			let teams = await OnlyLocksAPI.teamPickData(gamesRes);
 			let selectOptions = [];
 			Object.keys(teams).map((key) => {
 				selectOptions.push({ name: teams[key].name, value: key });
 			});
 			setData({
-				teams,
 				games,
+				teams,
 				selectOptions,
 				selectedTeam: undefined,
 				gameId: undefined,
@@ -57,13 +69,14 @@ function TeamPickForm() {
 		getData();
 	}, []);
 	return (
-		<Form className="TeamPickForm text-center">
+		<Form className="TeamPickForm text-center" onSubmit={handleSubmit}>
 			{data.selectedTeam ? (
 				<Form.Text className="PlayerPickForm-game-details mb-4">
 					<Stack>
 						<div>
 							{data.games[data.gameId].homeCode} vs. {data.games[data.gameId].awayCode}
 						</div>
+						<div>WINNER: {data.teams[data.selectedTeam].name}</div>
 						<div>{data.games[data.gameId].location}</div>
 						<div>{Moment(data.games[data.gameId].date).format('LLL')}</div>
 					</Stack>
@@ -86,7 +99,13 @@ function TeamPickForm() {
 				<Spinner animation="border" variant="info" />
 			)}
 
-			{data.selectedTeam ? <Button type="submit">Lock it in!</Button> : <></>}
+			{data.selectedTeam ? (
+				<Button type="submit" className="mt-3">
+					Lock it in!
+				</Button>
+			) : (
+				<></>
+			)}
 		</Form>
 	);
 }

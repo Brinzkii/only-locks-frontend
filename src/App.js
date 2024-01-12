@@ -1,6 +1,7 @@
 // import dotenv from 'dotenv';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 import Moment from 'moment';
 import schedule from 'node-schedule';
 import Navigation from './Navigation';
@@ -25,6 +26,7 @@ function App() {
 		teams: [],
 		games: [],
 		players: { points: [], tpm: [], assists: [], rebounds: [], blocks: [], steals: [] },
+		playerList: [],
 		date: Moment(),
 	});
 	const [user, setUser] = useState([]);
@@ -75,6 +77,8 @@ function App() {
 		localStorage.setItem('following', JSON.stringify([]));
 		setUser(undefined);
 	};
+	const notifySuccess = (msg) => toast.success(`${msg}`);
+	const notifyError = (msg) => toast.error(`${msg}`);
 
 	useEffect(() => {
 		async function checkForUser() {
@@ -94,6 +98,7 @@ function App() {
 				let teams = await OnlyLocksAPI.allTeams();
 				const today = Moment().format('YYYYMMDD');
 				let games = await OnlyLocksAPI.gamesByDate(today);
+				const playerList = await OnlyLocksAPI.allPlayers();
 				let players = {};
 				let points = await OnlyLocksAPI.sortPlayerStats({ time: today, stat: 'points' });
 				let tpm = await OnlyLocksAPI.sortPlayerStats({ time: today, stat: 'tpm' });
@@ -108,8 +113,8 @@ function App() {
 				players.blocks = blocks;
 				players.steals = steals;
 
-				console.log({ teams, games, players });
-				setData({ teams, games, players });
+				console.log({ teams, games, players, playerList });
+				setData({ teams, games, players, playerList });
 			}
 		}
 		checkForUser();
@@ -118,12 +123,21 @@ function App() {
 
 		// Game details (score, clock, quarter), player game stats and team stats will update every 15 minutes starting at 7pm each day and ending at 2 am
 		const regularUpdateJob = schedule.scheduleJob('0,15,30,45 0-1,19-23 * * *', async function (fireTime) {
-			console.log('REGULAR UPDATES RAN AT:', fireTime);
-			await OnlyLocksAPI.regularUpdate();
+			try {
+				console.log('REGULAR UPDATES RAN AT:', fireTime);
+				await OnlyLocksAPI.regularUpdate();
+				notifySuccess('Stats have been updated!');
+			} catch (err) {
+				notifyError(err);
+			}
 		});
 
 		// Team season stats and player season stats will update once a day at 2 am
 		const dailyUpdateJob = schedule.scheduleJob('0 2 * * *', async function (fireTime) {
+			try {
+			} catch (err) {
+				notifyError(err);
+			}
 			console.log('DAILY UPDATES RAN AT:', fireTime);
 			await OnlyLocksAPI.dailyUpdate();
 		});
@@ -132,16 +146,34 @@ function App() {
 	return (
 		<div className="App">
 			<BrowserRouter>
-				<Navigation user={user} logoutUser={logoutUser} />
+				<Navigation user={user} logoutUser={logoutUser} players={data.playerList} teams={data.teams} />
 				<Routes>
 					{/* Home */}
 					<Route path="/" element={<Home updateUser={user} />} />
 
 					{/* Register New User */}
-					<Route path="/register" element={<RegisterForm updateUser={updateUser} />} />
+					<Route
+						path="/register"
+						element={
+							<RegisterForm
+								updateUser={updateUser}
+								notifySuccess={notifySuccess}
+								notifyError={notifyError}
+							/>
+						}
+					/>
 
 					{/* Login User */}
-					<Route path="/login" element={<LoginForm updateUser={updateUser} />} />
+					<Route
+						path="/login"
+						element={
+							<LoginForm
+								updateUser={updateUser}
+								notifySuccess={notifySuccess}
+								notifyError={notifyError}
+							/>
+						}
+					/>
 
 					{/* Protected Routes - Must Be Logged In */}
 					<Route element={<PrivateRoutes />}>
@@ -164,7 +196,12 @@ function App() {
 						<Route path="/players/:playerId" element={<PlayerDetails categories={playerCategories} />} />
 					</Route>
 				</Routes>
-				{localStorage.token ? <PickFormContainer /> : <></>}
+				{localStorage.token ? (
+					<PickFormContainer notifySuccess={notifySuccess} notifyError={notifyError} />
+				) : (
+					<></>
+				)}
+				<Toaster toastOptions={{ success: { duration: 4000 } }} />
 			</BrowserRouter>
 		</div>
 	);

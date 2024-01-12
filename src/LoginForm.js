@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OnlyLocksAPI from './OnlyLocksAPI';
-import './Forms.css';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+// import './Forms.css';
 
-function LoginForm({ updateUser }) {
+function LoginForm({ updateUser, notifySuccess, notifyError }) {
 	const INITIAL_DATA = {
 		username: '',
 		password: '',
@@ -28,26 +30,45 @@ function LoginForm({ updateUser }) {
 				following: user.followedTeams.concat(user.followedPlayers),
 			});
 			navigate('/');
+			notifySuccess(`Welcome back, ${user.username}!`);
 		} catch (err) {
-			console.error(err);
+			notifyError(err);
 		}
 	};
 
 	return (
-		<form className="LoginForm" onSubmit={handleSubmit}>
+		<Form className="LoginForm" onSubmit={handleSubmit}>
 			<h1 className="LoginForm-title">Login</h1>
-			<label htmlFor="username" className="LoginForm-label">
-				Username:
-			</label>
-			<input name="username" onChange={handleChange} className="LoginForm-input" />
+			<Form.Group>
+				<Form.Label htmlFor="username" className="LoginForm-label">
+					Username:
+				</Form.Label>
+				<Form.Control
+					type="text"
+					name="username"
+					onChange={handleChange}
+					className="LoginForm-input"
+					autoComplete="username"
+				/>
+			</Form.Group>
 
-			<label htmlFor="password" className="LoginForm-label">
-				Password:
-			</label>
-			<input name="password" type="password" onChange={handleChange} className="LoginForm-input" />
+			<Form.Group>
+				<Form.Label htmlFor="password" className="LoginForm-label">
+					Password:
+				</Form.Label>
+				<Form.Control
+					name="password"
+					type="password"
+					onChange={handleChange}
+					className="LoginForm-input"
+					autoComplete="current-password"
+				/>
+			</Form.Group>
 
-			<button className="LoginForm-button">Login</button>
-		</form>
+			<Button className="LoginForm-button" type="submit">
+				Login
+			</Button>
+		</Form>
 	);
 }
 

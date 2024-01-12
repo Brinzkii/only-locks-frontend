@@ -7,12 +7,11 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import OnlyLocksAPI from './OnlyLocksAPI';
 import Utils from './utils';
-import 'react-select-search/style.css';
 
-function PlayerPickForm() {
+function PlayerPickForm({ notifySuccess, notifyError }) {
 	const INITIAL_STATE = {
-		players: undefined,
 		games: undefined,
+		players: undefined,
 		selectedPlayer: null,
 		selectedStat: undefined,
 		overUnder: undefined,
@@ -62,29 +61,37 @@ function PlayerPickForm() {
 	};
 	const handleSubmit = async (evt) => {
 		evt.preventDefault();
-		const pick = {
-			username: localStorage.username,
-			playerId: data.selectedPlayer,
-			gameId: data.gameId,
-			stat: data.selectedStat,
-			over_under: data.overUnder,
-			value: data.selectedValue,
-			point_value: data.pointValue,
-		};
+		try {
+			const pick = {
+				username: localStorage.username,
+				playerId: data.selectedPlayer,
+				gameId: data.gameId,
+				stat: data.selectedStat,
+				over_under: data.overUnder,
+				value: data.selectedValue,
+				point_value: data.pointValue,
+			};
 
-		const pickRes = await OnlyLocksAPI.playerPick(pick);
-		setData({
-			...data,
-			selectedPlayer: null,
-			selectedStat: undefined,
-			overUnder: undefined,
-			selectedValue: undefined,
-			valueSelectIdx: undefined,
-			gameId: undefined,
-			selectOptions: undefined,
-			pickOptions: undefined,
-			pointValue: undefined,
-		});
+			const pickRes = await OnlyLocksAPI.playerPick(pick);
+			console.log('PICK:', pickRes);
+			const msg = `Your ${data.players[pick.playerId].name} ${pick.over_under.toUpperCase()} ${pick.value} ${
+				pick.stat
+			} pick has been locked in!`;
+			setData({
+				...data,
+				selectedPlayer: null,
+				selectedStat: undefined,
+				overUnder: undefined,
+				selectedValue: undefined,
+				valueSelectIdx: undefined,
+				gameId: undefined,
+				pickOptions: undefined,
+				pointValue: undefined,
+			});
+			notifySuccess(msg);
+		} catch (err) {
+			notifyError(err);
+		}
 	};
 
 	useEffect(() => {
@@ -119,6 +126,11 @@ function PlayerPickForm() {
 						<div>
 							{data.games[data.gameId].homeCode} vs. {data.games[data.gameId].awayCode}
 						</div>
+						<div>
+							{data.players[data.selectedPlayer].name}{' '}
+							{data.overUnder ? data.overUnder.toUpperCase() : ''}{' '}
+							{data.selectedValue ? `${data.selectedValue} ${data.selectedStat}` : ''}
+						</div>
 						<div>{data.games[data.gameId].location}</div>
 						<div>{Moment(data.games[data.gameId].date).format('LLL')}</div>
 					</Stack>
@@ -130,6 +142,7 @@ function PlayerPickForm() {
 			{data.selectOptions ? (
 				<SelectSearch
 					options={data.selectOptions}
+					// className="select-search-box is-light-mode"
 					value={data.selectedPlayer}
 					name="players"
 					placeholder="Select a player"
@@ -183,7 +196,13 @@ function PlayerPickForm() {
 				<></>
 			)}
 
-			{data.selectedValue ? <Button type="submit">Lock it in!</Button> : <></>}
+			{data.selectedValue ? (
+				<Button type="submit" className="mt-3">
+					Lock it in!
+				</Button>
+			) : (
+				<></>
+			)}
 		</Form>
 	);
 }
