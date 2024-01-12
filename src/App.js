@@ -62,12 +62,18 @@ function App() {
 	};
 
 	const updateUser = ({ username, token, picks, following }) => {
-		async function getData() {}
-		if (username) localStorage.setItem('username', username);
-		if (token) localStorage.setItem('token', token);
-		if (picks) localStorage.setItem('picks', JSON.stringify(picks));
-		if (following) localStorage.setItem('following', JSON.stringify(following));
-		setUser({ username, token });
+		async function getData() {
+			if (username) localStorage.setItem('username', username);
+			if (token) localStorage.setItem('token', token);
+			if (picks) localStorage.setItem('picks', JSON.stringify(picks));
+			if (following) localStorage.setItem('following', JSON.stringify(following));
+			setUser({ username, token });
+			const teams = await OnlyLocksAPI.allTeams();
+			const playerList = await OnlyLocksAPI.allPlayers();
+			setData({ ...data, teams, playerList });
+		}
+		
+
 		getData();
 	};
 	const logoutUser = () => {
