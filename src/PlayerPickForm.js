@@ -60,9 +60,31 @@ function PlayerPickForm() {
 		setData({ ...data, selectedValue, pointValue, valueSelectIdx: choice });
 		console.log('DATA AFTER SELECTION:', { ...data, selectedValue, pointValue, valueSelectIdx: choice });
 	};
-	const handleSubmit = (evt) => {
+	const handleSubmit = async (evt) => {
 		evt.preventDefault();
-		console.log(evt);
+		const pick = {
+			username: localStorage.username,
+			playerId: data.selectedPlayer,
+			gameId: data.gameId,
+			stat: data.selectedStat,
+			over_under: data.overUnder,
+			value: data.selectedValue,
+			point_value: data.pointValue,
+		};
+
+		const pickRes = await OnlyLocksAPI.playerPick(pick);
+		setData({
+			...data,
+			selectedPlayer: null,
+			selectedStat: undefined,
+			overUnder: undefined,
+			selectedValue: undefined,
+			valueSelectIdx: undefined,
+			gameId: undefined,
+			selectOptions: undefined,
+			pickOptions: undefined,
+			pointValue: undefined,
+		});
 	};
 
 	useEffect(() => {
@@ -113,6 +135,7 @@ function PlayerPickForm() {
 					placeholder="Select a player"
 					search={true}
 					onChange={handlePlayerSelection}
+					emptyMessage={'Sorry, all games for the day have started!'}
 				/>
 			) : (
 				<Spinner animation="border" variant="info" />

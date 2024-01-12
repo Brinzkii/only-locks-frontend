@@ -99,10 +99,10 @@ class OnlyLocksAPI {
 
 	/** New player pick */
 
-	static async playerPick({ username, playerId, gameId, stat, over_under, value }) {
+	static async playerPick({ username, playerId, gameId, stat, over_under, value, point_value }) {
 		let res = await this.request(
 			`users/${username}/picks/players`,
-			{ username, playerId, gameId, stat, over_under, value },
+			{ username, playerId, gameId, stat, over_under, value, point_value },
 			'post'
 		);
 		return res.pick;
@@ -110,7 +110,7 @@ class OnlyLocksAPI {
 
 	/** Remove player pick */
 
-	static async deletePlayerPick({ username, pickId }) {
+	static async deletePlayerPick(username, pickId) {
 		let res = await this.request(`users/${username}/picks/players/${pickId}`, 'delete');
 		return res.removed;
 	}
