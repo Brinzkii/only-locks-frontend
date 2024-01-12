@@ -82,6 +82,7 @@ function App() {
 		localStorage.setItem('picks', JSON.stringify([]));
 		localStorage.setItem('following', JSON.stringify([]));
 		setUser(undefined);
+		notifySuccess('You have been logged out!');
 	};
 	const notifySuccess = (msg) => toast.success(`${msg}`);
 	const notifyError = (msg) => toast.error(`${msg}`);
@@ -207,7 +208,7 @@ function App() {
 				) : (
 					<></>
 				)}
-				<Toaster toastOptions={{ success: { duration: 4000 } }} />
+				<Toaster toastOptions={{ success: { duration: 4000 }, error: { duration: 8000 } }} />
 			</BrowserRouter>
 		</div>
 	);
