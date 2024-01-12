@@ -135,11 +135,11 @@ function App() {
 		// Team season stats and player season stats will update once a day at 2 am
 		const dailyUpdateJob = schedule.scheduleJob('0 2 * * *', async function (fireTime) {
 			try {
+				console.log('DAILY UPDATES RAN AT:', fireTime);
+				await OnlyLocksAPI.dailyUpdate();
 			} catch (err) {
 				notifyError(err);
 			}
-			console.log('DAILY UPDATES RAN AT:', fireTime);
-			await OnlyLocksAPI.dailyUpdate();
 		});
 	}, []);
 

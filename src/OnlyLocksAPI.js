@@ -364,6 +364,24 @@ class OnlyLocksAPI {
 		return res.updateRecentGames;
 	}
 
+	/** Update player picks (all open picks will be checked if the game is
+	 *  finished)
+	 */
+
+	static async updatePlayerPicks() {
+		let res = await this.adminRequest(`update/picks/players`);
+		return res.updatePlayerPicks;
+	}
+
+	/** Update team picks (all open picks will be checked if the game is
+	 *  finished)
+	 */
+
+	static async updateTeamPicks() {
+		let res = await this.adminRequest(`update/picks/teams`);
+		return res.updateTeamPicks;
+	}
+
 	/** Regular update method (intended to be run every 15min once games start) - updates games, team game stats and player game stats */
 
 	static async regularUpdate() {
@@ -381,6 +399,8 @@ class OnlyLocksAPI {
 	static async dailyUpdate() {
 		await this.updateTeamStats();
 		await this.updatePlayerSeasonStats();
+		await this.updatePlayerPicks();
+		await this.updateTeamPicks();
 	}
 }
 
