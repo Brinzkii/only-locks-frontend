@@ -5,8 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
 import uuid from 'react-uuid';
-import '../styles/TeamDetails.css';
-import '../styles/TeamStatsTable.css';
+import '../../styles/team/TeamDetails.css';
+import '../../styles/team/TeamStatsTable.css';
 
 function TeamStatsTable({ stats, categories, navToTeam, handleCategoryClick, activeSort }) {
 	console.log(stats);

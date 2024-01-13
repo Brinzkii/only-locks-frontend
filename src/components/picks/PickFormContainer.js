@@ -5,7 +5,7 @@ import NewPickButton from './NewPickButton';
 import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import '../styles/SelectSearch.css';
+import '../../styles/SelectSearch.css';
 
 function PickFormContainer({ notifySuccess, notifyError }) {
 	const [data, setData] = useState({

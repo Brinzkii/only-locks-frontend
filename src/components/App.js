@@ -5,17 +5,17 @@ import toast, { Toaster } from 'react-hot-toast';
 import Moment from 'moment';
 import Navigation from './Navigation';
 import Home from './Home';
-import User from './User';
-import GameList from './GameList';
-import GameDetails from './GameDetails';
-import TeamDetails from './TeamDetails';
-import PlayerDetails from './PlayerDetails';
-import PlayerStats from './PlayerStats';
-import TeamStats from './TeamStats';
-import PlayerList from './PlayerList';
-import PickFormContainer from './PickFormContainer';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+import User from './user/User';
+import GameList from './game/GameList';
+import GameDetails from './game/GameDetails';
+import TeamDetails from './team/TeamDetails';
+import PlayerDetails from './player/PlayerDetails';
+import PlayerStats from './player/PlayerStats';
+import TeamStats from './team/TeamStats';
+import PlayerList from './player/PlayerList';
+import PickFormContainer from './picks/PickFormContainer';
+import LoginForm from './user/LoginForm';
+import RegisterForm from './user/RegisterForm';
 import OnlyLocksAPI from '../api/OnlyLocksAPI';
 import PrivateRoutes from './PrivateRoutes';
 import '../styles/App.css';
@@ -183,7 +183,7 @@ function App() {
 				) : (
 					<></>
 				)}
-				<Toaster toastOptions={{ success: { duration: 4000 }, error: { duration: 8000 } }} />
+				<Toaster toastOptions={{ success: { duration: 5000 }, error: { duration: 10000 } }} />
 			</BrowserRouter>
 		</div>
 	);

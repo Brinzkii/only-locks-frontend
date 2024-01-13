@@ -4,8 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
 import Card from 'react-bootstrap/Card';
-import uuid from 'react-uuid';
-import '../styles/TeamGames.css';
+import '../../styles/team/TeamGames.css';
 
 function TeamGames({ team, games, navToGame, navToTeam }) {
 	if (!games) {

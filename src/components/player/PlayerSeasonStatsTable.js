@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
 import uuid from 'react-uuid';
-import '../styles/PlayerSeasonStatsTable.css';
+import '../../styles/player/PlayerSeasonStatsTable.css';
 
 function PlayerSeasonStatsTable({
 	stats,

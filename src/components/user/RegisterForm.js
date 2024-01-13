@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import OnlyLocksAPI from '../api/OnlyLocksAPI';
+import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-// import '../styles/Forms.css';
+import '../../styles/user/Forms.css';
 
-function LoginForm({ updateUser, notifySuccess, notifyError }) {
+function RegisterForm({ updateUser, notifySuccess, notifyError }) {
 	const INITIAL_DATA = {
 		username: '',
 		password: '',
@@ -22,54 +22,49 @@ function LoginForm({ updateUser, notifySuccess, notifyError }) {
 	const handleSubmit = async (evt) => {
 		evt.preventDefault();
 		try {
-			const token = await OnlyLocksAPI.login(formData);
+			const token = await OnlyLocksAPI.register(formData);
 			updateUser({ username: formData.username, token });
-			const user = await OnlyLocksAPI.getUser(localStorage.username);
-			updateUser({
-				picks: user.picks.playerPicks.concat(user.picks.teamPicks),
-				following: user.followedTeams.concat(user.followedPlayers),
-			});
 			navigate('/');
-			notifySuccess(`Welcome back, ${user.username}!`);
+			notifySuccess(`Thanks for signing up, ${formData.username}!`);
 		} catch (err) {
 			notifyError(err);
 		}
 	};
 
 	return (
-		<Form className="LoginForm" onSubmit={handleSubmit}>
-			<h1 className="LoginForm-title">Login</h1>
+		<Form className="RegisterForm" onSubmit={handleSubmit}>
+			<h1 className="RegisterForm-title">Sign Up</h1>
 			<Form.Group>
-				<Form.Label htmlFor="username" className="LoginForm-label">
+				<Form.Label htmlFor="username" className="RegisterForm-label">
 					Username:
 				</Form.Label>
 				<Form.Control
 					type="text"
 					name="username"
 					onChange={handleChange}
-					className="LoginForm-input"
-					autoComplete="username"
+					className="RegisterForm-input"
+					autoComplete="new-username"
 				/>
 			</Form.Group>
 
 			<Form.Group>
-				<Form.Label htmlFor="password" className="LoginForm-label">
+				<Form.Label htmlFor="password" className="RegisterForm-label">
 					Password:
 				</Form.Label>
 				<Form.Control
 					name="password"
 					type="password"
 					onChange={handleChange}
-					className="LoginForm-input"
-					autoComplete="current-password"
+					className="RegisterForm-input"
+					autoComplete="new-password"
 				/>
 			</Form.Group>
 
-			<Button className="LoginForm-button" type="submit">
-				Login
+			<Button className="RegisterForm-button" type="submit">
+				Register
 			</Button>
 		</Form>
 	);
 }
 
-export default LoginForm;
+export default RegisterForm;

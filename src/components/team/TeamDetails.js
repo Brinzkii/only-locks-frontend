@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Moment from 'moment';
-import OnlyLocksAPI from '../api/OnlyLocksAPI';
-import PlayerStatsTable from './PlayerSeasonStatsTable';
-import TeamGames from './TeamGames';
+import OnlyLocksAPI from '../../api/OnlyLocksAPI';
+import PlayerStatsTable from '../player/PlayerSeasonStatsTable';
+import TeamGames from '../team/TeamGames';
 import Spinner from 'react-bootstrap/Spinner';
 import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import '../styles/TeamDetails.css';
+import '../../styles/team/TeamDetails.css';
 
 function TeamDetails({ categories }) {
 	const { teamId } = useParams();

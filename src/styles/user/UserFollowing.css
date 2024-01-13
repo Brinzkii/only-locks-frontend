@@ -1,0 +1,12 @@
+.following-list-group {
+    min-width: 400px;
+    max-width: 500px;
+    min-height: 400px;
+    max-height: 400px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.following-header {
+    font-size: 20px;
+}

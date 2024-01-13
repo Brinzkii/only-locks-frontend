@@ -1,0 +1,17 @@
+.player-stats-card-metric-button {
+    margin: 5px 5px 5px 5px;
+}
+
+.player-list-stat-table-container {
+    border: 2px solid var(--bs-border-color-translucent);
+}
+
+.player-stats-card-player-row:hover, td:hover {
+    cursor: pointer;
+    color: #25cff2;
+}
+
+.player-list-cards-col {
+    margin-right: 100px;
+    margin-left: 100px;
+}

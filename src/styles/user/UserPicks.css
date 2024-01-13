@@ -1,0 +1,28 @@
+.pick-list-group {
+    min-width: 400px;
+    max-width: 500px;
+    max-height: 400px;
+    min-height: 400px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.pick-header {
+    font-size: 20px;
+}
+
+.pick-loser {
+    background-color: rgba(255, 0, 0, 0.150);
+}
+
+.pick-bad-value, .pick-loss-text {
+    color: red;
+}
+
+.pick-winner {
+    background-color: rgba(0, 128, 0, 0.150);
+}
+
+.pick-good-value, .pick-win-text {
+    color: green
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import OnlyLocksAPI from '../api/OnlyLocksAPI';
+import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import PlayerInfoCard from './PlayerInfoCard';
 import PlayerSeasonStatsTable from './PlayerSeasonStatsTable';
 import PlayerGameStatsTable from './PlayerGameStatsTable';

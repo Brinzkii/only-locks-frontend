@@ -1,0 +1,30 @@
+.gamecard {
+    width: 600px;
+}
+
+.gamecard-logos-row {
+    width: 110%;
+    padding-right: 0;
+}
+
+.gamecard-logos-container {
+    width: 100%;
+    margin-right: 0;
+}
+
+.gamecard-vs-col {
+    padding-top: 15%;
+}
+
+.gamecard-vs-text {
+    font-weight: bold;
+}
+
+.gamecard-logo {
+    width: 125px;
+    height: 125px;
+}
+
+.gamecard-logo:hover, .card-body {
+    cursor: pointer;
+}

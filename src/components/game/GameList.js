@@ -1,18 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Moment from 'moment';
-import OnlyLocksAPI from '../api/OnlyLocksAPI';
-import GameCard from './GameCard';
-import Container from 'react-bootstrap/Container';
+import OnlyLocksAPI from '../../api/OnlyLocksAPI';
+import GameCard from '../game/GameCard';
+import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
 import uuid from 'react-uuid';
-import '../styles/GameList.css';
+import '../../styles/game/GameList.css';
 
-function GameList({ data, setData }) {
+function GameList({ data, setData, quarters }) {
 	const navigate = useNavigate();
 	const navToGame = (evt) => {
 		console.log('GAME ID:', evt.target);
@@ -24,10 +24,8 @@ function GameList({ data, setData }) {
 	function handlePrevClick() {
 		async function prevDayGames() {
 			setData({ ...data, games: undefined });
-			console.debug('Games', data.games);
 			const currDay = data.date;
 			const prevDay = Moment(currDay).subtract(1, 'days').format('YYYYMMDD');
-			console.log('Prev:', prevDay);
 			let games = await OnlyLocksAPI.gamesByDate(prevDay);
 			setData({ ...data, games, date: prevDay });
 		}
@@ -39,7 +37,6 @@ function GameList({ data, setData }) {
 			console.debug('Games', data.games);
 			const currDay = data.date;
 			const nextDay = Moment(currDay).add(1, 'days').format('YYYYMMDD');
-			console.log('Next:', nextDay);
 			let games = await OnlyLocksAPI.gamesByDate(nextDay);
 			setData({ ...data, games, date: nextDay });
 		}
@@ -53,36 +50,44 @@ function GameList({ data, setData }) {
 		}
 		getGames(Moment(evt.target.value).format('YYYYMMDD'));
 	}
+	console.log('GAMES:', data.games);
 	if (data.games === undefined) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<div className="GameList">
-				<Container>
-					<h2 className="GameList-date-header mt-4">{Moment(data.date).format('LL')}</h2>
-					<Row>
-						<Col></Col>
-						<Col>
-							<Button onClick={handlePrevClick}>Prev</Button>
-						</Col>
-						<Col xs>
-							<Form.Control
-								type="date"
-								value={Moment(data.date).format('YYYY-MM-DD')}
-								onChange={handleDateSelection}
+			<div className="gamelist text-center">
+				<h2 className="gamelist-date-header mt-4">{Moment(data.date).format('LL')}</h2>
+				<Row className="mt-3">
+					<Col></Col>
+					<Col>
+						<Button onClick={handlePrevClick}>Prev</Button>
+					</Col>
+					<Col xs>
+						<Form.Control
+							type="date"
+							value={Moment(data.date).format('YYYY-MM-DD')}
+							onChange={handleDateSelection}
+						/>
+					</Col>
+					<Col>
+						<Button onClick={handleNextClick}>Next</Button>
+					</Col>
+					<Col></Col>
+				</Row>
+
+				<ListGroup className="gamelist-list-group mt-3 mx-auto">
+					{data.games.map((g) => (
+						<ListGroup.Item className="gamelist-list-group-item mx-auto" key={uuid()}>
+							<GameCard
+								game={g}
+								navToGame={navToGame}
+								navToTeam={navToTeam}
+								quarters={quarters}
+								key={uuid()}
 							/>
-						</Col>
-						<Col>
-							<Button onClick={handleNextClick}>Next</Button>
-						</Col>
-						<Col></Col>
-					</Row>
-					<ul className="GameList-list m-0 p-0">
-						{data.games.map((g) => (
-							<GameCard game={g} navToGame={navToGame} navToTeam={navToTeam} key={uuid()} />
-						))}
-					</ul>
-				</Container>
+						</ListGroup.Item>
+					))}
+				</ListGroup>
 			</div>
 		);
 	}

@@ -1,15 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Moment from 'moment';
-import OnlyLocksAPI from '../api/OnlyLocksAPI';
-import PlayerStatsCard from './PlayerStatsCard';
+import OnlyLocksAPI from '../../api/OnlyLocksAPI';
+import PlayerStatsCard from '../player/PlayerStatsCard';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
+import Stack from 'react-bootstrap/Stack';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
-// import '../styles/PlayerList.css';
+import '../../styles/player/PlayerList.css';
 
 function PlayerList({ data, setData }) {
 	// const [datePicker, setDatePicker] = useState(Moment(data.date).format('YYYY-MM-DD'));
@@ -97,10 +97,10 @@ function PlayerList({ data, setData }) {
 		getStats(Moment(evt.target.value).format('YYYYMMDD'));
 	}
 	return (
-		<div className="PlayerList mt-4">
+		<div className="player-list text-center mt-4">
 			<h2>{Moment(data.date).format('LL')}</h2>
-			<Container>
-				<Row>
+			<Stack>
+				<Row className="mt-3">
 					<Col></Col>
 					<Col>
 						<Button onClick={handlePrevClick}>Prev</Button>
@@ -117,14 +117,14 @@ function PlayerList({ data, setData }) {
 					</Col>
 					<Col></Col>
 				</Row>
-			</Container>
+			</Stack>
 			{!data.players ? (
 				<Spinner animation="border" variant="info" />
 			) : (
-				<Container className="PlayerList-cards-container mt-4">
-					<Row>
-						<Col>
-							<div>
+				<Stack direction="vertical" className="player-list-cards-container mt-4">
+					<Row className="player-list-cards-row mx-auto">
+						<Col className="player-list-cards-col">
+							<div className="player-list-stat-table-container">
 								<PlayerStatsCard
 									title="Points"
 									stats={data.players.points}
@@ -133,8 +133,8 @@ function PlayerList({ data, setData }) {
 								/>
 							</div>
 						</Col>
-						<Col>
-							<div>
+						<Col className="player-list-cards-col">
+							<div className="player-list-stat-table-container">
 								<PlayerStatsCard
 									title="3 Pointers"
 									stats={data.players.tpm}
@@ -144,9 +144,9 @@ function PlayerList({ data, setData }) {
 							</div>
 						</Col>
 					</Row>
-					<Row>
-						<Col>
-							<div>
+					<Row className="player-list-cards-row mt-4 mx-auto">
+						<Col className="player-list-cards-col">
+							<div className="player-list-stat-table-container">
 								<PlayerStatsCard
 									title="Assists"
 									stats={data.players.assists}
@@ -155,8 +155,8 @@ function PlayerList({ data, setData }) {
 								/>
 							</div>
 						</Col>
-						<Col>
-							<div>
+						<Col className="player-list-cards-col">
+							<div className="player-list-stat-table-container">
 								<PlayerStatsCard
 									title="Rebounds"
 									stats={data.players.rebounds}
@@ -166,9 +166,9 @@ function PlayerList({ data, setData }) {
 							</div>
 						</Col>
 					</Row>
-					<Row>
-						<Col>
-							<div>
+					<Row className="player-list-cards-row mt-4 mx-auto">
+						<Col className="player-list-cards-col">
+							<div className="player-list-stat-table-container">
 								<PlayerStatsCard
 									title="Blocks"
 									stats={data.players.blocks}
@@ -177,8 +177,8 @@ function PlayerList({ data, setData }) {
 								/>
 							</div>
 						</Col>
-						<Col>
-							<div>
+						<Col className="player-list-cards-col">
+							<div className="player-list-stat-table-container">
 								<PlayerStatsCard
 									title="Steals"
 									stats={data.players.steals}
@@ -188,7 +188,7 @@ function PlayerList({ data, setData }) {
 							</div>
 						</Col>
 					</Row>
-				</Container>
+				</Stack>
 			)}
 		</div>
 	);
