@@ -30,7 +30,6 @@ function Navigation({ logoutUser, teams, players }) {
 			setData({ teams: teams, options: selectOptions });
 		}
 	}, [players, teams]);
-	console.log('TEAMS IN NAV:', data.teams);
 	return (
 		<div className="Navigation">
 			<Navbar className="bg-body-tertiary" sticky="top" expand="lg">

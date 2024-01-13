@@ -160,7 +160,7 @@ function App() {
 					{/* Protected Routes - Must Be Logged In */}
 					<Route element={<PrivateRoutes />}>
 						{/* View User Details */}
-						<Route path="/users/:username" element={<User />} />
+						<Route path="/users/:username" element={<User quarters={quarters} />} />
 
 						{/* View Games By Date */}
 						<Route path="/games" element={<GameList data={data} setData={setData} quarters={quarters} />} />
