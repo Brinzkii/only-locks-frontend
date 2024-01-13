@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const BASE_API_URL = 'http://localhost:3001';
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 class OnlyLocksAPI {
 	// the token for interacting with API will be stored here/
@@ -13,22 +12,6 @@ class OnlyLocksAPI {
 		const url = `${BASE_API_URL}/${endpoint}`;
 		const headers = { authorization: localStorage.token };
 		const params = method === 'get' ? data : {};
-
-		try {
-			return (await axios({ url, method, data, params, headers })).data;
-		} catch (err) {
-			console.error('API Error:', err.response);
-			let message = err.response.data.error.message;
-			throw Array.isArray(message) ? message : [message];
-		}
-	}
-
-	static async adminRequest(endpoint, data = {}, method = 'patch') {
-		console.debug('ADMIN API Call:', endpoint, data, method);
-
-		const url = `${BASE_API_URL}/${endpoint}`;
-		const headers = { authorization: 'SPECIAL UPDATE REQUEST' };
-		const params = data;
 
 		try {
 			return (await axios({ url, method, data, params, headers })).data;
@@ -303,105 +286,86 @@ class OnlyLocksAPI {
 		return res.games;
 	}
 
+	// DEPRECATED SINCE MOVING UPDATES TO BACKEND
+
 	/** Update all team game stats */
 
-	static async updateAllTeamGameStats() {
-		await this.adminRequest(`update/teams/games`, { method: 'all' });
-	}
+	// static async updateAllTeamGameStats() {
+	// 	await this.adminRequest(`update/teams/games`, { method: 'all' });
+	// }
 
-	/** Update team game stats for recent games */
+	// /** Update team game stats for recent games */
 
-	static async updateTeamGameStats() {
-		await this.adminRequest(`update/teams/games`);
-	}
+	// static async updateTeamGameStats() {
+	// 	await this.adminRequest(`update/teams/games`);
+	// }
 
-	/** Update all team season stats */
+	// /** Update all team season stats */
 
-	static async updateTeamStats() {
-		let res = await this.adminRequest(`update/teams/season`);
-		return res.updateTeamStats;
-	}
+	// static async updateTeamStats() {
+	// 	let res = await this.adminRequest(`update/teams/season`);
+	// 	return res.updateTeamStats;
+	// }
 
-	/** Update all player season stats */
+	// /** Update all player season stats */
 
-	static async updatePlayerSeasonStats() {
-		let res = await this.adminRequest(`update/players/season`);
-		return res.updatePlayerSeasonStats;
-	}
+	// static async updatePlayerSeasonStats() {
+	// 	let res = await this.adminRequest(`update/players/season`);
+	// 	return res.updatePlayerSeasonStats;
+	// }
 
-	/** Update all player game stats by gameId */
+	// /** Update all player game stats by gameId */
 
-	static async updatePlayerGameStats(gameId) {
-		let res = await this.adminRequest(`update/players/game/${gameId}`);
-		return res.updatePlayerGameStats;
-	}
+	// static async updatePlayerGameStats(gameId) {
+	// 	let res = await this.adminRequest(`update/players/game/${gameId}`);
+	// 	return res.updatePlayerGameStats;
+	// }
 
-	/** Update all player game stats */
+	// /** Update all player game stats */
 
-	static async updateAllPlayerGameStats() {
-		let res = await this.adminRequest(`update/players/games`, { method: 'all' });
-		return res.updatePlayerGameStats;
-	}
+	// static async updateAllPlayerGameStats() {
+	// 	let res = await this.adminRequest(`update/players/games`, { method: 'all' });
+	// 	return res.updatePlayerGameStats;
+	// }
 
-	/** Update recent player game stats */
+	// /** Update recent player game stats */
 
-	static async updateRecentPlayerGameStats() {
-		let res = await this.adminRequest(`update/players/games`);
-		return res.updatePlayerGameStats;
-	}
+	// static async updateRecentPlayerGameStats() {
+	// 	let res = await this.adminRequest(`update/players/games`);
+	// 	return res.updatePlayerGameStats;
+	// }
 
-	/** Update all games in database */
+	// /** Update all games in database */
 
-	static async updateAllGames() {
-		let res = await this.adminRequest(`update/games/all`);
-		return res.updateAllGames;
-	}
+	// static async updateAllGames() {
+	// 	let res = await this.adminRequest(`update/games/all`);
+	// 	return res.updateAllGames;
+	// }
 
-	/** Update recent games (yesterday and today) */
+	// /** Update recent games (yesterday and today) */
 
-	static async updateRecentGames() {
-		let res = await this.adminRequest(`update/games/recent`);
-		return res.updateRecentGames;
-	}
+	// static async updateRecentGames() {
+	// 	let res = await this.adminRequest(`update/games/recent`);
+	// 	return res.updateRecentGames;
+	// }
 
-	/** Update player picks (all open picks will be checked if the game is
-	 *  finished)
-	 */
+	// /** Update player picks (all open picks will be checked if the game is
+	//  *  finished)
+	//  */
 
-	static async updatePlayerPicks() {
-		let res = await this.adminRequest(`update/picks/players`);
-		return res.updatePlayerPicks;
-	}
+	// static async updatePlayerPicks() {
+	// 	let res = await this.adminRequest(`update/picks/players`);
+	// 	return res.updatePlayerPicks;
+	// }
 
-	/** Update team picks (all open picks will be checked if the game is
-	 *  finished)
-	 */
+	// /** Update team picks (all open picks will be checked if the game is
+	//  *  finished)
+	//  */
 
-	static async updateTeamPicks() {
-		let res = await this.adminRequest(`update/picks/teams`);
-		return res.updateTeamPicks;
-	}
-
-	/** Regular update method (intended to be run every 15min once games start) - updates games, team game stats and player game stats */
-
-	static async regularUpdate() {
-		await this.updateRecentGames();
-		await delay(15000);
-		await this.updateTeamGameStats();
-		await delay(15000);
-		await this.updateRecentPlayerGameStats();
-		await delay(15000);
-		await this.updateRecentGames();
-	}
-
-	/** Daily update method (intended to run early in the morning to update team and player season stats) */
-
-	static async dailyUpdate() {
-		await this.updateTeamStats();
-		await this.updatePlayerSeasonStats();
-		await this.updatePlayerPicks();
-		await this.updateTeamPicks();
-	}
+	// static async updateTeamPicks() {
+	// 	let res = await this.adminRequest(`update/picks/teams`);
+	// 	return res.updateTeamPicks;
+	// }
 }
 
 export default OnlyLocksAPI;

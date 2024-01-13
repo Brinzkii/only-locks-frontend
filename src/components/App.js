@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import Moment from 'moment';
-import schedule from 'node-schedule';
 import Navigation from './Navigation';
 import Home from './Home';
 import User from './User';
@@ -124,29 +123,6 @@ function App() {
 			}
 		}
 		checkForUser();
-
-		// Schedule updates to run
-
-		// Game details (score, clock, quarter), player game stats and team stats will update every 15 minutes starting at 7pm each day and ending at 2 am
-		const regularUpdateJob = schedule.scheduleJob('0,15,30,45 0-1,19-23 * * *', async function (fireTime) {
-			try {
-				console.log('REGULAR UPDATES RAN AT:', fireTime);
-				await OnlyLocksAPI.regularUpdate();
-				notifySuccess('Stats have been updated!');
-			} catch (err) {
-				notifyError(err);
-			}
-		});
-
-		// Team season stats and player season stats will update once a day at 2 am
-		const dailyUpdateJob = schedule.scheduleJob('0 2 * * *', async function (fireTime) {
-			try {
-				console.log('DAILY UPDATES RAN AT:', fireTime);
-				await OnlyLocksAPI.dailyUpdate();
-			} catch (err) {
-				notifyError(err);
-			}
-		});
 	}, []);
 
 	return (

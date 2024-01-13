@@ -5,7 +5,7 @@ import TeamStatsTable from './TeamStatsTable';
 import Spinner from 'react-bootstrap/Spinner';
 
 function TeamStats() {
-	const [stats, setStats] = useState(undefined);
+	const [data, setData] = useState({ stats: undefined, activeSort: 'wins' });
 	const categories = {
 		gp: 'GP',
 		wins: "W's",
@@ -36,7 +36,7 @@ function TeamStats() {
 	};
 	const handleCategoryClick = (evt) => {
 		async function sortTeams(stat) {
-			setStats(undefined);
+			setData({ stats: undefined, activeSort: stat });
 			const conversions = {
 				totalReb: 'total_reb',
 				offReb: 'off_reb',
@@ -44,29 +44,29 @@ function TeamStats() {
 				plusMinus: 'plus_minus',
 				gp: 'games',
 			};
-			stat = conversions[stat] || stat;
-			console.log('STAT:', stat);
-			const stats = await OnlyLocksAPI.sortTeamStats({ stat });
+			const cleanStat = conversions[stat] || stat;
+			const stats = await OnlyLocksAPI.sortTeamStats({ cleanStat });
 
-			setStats(stats);
+			setData({ activeSort: stat, stats });
 		}
 		sortTeams(evt.target.id);
 	};
 	useEffect(() => {
 		async function getStats() {
 			let stats = await OnlyLocksAPI.sortTeamStats({ stat: 'wins' });
-			setStats(stats);
+			setData({ activeSort: 'wins', stats });
 		}
 		getStats();
 	}, []);
 	return (
 		<div className="TeamStats">
 			<h4>Team Season Stats</h4>
-			{!stats ? (
+			{!data.stats ? (
 				<Spinner animation="border" variant="info" />
 			) : (
 				<TeamStatsTable
-					stats={stats}
+					stats={data.stats}
+					activeSort={data.activeSort}
 					categories={categories}
 					navToTeam={navToTeam}
 					handleCategoryClick={handleCategoryClick}

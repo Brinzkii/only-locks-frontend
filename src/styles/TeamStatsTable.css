@@ -1,3 +1,7 @@
 .TeamStatsTable-logo {
     width: 35px;
 }
+
+#TeamStatsTable-sorted-col {
+    background: aquamarine
+}

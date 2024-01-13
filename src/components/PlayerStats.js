@@ -5,24 +5,24 @@ import PlayerSeasonStatsTable from './PlayerSeasonStatsTable';
 import Spinner from 'react-bootstrap/Spinner';
 
 function PlayerStats({ categories }) {
-	const [stats, setStats] = useState(undefined);
+	const [data, setData] = useState({ stats: undefined, activeSort: 'minutes' });
 	const navigate = useNavigate();
 	const navToPlayer = (evt) => {
 		navigate(`/players/${evt.target.id}`);
 	};
 	const handleCategoryClick = (evt) => {
 		async function sortPlayers(stat) {
-			setStats(undefined);
+			setData({ activeSort: stat, stats: undefined });
 			const conversions = {
 				totalReb: 'total_reb',
 				offReb: 'off_reb',
 				defReb: 'def_reb',
 				plusMinus: 'plus_minus',
 			};
-			stat = conversions[stat] || stat;
-			const stats = await OnlyLocksAPI.sortPlayerStats({ stat });
+			const cleanStat = conversions[stat] || stat;
+			const stats = await OnlyLocksAPI.sortPlayerStats({ cleanStat });
 
-			setStats(stats);
+			setData({ activeSort: stat, stats });
 		}
 		sortPlayers(evt.target.id);
 	};
@@ -30,18 +30,19 @@ function PlayerStats({ categories }) {
 		async function getStats() {
 			let stats = await OnlyLocksAPI.sortPlayerStats({ stat: 'minutes' });
 			console.log('STATS RES:', stats);
-			setStats(stats);
+			setData({ activeSort: 'minutes', stats });
 		}
 		getStats();
 	}, []);
 	return (
 		<div className="PlayerStats mt-4">
 			<h4>Player Season Stats</h4>
-			{!stats ? (
+			{!data.stats ? (
 				<Spinner animation="border" variant="info" />
 			) : (
 				<PlayerSeasonStatsTable
-					stats={stats}
+					stats={data.stats}
+					activeSort={data.activeSort}
 					categories={categories}
 					navToPlayer={navToPlayer}
 					handleCategoryClick={handleCategoryClick}
