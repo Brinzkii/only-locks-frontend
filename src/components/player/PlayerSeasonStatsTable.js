@@ -29,13 +29,31 @@ function PlayerSeasonStatsTable({
 			<thead>
 				<tr key={uuid()}>
 					<th>
-						<Button id="per36" className="TeamDetails-stat-sort-button" onClick={handleMetricClick}>
+						<Button
+							id="per36"
+							variant="outline-primary"
+							className="TeamDetails-stat-sort-button"
+							onClick={handleMetricClick}
+							active={metric === 'per36'}
+						>
 							per36
 						</Button>
-						<Button id="perGame" className="TeamDetails-stat-sort-button" onClick={handleMetricClick}>
+						<Button
+							id="perGame"
+							variant="outline-primary"
+							className="TeamDetails-stat-sort-button"
+							onClick={handleMetricClick}
+							active={metric === 'perGame'}
+						>
 							perGame
 						</Button>
-						<Button id="totals" className="TeamDetails-stat-sort-button" onClick={handleMetricClick}>
+						<Button
+							id="totals"
+							variant="outline-primary"
+							className="TeamDetails-stat-sort-button"
+							onClick={handleMetricClick}
+							active={metric === 'totals'}
+						>
 							Total
 						</Button>
 					</th>

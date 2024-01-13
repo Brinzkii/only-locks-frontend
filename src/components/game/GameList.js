@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
+import { CaretLeftFill, CaretRightFill } from 'react-bootstrap-icons';
 import uuid from 'react-uuid';
 import '../../styles/game/GameList.css';
 
@@ -60,7 +61,9 @@ function GameList({ data, setData, quarters }) {
 				<Row className="mt-3">
 					<Col></Col>
 					<Col>
-						<Button onClick={handlePrevClick}>Prev</Button>
+						<Button onClick={handlePrevClick}>
+							<CaretLeftFill></CaretLeftFill>
+						</Button>
 					</Col>
 					<Col xs>
 						<Form.Control
@@ -70,7 +73,9 @@ function GameList({ data, setData, quarters }) {
 						/>
 					</Col>
 					<Col>
-						<Button onClick={handleNextClick}>Next</Button>
+						<Button onClick={handleNextClick}>
+							<CaretRightFill></CaretRightFill>
+						</Button>
 					</Col>
 					<Col></Col>
 				</Row>

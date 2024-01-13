@@ -1,7 +1,11 @@
-.TeamStatsTable-logo {
+.team-stats-table-logo {
     width: 35px;
 }
 
-#TeamStatsTable-sorted-col {
+.team-stats-table-category-header:hover { 
+    cursor: pointer;
+}
+
+#team-stats-table-sorted-col {
     background: aquamarine
 }
