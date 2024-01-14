@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import TeamComparisonTable from '../team/TeamComparisonTable';
+import GamePicks from './GamePicks';
 import TeamH2HTable from '../team/TeamH2HTable';
 import TeamTopPerformersTable from '../team/TeamTopPerformersTable';
 import PlayerGameStatsTable from '../player/PlayerGameStatsTable';
@@ -19,6 +20,7 @@ function GameDetails({ quarters }) {
 		gameTopPlayers: { home: undefined, away: undefined },
 		seasonTopPlayers: { home: undefined, away: undefined },
 		h2h: { totals: undefined, games: undefined, gameStats: undefined },
+		picks: [],
 	};
 	const categories = {
 		points: 'Points',
@@ -82,6 +84,7 @@ function GameDetails({ quarters }) {
 			const homeSeasonPerformers = await OnlyLocksAPI.seasonTopPerformers(game.homeId);
 			const awaySeasonPerformers = await OnlyLocksAPI.seasonTopPerformers(game.awayId);
 			const h2h = await OnlyLocksAPI.h2h(game.homeId, game.awayId);
+			const picks = await OnlyLocksAPI.gamePicks(game.id);
 			setData({
 				game,
 				gameStats: {
@@ -102,6 +105,7 @@ function GameDetails({ quarters }) {
 				},
 				h2h,
 				playerGameStats,
+				picks,
 			});
 			console.log({
 				game,
@@ -122,6 +126,8 @@ function GameDetails({ quarters }) {
 					away: awaySeasonPerformers,
 				},
 				h2h,
+				playerGameStats,
+				picks,
 			});
 		}
 		getData(gameId);
@@ -176,6 +182,11 @@ function GameDetails({ quarters }) {
 							navToTeam={navToTeam}
 						/>
 					)}
+				</div>
+
+				{/* All picks placed for current game */}
+				<div className="game-details-picks">
+					<GamePicks picks={data.picks} />
 				</div>
 
 				{/* Head to Head comparison for team if they've played this season */}

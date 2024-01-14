@@ -1,9 +1,10 @@
 import React from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
+import Stack from 'react-bootstrap/Stack';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
-import { HourglassSplit, Trophy, XCircle } from 'react-bootstrap-icons';
+import { Trophy, XCircle } from 'react-bootstrap-icons';
 import Moment from 'moment';
 import uuid from 'react-uuid';
 import '../../styles/user/UserPicks.css';
@@ -34,7 +35,7 @@ function UserTeamPicks({ picks, navToTeam, navToGame, quarters }) {
 										{p.selected} TO WIN -{' '}
 										{p.isLeading ? (
 											<Badge pill bg="success">
-												<strong>{p.difference}</strong>
+												<strong>+{p.difference}</strong>
 											</Badge>
 										) : (
 											<Badge pill bg="danger">
@@ -46,9 +47,8 @@ function UserTeamPicks({ picks, navToTeam, navToGame, quarters }) {
 										<h6 id={p.gameId}>
 											{p.clock} - {quarters[p.quarter]}
 										</h6>
-										<h6 id={p.gameId}>{p.game}</h6>
 
-										<h6 id={p.gameId}>{p.score}</h6>
+										<h6 id={p.gameId}>{p.displayScore}</h6>
 									</>
 								</ListGroup.Item>
 							) : p.status === 'finished' ? (
@@ -63,7 +63,10 @@ function UserTeamPicks({ picks, navToTeam, navToGame, quarters }) {
 								>
 									{p.result === true ? (
 										<h4 className="pick-win-text text-center mx-auto" id={p.gameId}>
-											<Trophy className="mx-auto"></Trophy> <small>+{p.pointValue || 0}pts</small>
+											<Stack>
+												<Trophy className="mx-auto"></Trophy>{' '}
+												<small>+{p.pointValue || 0}pts</small>
+											</Stack>
 										</h4>
 									) : (
 										<h4 className="pick-loss-text text-center" id={p.gameId}>
@@ -72,11 +75,10 @@ function UserTeamPicks({ picks, navToTeam, navToGame, quarters }) {
 									)}
 									<h6 id={p.gameId}>{p.selected} TO WIN</h6>
 									<>
-										<h6 id={p.gameId}>{p.game}</h6>
-										<h6>{p.score}</h6>
+										<h6>{p.displayScore}</h6>
 										<h6 id={p.gameId}>
 											<small>
-												{p.location} - ({Moment(p.date).format('M-DD-YY')})
+												{p.location} - ({Moment(p.date).format('M/DD/YY')})
 											</small>
 										</h6>
 									</>

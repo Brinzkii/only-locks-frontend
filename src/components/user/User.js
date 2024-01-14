@@ -9,6 +9,18 @@ import Spinner from 'react-bootstrap/Spinner';
 import Stack from 'react-bootstrap/Stack';
 
 function User({ quarters }) {
+	const ranks = {
+		500: 'Rookie',
+		1000: 'Novice',
+		2500: 'Amateur',
+		5000: 'Semi-Pro',
+		10000: 'Pro',
+		25000: 'Expert',
+		50000: 'Master',
+		100000: 'Champion',
+		250000: 'Legend',
+		500000: 'Hall of Famer',
+	};
 	const [user, setUser] = useState(undefined);
 	let { username } = useParams();
 	const navigate = useNavigate();
@@ -35,10 +47,14 @@ function User({ quarters }) {
 	} else {
 		return (
 			<div className="UserDetails mt-4 text-center">
-				<h2 className="UserDetails-username">{user.username}</h2>
-				<small className="UserDetails-record">
-					({user.wins || 0} - {user.losses || 0})
-				</small>
+				<h2 className="UserDetails-username">
+					{user.username}{' '}
+					<small className="UserDetails-record">
+						({user.wins || 0} - {user.losses || 0})
+					</small>
+				</h2>
+				<h6>Rank: {ranks[Object.keys(ranks).find((k, idx) => Number(k) > user.points)]}</h6>
+
 				<Stack direction="horizontal" className="mt-4">
 					<div className="UserDetails-playerpicks-container mx-auto">
 						<UserPlayerPicks

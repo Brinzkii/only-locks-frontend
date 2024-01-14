@@ -1,6 +1,7 @@
 import React from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
+import Stack from 'react-bootstrap/Stack';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
 import { Trophy, XCircle } from 'react-bootstrap-icons';
@@ -55,8 +56,6 @@ function UserPlayerPicks({ picks, quarters, navToPlayer, navToGame }) {
 										<h6 id={p.gameId}>
 											{p.clock} - {quarters[p.quarter]}
 										</h6>
-										<h6 id={p.gameId}>{p.game}</h6>
-
 										<h6 id={p.gameId}>{p.score}</h6>
 									</>
 								</ListGroup.Item>
@@ -72,7 +71,10 @@ function UserPlayerPicks({ picks, quarters, navToPlayer, navToGame }) {
 								>
 									{p.result === true ? (
 										<h4 className="pick-win-text text-center" id={p.gameId}>
-											<Trophy className="pick-win-trophy mx-auto"></Trophy>+{p.pointValue}position
+											<Stack>
+												<Trophy className="pick-win-trophy mx-auto"></Trophy>
+												<small>+{p.pointValue}pts</small>
+											</Stack>
 										</h4>
 									) : (
 										<h4 className="pick-loss-text text-center" id={p.gameId}>
@@ -99,13 +101,12 @@ function UserPlayerPicks({ picks, quarters, navToPlayer, navToGame }) {
 										</Badge>
 									</h6>
 									<>
+										<h6 id={p.gameId}>{p.score}</h6>
 										<h6 id={p.gameId}>
 											<small>
-												{p.location} - ({Moment(p.date).format('M-DD-YY')})
+												{p.location} - ({Moment(p.date).format('M/DD/YY')})
 											</small>
 										</h6>
-										<h6 id={p.gameId}>{p.game}</h6>
-										<h6>{p.score}</h6>
 									</>
 								</ListGroup.Item>
 							) : (

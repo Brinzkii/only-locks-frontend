@@ -286,6 +286,13 @@ class OnlyLocksAPI {
 		return res.games;
 	}
 
+	/** Get all picks placed for a particular game */
+
+	static async gamePicks(gameId) {
+		let res = await this.request(`games/${gameId}/picks`);
+		return res.picks;
+	}
+
 	// DEPRECATED SINCE MOVING UPDATES TO BACKEND
 
 	/** Update all team game stats */
