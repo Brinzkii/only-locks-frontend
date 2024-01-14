@@ -35,7 +35,9 @@ function UserPlayerPicks({ picks, quarters, navToPlayer, navToGame }) {
 										<Badge
 											pill
 											bg={
-												p.overUnder === 'OVER' && p.value >= p[p.stat]
+												!p[p.stat]
+													? 'secondary'
+													: p.overUnder === 'OVER' && p.value >= p[p.stat]
 													? 'danger'
 													: p.overUnder === 'OVER' && p.value < p[p.stat]
 													? 'success'
@@ -70,8 +72,7 @@ function UserPlayerPicks({ picks, quarters, navToPlayer, navToGame }) {
 								>
 									{p.result === true ? (
 										<h4 className="pick-win-text text-center" id={p.gameId}>
-											<Trophy className="pick-win-trophy mx-auto"></Trophy>
-											+${p.pointValue}
+											<Trophy className="pick-win-trophy mx-auto"></Trophy>+{p.pointValue}position
 										</h4>
 									) : (
 										<h4 className="pick-loss-text text-center" id={p.gameId}>

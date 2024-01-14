@@ -34,11 +34,11 @@ function UserTeamPicks({ picks, navToTeam, navToGame, quarters }) {
 										{p.selected} TO WIN -{' '}
 										{p.isLeading ? (
 											<Badge pill bg="success">
-												<HourglassSplit className="pick-good-value"></HourglassSplit>
+												<strong>{p.difference}</strong>
 											</Badge>
 										) : (
 											<Badge pill bg="danger">
-												<HourglassSplit className="pick-bad-value"></HourglassSplit>
+												<strong>{p.difference}</strong>
 											</Badge>
 										)}
 									</h6>
