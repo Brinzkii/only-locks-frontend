@@ -46,18 +46,21 @@ function GameCard({ game, navToGame, navToTeam, quarters }) {
 					{game.status === 'scheduled' ? (
 						Moment(game.date).format('LT')
 					) : game.status === 'in play' ? (
-						<>
-							<>
-								{game.clock} - {quarters[game.quarter]}
-							</>
-							<>
+						<Stack gap={1}>
+							<div>
+								{game.clock} - {quarters[game.quarter]} Qtr
+							</div>
+							<div>
 								<small>{game.homeCode}</small> {game.score} <small>{game.awayCode}</small>
-							</>
-						</>
+							</div>
+						</Stack>
 					) : (
-						<>
-							<small>{game.homeCode}</small> {game.score} <small>{game.awayCode}</small>
-						</>
+						<Stack gap={1}>
+							<div>Final</div>
+							<div>
+								<small>{game.homeCode}</small> {game.score} <small>{game.awayCode}</small>
+							</div>
+						</Stack>
 					)}
 				</Card.Title>
 				<Card.Text id={game.id}>

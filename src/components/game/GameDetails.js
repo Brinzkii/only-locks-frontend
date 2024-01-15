@@ -7,6 +7,8 @@ import GamePicks from './GamePicks';
 import TeamH2HTable from '../team/TeamH2HTable';
 import TeamTopPerformersTable from '../team/TeamTopPerformersTable';
 import PlayerGameStatsTable from '../player/PlayerGameStatsTable';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import Stack from 'react-bootstrap/Stack';
 import Spinner from 'react-bootstrap/Spinner';
 import '../../styles/game/GameDetails.css';
@@ -22,6 +24,7 @@ function GameDetails({ quarters }) {
 		h2h: { totals: undefined, games: undefined, gameStats: undefined },
 		picks: [],
 	};
+	const [key, setKey] = useState('matchup');
 	const categories = {
 		points: 'Points',
 		fgm: 'Field Goals Made',
@@ -145,14 +148,14 @@ function GameDetails({ quarters }) {
 					<h4>{Moment(data.game.date).format('LLL')}</h4>
 				) : (
 					<>
-						<h4>{Moment(data.game.date).format('LLL')}</h4>
+						<h4>{data.game.status === 'scheduled' ? Moment(data.game.date).format('LLL') : null}</h4>
 						<h4 className="GameDetails-clock mb-0">
 							<Stack direction="vertical">
 								{data.game.clock ? (
-									<>
-										<small>{quarters[data.game.quarter]}</small>
+									<Stack className="mx-auto" gap={2} direction="horizontal">
 										<div>{data.game.clock}</div>
-									</>
+										<small>{quarters[data.game.quarter]} Qtr</small>
+									</Stack>
 								) : (
 									<div>Final</div>
 								)}
@@ -163,72 +166,84 @@ function GameDetails({ quarters }) {
 						</h4>
 					</>
 				)}
-				<div className="GameDetails-matchup">
-					{!data.gameStats.home && !data.gameStats.away ? (
-						<TeamComparisonTable
-							title="stat (per game)"
-							game={data.game}
-							teamStats={data.teamStats}
-							categories={categories}
-							navToTeam={navToTeam}
-						/>
-					) : (
-						<TeamComparisonTable
-							title="stat"
-							game={data.game}
-							gameStats={data.gameStats}
-							teamStats={data.teamStats}
-							categories={categories}
-							navToTeam={navToTeam}
-						/>
-					)}
-				</div>
+
+				<Tabs id="game-details-tabs" activeKey={key} onSelect={(k) => setKey(k)} className="mx-auto">
+					<Tab eventKey="matchup" title="Matchup">
+						<div className="GameDetails-matchup">
+							{!data.gameStats.home && !data.gameStats.away ? (
+								<TeamComparisonTable
+									title="stat (per game)"
+									game={data.game}
+									teamStats={data.teamStats}
+									categories={categories}
+									navToTeam={navToTeam}
+								/>
+							) : (
+								<TeamComparisonTable
+									title="stat"
+									game={data.game}
+									gameStats={data.gameStats}
+									teamStats={data.teamStats}
+									categories={categories}
+									navToTeam={navToTeam}
+								/>
+							)}
+						</div>
+					</Tab>
+					{data.h2h.gameStats.length && !data.gameStats.home && !data.gameStats.away ? (
+						<Tab eventKey="h2h" title="Head 2 Head">
+							<div className="GameDetails-h2h mt-5">
+								<TeamH2HTable
+									game={data.game}
+									h2h={data.h2h}
+									categories={categories}
+									navToTeam={navToTeam}
+								/>
+							</div>
+						</Tab>
+					) : null}
+					<Tab eventKey="Top Performers" title="Top Performers">
+						{Object.keys(data.gameTopPlayers.home).length === 0 ? (
+							<div className="GameDetails-top-performers mt-5">
+								<h5 className="GameDetails-top-performers-header">
+									Top Performers (23-24 Season Averages)
+								</h5>
+								<TeamTopPerformersTable
+									seasonTopPlayers={data.seasonTopPlayers}
+									navToPlayer={navToPlayer}
+									categories={categories}
+								/>
+							</div>
+						) : (
+							<div className="GameDetails-top-performers mt-5">
+								<h5 className="GameDetails-top-performers-header">Top Performers</h5>
+								<TeamTopPerformersTable
+									seasonTopPlayers={data.seasonTopPlayers}
+									gameTopPlayers={data.gameTopPlayers}
+									navToPlayer={navToPlayer}
+									categories={categories}
+								/>
+							</div>
+						)}
+					</Tab>
+					{data.playerGameStats.length ? (
+						<Tab eventKey="boxscore" title="Box Score">
+							<div className="GameDetails-player-game-stats-table mt-4">
+								<h4>Box Score</h4>
+								<PlayerGameStatsTable
+									gameStats={data.playerGameStats}
+									navToPlayer={navToPlayer}
+									handleCategoryClick={handleCategoryClick}
+								/>
+							</div>
+						</Tab>
+					) : null}
+				</Tabs>
 
 				{/* All picks placed for current game */}
 				<div className="game-details-picks">
 					<GamePicks picks={data.picks} />
 				</div>
-
-				{/* Head to Head comparison for team if they've played this season */}
-				{data.h2h.gameStats.length && !data.gameStats.home && !data.gameStats.away ? (
-					<div className="GameDetails-h2h mt-5">
-						<TeamH2HTable game={data.game} h2h={data.h2h} categories={categories} navToTeam={navToTeam} />
-					</div>
-				) : (
-					<></>
-				)}
-
-				{/* Show game top performers if game has taken place, otherwise show season top performers */}
-				{Object.keys(data.gameTopPlayers.home).length === 0 ? (
-					<div className="GameDetails-top-performers mt-5">
-						<h5 className="GameDetails-top-performers-header">Top Performers (23-24 Season Averages)</h5>
-						<TeamTopPerformersTable
-							seasonTopPlayers={data.seasonTopPlayers}
-							navToPlayer={navToPlayer}
-							categories={categories}
-						/>
-					</div>
-				) : (
-					<>
-						<div className="GameDetails-top-performers mt-5">
-							<h5 className="GameDetails-top-performers-header">Top Performers</h5>
-							<TeamTopPerformersTable
-								seasonTopPlayers={data.seasonTopPlayers}
-								gameTopPlayers={data.gameTopPlayers}
-								navToPlayer={navToPlayer}
-								categories={categories}
-							/>
-						</div>
-						<div className="GameDetails-player-game-stats-table mt-4">
-							<h4>Box Score</h4>
-							<PlayerGameStatsTable
-								gameStats={data.playerGameStats}
-								navToPlayer={navToPlayer}
-								handleCategoryClick={handleCategoryClick}
-							/>
-						</div>
-					</>
-				)}
 			</div>
 		);
 	}

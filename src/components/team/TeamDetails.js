@@ -4,7 +4,10 @@ import Moment from 'moment';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import PlayerStatsTable from '../player/PlayerSeasonStatsTable';
 import TeamGames from '../team/TeamGames';
+import GamesCalendar from '../GamesCalendar';
 import Spinner from 'react-bootstrap/Spinner';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -15,12 +18,14 @@ function TeamDetails({ categories }) {
 	const { teamId } = useParams();
 	const INITIAL_STATE = {
 		team: undefined,
+		games: undefined,
 		recentGames: undefined,
 		nextGames: undefined,
 		players: undefined,
 		teamStats: undefined,
 		playerStats: undefined,
 	};
+	const [key, setKey] = useState('roster');
 	const [data, setData] = useState(INITIAL_STATE);
 	const navigate = useNavigate();
 	const navToGame = (evt) => {
@@ -77,14 +82,20 @@ function TeamDetails({ categories }) {
 
 			const { recentGames, nextGames } = findCloseGames();
 
-			// function findCloseGames(games, date=Moment().format('l')) {
+			function createEvents(games) {
+				return games.map((g) => ({
+					title: g.home.id === team.id ? `VS ${g.away.code}` : `@ ${g.home.code}`,
+					start: Moment(g.date),
+					end: Moment(g.date),
+					allDay: false,
+					resource: g,
+				}));
+			}
 
-			// }
-			console.log({ team, teamStats, players, playerStats, recentGames, nextGames });
-			console.log({ team, teamStats, players, playerStats, recentGames, nextGames });
+			const events = createEvents(games);
 
-			setData({ team, teamStats, players, playerStats, recentGames, nextGames });
-			console.log({ team, teamStats, players, playerStats, recentGames, nextGames });
+			setData({ team, teamStats, players, playerStats, games, recentGames, nextGames, events });
+			console.log({ team, teamStats, players, playerStats, games, recentGames, nextGames, events });
 		}
 		getData(teamId);
 	}, [teamId]);
@@ -93,7 +104,7 @@ function TeamDetails({ categories }) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<div className="TeamDetails mt-4">
+			<div className="TeamDetails mt-4 text-center">
 				<div className="TeamDetails-header">
 					<Image className="TeamDetails-logo" src={data.team.logo} />
 					<h2 className="TeamDetails-name">
@@ -104,41 +115,52 @@ function TeamDetails({ categories }) {
 					</h5>
 				</div>
 
-				<div className="TeamDetails-player-stats mt-4">
-					<h5>Roster</h5>
-					<PlayerStatsTable
-						stats={data.playerStats}
-						categories={categories}
-						navToPlayer={navToPlayer}
-						handleCategoryClick={handleCategoryClick}
-					/>
-				</div>
-				<Container fluid="lg">
-					<Row>
-						<Col>
-							<div className="TeamDetails-recent-games">
-								<h5>Last 5</h5>
-								<TeamGames
-									team={data.team}
-									games={data.recentGames}
-									navToGame={navToGame}
-									navToTeam={navToTeam}
-								/>
-							</div>
-						</Col>
-						<Col>
-							<div className="TeamDetails-next-games">
-								<h5>Next 5</h5>
-								<TeamGames
-									team={data.team}
-									games={data.nextGames}
-									navToGame={navToGame}
-									navToTeam={navToTeam}
-								/>
-							</div>
-						</Col>
-					</Row>
-				</Container>
+				<Tabs activeKey={key} onSelect={(k) => setKey(k)}>
+					<Tab eventKey="roster" title="Roster">
+						<div className="TeamDetails-player-stats mt-4">
+							<h5>Roster</h5>
+							<PlayerStatsTable
+								stats={data.playerStats}
+								categories={categories}
+								navToPlayer={navToPlayer}
+								handleCategoryClick={handleCategoryClick}
+							/>
+						</div>
+					</Tab>
+					<Tab eventKey="recentGames" title="Recent Games">
+						<Container fluid="lg">
+							<Row>
+								<Col>
+									<div className="TeamDetails-recent-games">
+										<h5>Last 5</h5>
+										<TeamGames
+											team={data.team}
+											games={data.recentGames}
+											navToGame={navToGame}
+											navToTeam={navToTeam}
+										/>
+									</div>
+								</Col>
+								<Col>
+									<div className="TeamDetails-next-games">
+										<h5>Next 5</h5>
+										<TeamGames
+											team={data.team}
+											games={data.nextGames}
+											navToGame={navToGame}
+											navToTeam={navToTeam}
+										/>
+									</div>
+								</Col>
+							</Row>
+						</Container>
+					</Tab>
+					<Tab eventKey="allGames" title="All Games">
+						<div className="team-details-calendar-container">
+							<GamesCalendar games={data.events} />
+						</div>
+					</Tab>
+				</Tabs>
 			</div>
 		);
 	}

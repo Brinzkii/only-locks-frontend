@@ -77,7 +77,7 @@ function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefine
 					<tbody>
 						{!gameStats
 							? Object.keys(teamStats.home).map((key, idx) => {
-									if (idx > 8) {
+									if (idx > 9) {
 										return (
 											<tr key={uuid()}>
 												<td>

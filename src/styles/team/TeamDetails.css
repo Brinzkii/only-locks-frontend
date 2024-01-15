@@ -12,3 +12,7 @@
 a {
     text-decoration: none;
 }
+
+.team-details-calendar-container {
+    height: 400px;
+}
