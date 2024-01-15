@@ -69,10 +69,11 @@ function TeamPickForm({ notifySuccess, notifyError }) {
 		getData();
 	}, []);
 	return (
-		<Form className="TeamPickForm text-center" onSubmit={handleSubmit}>
+		<Form className="pick-form text-center" onSubmit={handleSubmit}>
 			{data.selectedTeam ? (
-				<Form.Text className="PlayerPickForm-game-details mb-4">
-					<Stack>
+				<Form.Text className="pick-form-pick-details mb-4">
+					<Stack className="pick-form-pick-details-stack mx-auto">
+						<div className="pick-form-pick-details-header">Pick Details</div>
 						<div>
 							{data.games[data.gameId].homeCode} vs. {data.games[data.gameId].awayCode}
 						</div>

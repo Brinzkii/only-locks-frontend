@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import Utils from '../../utils/utils';
+import '../../styles/picks/PickForm.css';
 
 function PlayerPickForm({ notifySuccess, notifyError }) {
 	const INITIAL_STATE = {
@@ -119,17 +120,18 @@ function PlayerPickForm({ notifySuccess, notifyError }) {
 	}, []);
 
 	return (
-		<Form className="PlayerPickForm text-center" onSubmit={handleSubmit}>
+		<Form className="pick-form text-center" onSubmit={handleSubmit}>
 			{data.selectedPlayer ? (
-				<Form.Text className="PlayerPickForm-game-details mb-4">
-					<Stack>
-						<div>
-							{data.games[data.gameId].homeCode} vs. {data.games[data.gameId].awayCode}
-						</div>
+				<Form.Text className="pick-form-pick-details mb-4">
+					<Stack className="pick-form-pick-details-stack mx-auto">
+						<div className="pick-form-pick-details-header">Pick Details</div>
 						<div>
 							{data.players[data.selectedPlayer].name}{' '}
 							{data.overUnder ? data.overUnder.toUpperCase() : ''}{' '}
 							{data.selectedValue ? `${data.selectedValue} ${data.selectedStat}` : ''}
+						</div>
+						<div>
+							{data.games[data.gameId].homeCode} vs. {data.games[data.gameId].awayCode}
 						</div>
 						<div>{data.games[data.gameId].location}</div>
 						<div>{Moment(data.games[data.gameId].date).format('LLL')}</div>
@@ -142,13 +144,12 @@ function PlayerPickForm({ notifySuccess, notifyError }) {
 			{data.selectOptions ? (
 				<SelectSearch
 					options={data.selectOptions}
-					// className="select-search-box is-light-mode"
 					value={data.selectedPlayer}
 					name="players"
-					placeholder="Select a player"
+					placeholder="Pick a player"
 					search={true}
 					onChange={handlePlayerSelection}
-					emptyMessage={'Sorry, all games for the day have started!'}
+					emptyMessage={'Sorry, there are no eligible players to pick!'}
 				/>
 			) : (
 				<Spinner animation="border" variant="info" />

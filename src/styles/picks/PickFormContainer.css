@@ -1,0 +1,12 @@
+.pick-form-container-header {
+    border: none;
+}
+
+#pick-form-container-tabs-tab-player.nav-link, #pick-form-container-tabs-tab-team.nav-link {
+    color: black;
+}
+
+#pick-form-container-tabs-tab-player.nav-link.active, #pick-form-container-tabs-tab-team.nav-link.active {
+    font-weight: bold;
+    background-color: #0d6dfd65;
+}

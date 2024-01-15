@@ -1,3 +1,5 @@
+import Moment from 'moment';
+
 class Utils {
 	static generatePickOptions(stat, avg) {
 		let pickOptions = [];
@@ -172,6 +174,31 @@ class Utils {
 
 			default:
 				return undefined;
+		}
+	}
+
+	static createEvents(games, team = undefined) {
+		if (team) {
+			return games.map((g) => ({
+				title:
+					g.home.id === team.id
+						? `VS ${g.away.code} ${g.score !== 'TBD' ? g.score : ''}`
+						: `@ ${g.home.code} ${g.score !== 'TBD' ? g.score : ''}`,
+				start: Moment(g.date),
+				end: Moment(g.date),
+				allDay: false,
+				resource: { game: g, team },
+			}));
+		} else {
+			return games.map((g) => ({
+				title: `${
+					g.score !== 'TBD' ? `${g.home.code} ${g.score} ${g.away.code}` : `${g.home.code} vs. ${g.away.code}`
+				}`,
+				start: Moment(g.date),
+				end: Moment(g.date),
+				allDay: false,
+				resource: { game: g },
+			}));
 		}
 	}
 }

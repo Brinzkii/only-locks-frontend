@@ -1,0 +1,14 @@
+.pick-form-pick-details-stack {
+    width: 70%;
+    border: 2px solid #dce0e8;
+}
+
+.pick-form-pick-details-header {
+    font-size: 22px;
+    text-decoration: underline;
+}
+
+.pick-form-pick-details {
+    font-weight: 600;
+    color: black;
+}

@@ -167,7 +167,7 @@ function GameDetails({ quarters }) {
 					</>
 				)}
 
-				<Tabs id="game-details-tabs" activeKey={key} onSelect={(k) => setKey(k)} className="mx-auto">
+				<Tabs id="game-details-tabs" justify activeKey={key} onSelect={(k) => setKey(k)} className="mx-auto">
 					<Tab eventKey="matchup" title="Matchup">
 						<div className="GameDetails-matchup">
 							{!data.gameStats.home && !data.gameStats.away ? (
@@ -192,7 +192,7 @@ function GameDetails({ quarters }) {
 					</Tab>
 					{data.h2h.gameStats.length && !data.gameStats.home && !data.gameStats.away ? (
 						<Tab eventKey="h2h" title="Head 2 Head">
-							<div className="GameDetails-h2h mt-5">
+							<div className="GameDetails-h2h">
 								<TeamH2HTable
 									game={data.game}
 									h2h={data.h2h}
@@ -202,12 +202,12 @@ function GameDetails({ quarters }) {
 							</div>
 						</Tab>
 					) : null}
-					<Tab eventKey="Top Performers" title="Top Performers">
+					<Tab
+						eventKey="Top Performers"
+						title={data.gameTopPlayers.length ? 'Top Performers (game)' : 'Top Performers (season)'}
+					>
 						{Object.keys(data.gameTopPlayers.home).length === 0 ? (
 							<div className="GameDetails-top-performers mt-5">
-								<h5 className="GameDetails-top-performers-header">
-									Top Performers (23-24 Season Averages)
-								</h5>
 								<TeamTopPerformersTable
 									seasonTopPlayers={data.seasonTopPlayers}
 									navToPlayer={navToPlayer}
@@ -216,7 +216,6 @@ function GameDetails({ quarters }) {
 							</div>
 						) : (
 							<div className="GameDetails-top-performers mt-5">
-								<h5 className="GameDetails-top-performers-header">Top Performers</h5>
 								<TeamTopPerformersTable
 									seasonTopPlayers={data.seasonTopPlayers}
 									gameTopPlayers={data.gameTopPlayers}
@@ -229,7 +228,6 @@ function GameDetails({ quarters }) {
 					{data.playerGameStats.length ? (
 						<Tab eventKey="boxscore" title="Box Score">
 							<div className="GameDetails-player-game-stats-table mt-4">
-								<h4>Box Score</h4>
 								<PlayerGameStatsTable
 									gameStats={data.playerGameStats}
 									navToPlayer={navToPlayer}

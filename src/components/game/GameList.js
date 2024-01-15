@@ -61,7 +61,7 @@ function GameList({ data, setData, quarters }) {
 				<Row className="mt-3">
 					<Col></Col>
 					<Col>
-						<Button onClick={handlePrevClick}>
+						<Button className="pb-2" onClick={handlePrevClick}>
 							<CaretLeftFill></CaretLeftFill>
 						</Button>
 					</Col>
@@ -73,7 +73,7 @@ function GameList({ data, setData, quarters }) {
 						/>
 					</Col>
 					<Col>
-						<Button onClick={handleNextClick}>
+						<Button className="pb-2" onClick={handleNextClick}>
 							<CaretRightFill></CaretRightFill>
 						</Button>
 					</Col>

@@ -1,0 +1,16 @@
+.data {
+    width: 30px;
+}
+
+.team-top-performers-table-player-name {
+    font-weight: 500;
+}
+
+.team-top-performers-table-category {
+    text-decoration: underline;
+    width: 50px;
+}
+
+.team-top-performers-table-season-td {
+    width: 150px;
+}

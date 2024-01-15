@@ -5,6 +5,7 @@ import NewPickButton from './NewPickButton';
 import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import '../../styles/picks/PickFormContainer.css';
 import '../../styles/SelectSearch.css';
 
 function PickFormContainer({ notifySuccess, notifyError }) {
@@ -17,10 +18,12 @@ function PickFormContainer({ notifySuccess, notifyError }) {
 	return (
 		<>
 			<Modal show={data.show} onHide={handlePickButton}>
-				<Modal.Header closeButton></Modal.Header>
-				{/* <Modal.Title className="text-center">Ready to lock in your next pick?</Modal.Title> */}
+				<Modal.Header closeButton className="pick-form-container-header">
+					<Modal.Title className="text-center">Ready to lock in your next pick?</Modal.Title>
+				</Modal.Header>
+
 				<Modal.Body>
-					<Tabs defaultActiveKey="player" id="PickFormContainer-tabs" className="mb-3" justify>
+					<Tabs defaultActiveKey="player" id="pick-form-container-tabs" className="mb-4" justify>
 						<Tab eventKey="player" title="Player">
 							{data.playerPick}
 						</Tab>
@@ -29,14 +32,6 @@ function PickFormContainer({ notifySuccess, notifyError }) {
 						</Tab>
 					</Tabs>
 				</Modal.Body>
-				{/* <Modal.Footer>
-					<Button variant="secondary" onClick={handlePickButton}>
-						Having second thoughts...
-					</Button>
-					<Button variant="primary" onClick={handlePickButton}>
-						Lock it in!
-					</Button>
-				</Modal.Footer> */}
 			</Modal>
 			<NewPickButton handleClick={handlePickButton} />
 		</>
