@@ -1,12 +1,13 @@
 import React from 'react';
+import StandingsTable from './team/StandingsTable';
 // import './Home.css';
 
-function Home({ user }) {
+function Home({ standings }) {
 	return (
-		<div className="Home">
+		<div className="Home text-center">
 			{localStorage.token ? (
 				<div className="mt-4">
-					<h1>Welcome back to OnlyLocks!</h1>
+					<h1>Welcome back!</h1>
 				</div>
 			) : (
 				<div className="mt-4">

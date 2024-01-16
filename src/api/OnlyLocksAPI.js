@@ -126,6 +126,13 @@ class OnlyLocksAPI {
 		return res.team;
 	}
 
+	/** Get conference standings */
+
+	static async conferenceStandings() {
+		let res = await this.request(`teams/standings`);
+		return res.standings;
+	}
+
 	/** Get all team season stats */
 
 	static async allTeamStats() {

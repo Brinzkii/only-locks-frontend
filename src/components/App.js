@@ -26,6 +26,7 @@ function App() {
 		games: [],
 		players: { points: [], tpm: [], assists: [], rebounds: [], blocks: [], steals: [] },
 		playerList: [],
+		standings: {},
 		date: Moment(),
 	});
 	const [user, setUser] = useState([]);
@@ -104,6 +105,7 @@ function App() {
 				const today = Moment().format('YYYYMMDD');
 				let games = await OnlyLocksAPI.gamesByDate(today);
 				const playerList = await OnlyLocksAPI.allPlayers();
+				const standings = await OnlyLocksAPI.conferenceStandings();
 				let players = {};
 				let points = await OnlyLocksAPI.sortPlayerStats({ time: today, stat: 'points' });
 				let tpm = await OnlyLocksAPI.sortPlayerStats({ time: today, stat: 'tpm' });
@@ -118,8 +120,8 @@ function App() {
 				players.blocks = blocks;
 				players.steals = steals;
 
-				console.log({ teams, games, players, playerList });
-				setData({ teams, games, players, playerList });
+				console.log({ teams, games, players, playerList, standings });
+				setData({ teams, games, players, playerList, standings });
 			}
 		}
 		checkForUser();
@@ -131,7 +133,7 @@ function App() {
 				<Navigation user={user} logoutUser={logoutUser} players={data.playerList} teams={data.teams} />
 				<Routes>
 					{/* Home */}
-					<Route path="/" element={<Home updateUser={user} />} />
+					<Route path="/" element={<Home standings={data.standings} />} />
 
 					{/* Register New User */}
 					<Route
