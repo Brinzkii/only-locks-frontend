@@ -4,5 +4,5 @@
 
 .gamelist-list-group-item {
     border: none;
-    max-width: 100%;
+    padding: 0;
 }

@@ -9,13 +9,13 @@ import '../../styles/game/GameCard.css';
 
 function GameCard({ game, navToGame, navToTeam, quarters }) {
 	return (
-		<Card className="gamecard mt-2 mx-auto">
+		<Card className="gamecard mt-5 mx-auto">
 			<Card.Header id={game.id} onClick={navToGame}>
 				<Stack className="gamecard-logos-container" direction="horizontal">
 					<Row className="gamecard-logos-row align-items-center">
 						<Col>
 							<Image id={game.id} className="gamecard-logo GameList-logo-home" src={game.homeLogo} />
-							<h5 id={game.id} className="mb-0">
+							<h5 id={game.id} className="gamecard-team mb-0">
 								{game.homeName}
 							</h5>
 							<small id={game.id} className="mt-0">
@@ -56,7 +56,7 @@ function GameCard({ game, navToGame, navToTeam, quarters }) {
 
 						<Col className="ms-auto">
 							<Image id={game.id} className="gamecard-logo GameList-logo-away" src={game.awayLogo} />
-							<h5 id={game.id} className="mb-0">
+							<h5 id={game.id} className="gamecard-team mb-0">
 								{game.awayName}
 							</h5>
 							<small id={game.id} className="mt-0">

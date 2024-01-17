@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import Stack from 'react-bootstrap/Stack';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Logo from '../static/only-locks-logo.png';
 import SelectSearch from 'react-select-search';
@@ -31,39 +33,35 @@ function Navigation({ logoutUser, teams, players }) {
 		}
 	}, [players, teams]);
 	return (
-		<div className="navigation d-lg-flex align-items-center">
-			<Navbar className="bg-body-tertiary" sticky="top" expand="lg">
-				<Navbar.Brand className="navigation-brand" href="/">
+		<Navbar expand="lg" className="navigation bg-body-tertiary">
+			<Container className="navigation-container">
+				<Navbar.Brand className="navigation-brand ma-auto" href="/">
 					<img className="navigation-logo" src={Logo} alt="OnlyLocks" />
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="onlylocks-navbar-nav" />
-				<Navbar.Collapse className="align-items-center" id="onlylocks-navbar-nav">
+				<Navbar.Collapse id="onlylocks-navbar-nav">
 					{!localStorage.token ? (
-						<Nav>
+						<Nav className="ms-auto align-items-center">
 							<Button href="/login" variant="success" key={uuid()}>
 								Login
 							</Button>
-							<Button href="/register" className="p-2 ms-auto" variant="info" key={uuid()}>
+							<Button href="/register" className="p-2" variant="info" key={uuid()}>
 								Register
 							</Button>
 						</Nav>
 					) : (
-						<Nav>
-							<Nav.Link className="h-100" href="/games">
-								Games
-							</Nav.Link>
+						<Nav className="ms-auto align-items-center">
+							<Nav.Link href="/games">Games</Nav.Link>
 
-							<Nav.Link className="h-100" href="/players">
-								Players
-							</Nav.Link>
+							<Nav.Link href="/players">Players</Nav.Link>
 
-							<NavDropdown className="h-100" title="Stats" id="stats-dropdown">
+							<NavDropdown title="Stats" id="stats-dropdown">
 								<NavDropdown.Item href={`/players/stats`}>Players</NavDropdown.Item>
 
 								<NavDropdown.Item href={`/teams/stats`}>Teams</NavDropdown.Item>
 							</NavDropdown>
 
-							<NavDropdown className="h-100" title="Teams" id="teams-dropdown">
+							<NavDropdown title="Teams" id="teams-dropdown">
 								{data.teams.map((t) => (
 									<NavDropdown.Item href={`/teams/${t.id}`} key={uuid()}>
 										{t.name}
@@ -71,24 +69,44 @@ function Navigation({ logoutUser, teams, players }) {
 								))}
 							</NavDropdown>
 
-							<SelectSearch
-								options={data.options}
-								onChange={handleSearchSelect}
-								search={true}
-								autoComplete="on"
-								placeholder="Search"
-							/>
-							<Button href={`/users/${localStorage.username}`} variant="info" key={uuid()}>
-								{localStorage.username}
-							</Button>
-							<Button onClick={logoutUser} className="p-2 ms-auto" variant="warning" key={uuid()}>
-								Logout
-							</Button>
+							<Form inline>
+								<Row className="align-items-center">
+									<Col md="auto" className="p-0 m-0 mx-auto">
+										<SelectSearch
+											options={data.options}
+											onChange={handleSearchSelect}
+											search={true}
+											autoComplete="on"
+											placeholder="Search"
+										/>
+									</Col>
+									<Col xs="auto" className="p-0 mx-auto">
+										<Button
+											className="nav-profile-button"
+											href={`/users/${localStorage.username}`}
+											variant="info"
+											key={uuid()}
+										>
+											{localStorage.username}
+										</Button>
+									</Col>
+									<Col xs="auto" className="p-0 mx-auto">
+										<Button
+											className="nav-logout-button"
+											onClick={logoutUser}
+											variant="warning"
+											key={uuid()}
+										>
+											Logout
+										</Button>
+									</Col>
+								</Row>
+							</Form>
 						</Nav>
 					)}
 				</Navbar.Collapse>
-			</Navbar>
-		</div>
+			</Container>
+		</Navbar>
 	);
 }
 
