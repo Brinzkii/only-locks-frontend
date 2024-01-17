@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_API_URL = 'http://localhost:3001';
+const BASE_API_URL = 'https://only-locks-api.onrender.com';
 
 class OnlyLocksAPI {
 	// the token for interacting with API will be stored here/
@@ -48,28 +48,28 @@ class OnlyLocksAPI {
 	/** Follow player */
 
 	static async followPlayer({ username, playerId }) {
-		let res = await this.request(`users/${username}/players/${playerId}`, 'post');
+		let res = await this.request(`users/${username}/players/${playerId}`, {}, 'post');
 		return res.user;
 	}
 
 	/** Follow team */
 
 	static async followTeam({ username, teamId }) {
-		let res = await this.request(`users/${username}/teams/${teamId}`, 'post');
+		let res = await this.request(`users/${username}/teams/${teamId}`, {}, 'post');
 		return res.user;
 	}
 
 	/** Unfollow player */
 
 	static async unfollowPlayer({ username, playerId }) {
-		let res = await this.request(`users/${username}/players/${playerId}`, 'delete');
+		let res = await this.request(`users/${username}/players/${playerId}`, {}, 'delete');
 		return res.user;
 	}
 
 	/** Unfollow team */
 
 	static async unfollowTeam({ username, teamId }) {
-		let res = await this.request(`users/${username}/teams/${teamId}`, 'delete');
+		let res = await this.request(`users/${username}/teams/${teamId}`, {}, 'delete');
 		return res.user;
 	}
 

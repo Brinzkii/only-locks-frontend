@@ -30,7 +30,7 @@ function App() {
 		standings: {},
 		date: Moment(),
 	});
-	const [user, setUser] = useState([]);
+	const [user, setUser] = useState({});
 
 	const playerCategories = {
 		gp: 'GP',
@@ -61,6 +61,23 @@ function App() {
 		3: '3rd',
 		4: '4th',
 	};
+	const standingsConversion = {
+		1: '1st',
+		2: '2nd',
+		3: '3rd',
+		4: '4th',
+		5: '5th',
+		6: '6th',
+		7: '7th',
+		8: '8th',
+		9: '9th',
+		10: '10th',
+		11: '11th',
+		12: '12th',
+		13: '13th',
+		14: '14th',
+		15: '15th',
+	};
 
 	const updateUser = ({ username, token, picks, following }) => {
 		async function getData() {
@@ -68,7 +85,7 @@ function App() {
 			if (token) localStorage.setItem('token', token);
 			if (picks) localStorage.setItem('picks', JSON.stringify(picks));
 			if (following) localStorage.setItem('following', JSON.stringify(following));
-			setUser({ username, token });
+			setUser({ ...user, username, token });
 			const teams = await OnlyLocksAPI.allTeams();
 			const playerList = await OnlyLocksAPI.allPlayers();
 			setData({ ...data, teams, playerList });
@@ -95,12 +112,13 @@ function App() {
 					username: user.username,
 					token: localStorage.token,
 					picks: user.picks.playerPicks.concat(user.picks.teamPicks),
-					following: user.followedTeams.concat(user.followedPlayers),
+					following: { teams: user.followedTeams, players: user.followedPlayers },
 				};
 				localStorage.setItem('username', info.username);
 				localStorage.setItem('picks', JSON.stringify(info.picks));
 				localStorage.setItem('following', JSON.stringify(user.following));
 				setUser(info);
+				console.log('USER:', info);
 
 				let teams = await OnlyLocksAPI.allTeams();
 				const today = Moment().format('YYYYMMDD');
@@ -172,13 +190,34 @@ function App() {
 						{/* View All Team Stats */}
 						<Route path="/teams/stats" element={<TeamStats />} />
 						{/* View Team Details */}
-						<Route path="/teams/:teamId" element={<TeamDetails categories={playerCategories} />} />
+						<Route
+							path="/teams/:teamId"
+							element={
+								<TeamDetails
+									categories={playerCategories}
+									conversion={standingsConversion}
+									user={user}
+									notifySuccess={notifySuccess}
+									notifyError={notifyError}
+								/>
+							}
+						/>
 						{/* View Top Performing Players By Date */}
 						<Route path="/players" element={<PlayerList data={data} setData={setData} />} />
 						{/* View All Player Stats */}
 						<Route path="/players/stats" element={<PlayerStats categories={playerCategories} />} />
 						{/* View player details */}
-						<Route path="/players/:playerId" element={<PlayerDetails categories={playerCategories} />} />
+						<Route
+							path="/players/:playerId"
+							element={
+								<PlayerDetails
+									categories={playerCategories}
+									user={user}
+									notifySuccess={notifySuccess}
+									notifyError={notifyError}
+								/>
+							}
+						/>
 					</Route>
 				</Routes>
 				{localStorage.token ? (

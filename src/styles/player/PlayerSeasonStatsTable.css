@@ -1,10 +1,51 @@
 #player-season-stats-table-sorted-col {
-    background: aquamarine;
+    background: #5071a777;
+    font-weight: bold;
+}
+
+.player-season-stats-table-category-header:hover, .player-season-stats-table-player-box:hover { 
+    cursor: pointer;
+}
+
+.sort-icon {
+    position: relative;
+    top: 5px;
+}
+
+span.category {
+    position: relative;
+    top: 15px;
+}
+
+.player-season-stats-table-player-box {
+    border-right: 2px solid #dee2e6;
+    height: 35px;
+    text-align: center;
+    font-weight: 500;
 }
 
 .player-season-stats-table-metric-button{
-    font-size: x-small;
+    font-size: 10px;
     width: 50px;
-    height: 15px;
+    height: 25px;
     padding: 0px;
+    margin: 2px 2px 2px 2px;
+}
+
+th.player-season-stats-table-first-row {
+    min-width: 200px;
+}
+
+
+#team-stats-table-sorted-col {
+    background: #5071a777;
+    font-weight: bold;
+}
+
+.team-stats-table-metric-button {
+    width: 50px;
+    height: 25px;
+    font-size: 10px;
+    padding: 0px;
+    margin: 0;
 }

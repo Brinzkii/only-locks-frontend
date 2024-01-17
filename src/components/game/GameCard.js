@@ -11,9 +11,9 @@ function GameCard({ game, navToGame, navToTeam, quarters }) {
 	return (
 		<Card className="gamecard mt-5 mx-auto">
 			<Card.Header id={game.id} onClick={navToGame}>
-				<Stack className="gamecard-logos-container" direction="horizontal">
-					<Row className="gamecard-logos-row align-items-center">
-						<Col>
+				<Stack className="gamecard-logos-container" direction="horizontal" id={game.id}>
+					<Row id={game.id} className="gamecard-logos-row align-items-center">
+						<Col id={game.id}>
 							<Image id={game.id} className="gamecard-logo GameList-logo-home" src={game.homeLogo} />
 							<h5 id={game.id} className="gamecard-team mb-0">
 								{game.homeName}
@@ -23,9 +23,9 @@ function GameCard({ game, navToGame, navToTeam, quarters }) {
 							</small>
 						</Col>
 
-						<Col className="gamecard-vs-col">
+						<Col className="gamecard-vs-col" id={game.id}>
 							{game.status === 'scheduled' ? (
-								<Stack className="mx-auto">
+								<Stack className="mx-auto" id={game.id}>
 									<div id={game.id} className="gamecard-clock">
 										{Moment(game.date).format('LT')}
 									</div>
@@ -34,7 +34,7 @@ function GameCard({ game, navToGame, navToTeam, quarters }) {
 									</div>
 								</Stack>
 							) : game.status === 'in play' ? (
-								<Stack className="mx-auto" gap={1}>
+								<Stack className="mx-auto" gap={1} id={game.id}>
 									<div id={game.id} className="gamecard-clock">
 										{game.clock} - {quarters[game.quarter]} Qtr
 									</div>
@@ -43,7 +43,7 @@ function GameCard({ game, navToGame, navToTeam, quarters }) {
 									</div>
 								</Stack>
 							) : (
-								<Stack direction="vertical" gap={1}>
+								<Stack direction="vertical" gap={1} id={game.id}>
 									<div id={game.id} className="gamecard-clock">
 										Final
 									</div>
@@ -54,7 +54,7 @@ function GameCard({ game, navToGame, navToTeam, quarters }) {
 							)}
 						</Col>
 
-						<Col className="ms-auto">
+						<Col className="ms-auto" id={game.id}>
 							<Image id={game.id} className="gamecard-logo GameList-logo-away" src={game.awayLogo} />
 							<h5 id={game.id} className="gamecard-team mb-0">
 								{game.awayName}

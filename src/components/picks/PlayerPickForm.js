@@ -152,7 +152,7 @@ function PlayerPickForm({ notifySuccess, notifyError }) {
 					emptyMessage={'Sorry, there are no eligible players to pick!'}
 				/>
 			) : (
-				<Spinner animation="border" variant="info" />
+				<Spinner animation="border" variant="primary" />
 			)}
 
 			{data.selectedPlayer ? (

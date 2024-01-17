@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import TeamStatsTable from './TeamStatsTable';
 import Spinner from 'react-bootstrap/Spinner';
+import '../../styles/team/TeamStats.css';
 
 function TeamStats() {
 	const [data, setData] = useState({ stats: undefined, activeSort: 'wins' });
@@ -59,18 +60,20 @@ function TeamStats() {
 		getStats();
 	}, []);
 	return (
-		<div className="TeamStats">
+		<div className="team-stats mx-auto text-center mt-3">
 			<h4>Team Season Stats</h4>
 			{!data.stats ? (
 				<Spinner animation="border" variant="info" />
 			) : (
-				<TeamStatsTable
-					stats={data.stats}
-					activeSort={data.activeSort}
-					categories={categories}
-					navToTeam={navToTeam}
-					handleCategoryClick={handleCategoryClick}
-				/>
+				<div className="team-stats-table-container">
+					<TeamStatsTable
+						stats={data.stats}
+						activeSort={data.activeSort}
+						categories={categories}
+						navToTeam={navToTeam}
+						handleCategoryClick={handleCategoryClick}
+					/>
+				</div>
 			)}
 		</div>
 	);

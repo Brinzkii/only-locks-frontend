@@ -4,9 +4,10 @@ import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import PlayerInfoCard from './PlayerInfoCard';
 import PlayerSeasonStatsTable from './PlayerSeasonStatsTable';
 import PlayerGameStatsTable from './PlayerGameStatsTable';
-import Spinner from 'react-bootstrap/Spinner';
+import Loading from '../Loading';
+import '../../styles/player/PlayerDetails.css';
 
-function PlayerDetails({ categories }) {
+function PlayerDetails({ categories, user, notifySuccess, notifyError }) {
 	const INITIAL_STATE = {
 		player: undefined,
 		team: undefined,
@@ -52,22 +53,32 @@ function PlayerDetails({ categories }) {
 		getData(playerId);
 	}, [playerId]);
 	if (data.player === undefined) {
-		return <Spinner animation="border" variant="info" />;
+		return <Loading size="100px" />;
 	} else {
 		return (
-			<div className="PlayerDetails mt-4">
-				<h2>{data.player.name}</h2>
-				<PlayerInfoCard player={data.player} team={data.team} navToTeam={navToTeam} />
-				<h4 className="mt-2">Season Stats</h4>
-				<PlayerSeasonStatsTable stats={data.seasonStats} categories={categories} />
-				<h4>Game Stats</h4>
-				<PlayerGameStatsTable
-					gameStats={data.gameStats}
-					games={data.games}
-					navToGame={navToGame}
+			<div className="player-details mt-3 mx-auto text-center">
+				<PlayerInfoCard
 					player={data.player}
-					handleCategoryClick={handleCategoryClick}
+					team={data.team}
+					navToTeam={navToTeam}
+					user={user}
+					notifySuccess={notifySuccess}
+					notifyError={notifyError}
 				/>
+				<h4 className="mt-4 mb-0">Season Stats</h4>
+				<div className="player-details-season-stats-container">
+					<PlayerSeasonStatsTable stats={data.seasonStats} categories={categories} />
+				</div>
+				<h4 className="mt-5 mb-0">Game Stats</h4>
+				<div className="player-details-game-stats-container">
+					<PlayerGameStatsTable
+						gameStats={data.gameStats}
+						games={data.games}
+						navToGame={navToGame}
+						player={data.player}
+						handleCategoryClick={handleCategoryClick}
+					/>
+				</div>
 			</div>
 		);
 	}

@@ -4,6 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
+import Row from 'react-bootstrap/Row';
 import { CaretDown } from 'react-bootstrap-icons';
 import uuid from 'react-uuid';
 import '../../styles/team/TeamDetails.css';
@@ -23,28 +24,30 @@ function TeamStatsTable({ stats, categories, navToTeam, handleCategoryClick, act
 		}
 	};
 	return (
-		<Table className="team-stats-table" size="sm">
+		<Table className="team-stats-table mb-1" size="sm" action striped>
 			<thead>
 				<tr key={uuid()}>
-					<th cla>
-						<Button
-							id="perGame"
-							variant="outline-primary"
-							active={metric === 'perGame'}
-							className="TeamDetails-stat-sort-button"
-							onClick={handleStatClick}
-						>
-							perGame
-						</Button>
-						<Button
-							id="totals"
-							variant="outline-primary"
-							active={metric === 'totals'}
-							className="TeamDetails-stat-sort-button"
-							onClick={handleStatClick}
-						>
-							Total
-						</Button>
+					<th className="team-stats-table-first-row">
+						<Stack direction="horizontal" className="align-items-center">
+							<Button
+								id="perGame"
+								variant="outline-primary"
+								active={metric === 'perGame'}
+								className="team-stats-table-metric-button text-center ms-auto"
+								onClick={handleStatClick}
+							>
+								perGame
+							</Button>
+							<Button
+								id="totals"
+								variant="outline-primary"
+								active={metric === 'totals'}
+								className="team-stats-table-metric-button text-center mx-auto"
+								onClick={handleStatClick}
+							>
+								Total
+							</Button>
+						</Stack>
 					</th>
 					{Object.keys(categories).map((key) => {
 						if (categories[key]) {
@@ -52,8 +55,8 @@ function TeamStatsTable({ stats, categories, navToTeam, handleCategoryClick, act
 								<th className="team-stats-table-category-header" id={key} onClick={handleSortClick}>
 									{key === activeSort ? (
 										<>
-											{categories[key]}
-											<CaretDown />
+											<span className="category">{categories[key]}</span>
+											<CaretDown className="sort-icon" />
 										</>
 									) : (
 										categories[key]
@@ -71,10 +74,12 @@ function TeamStatsTable({ stats, categories, navToTeam, handleCategoryClick, act
 					stats[metric].map((t) => {
 						return (
 							<tr key={uuid()}>
-								<td id={`${t.id}`} onClick={navToTeam}>
-									<Stack direction="horizontal">
-										<Image className="team-stats-table-logo" src={t.logo} />
-										&ensp;{t.name}
+								<td id={`${t.id}`} className="team-stats-table-team-box" onClick={navToTeam}>
+									<Stack direction="horizontal" className="align-items-center">
+										<Image id={`${t.id}`} className="team-stats-table-logo ma-auto" src={t.logo} />
+										<div id={`${t.id}`} className="mx-auto">
+											{t.name}
+										</div>
 									</Stack>
 								</td>
 
@@ -135,7 +140,10 @@ function TeamStatsTable({ stats, categories, navToTeam, handleCategoryClick, act
 								<td id={activeSort === 'blocks' ? 'team-stats-table-sorted-col' : null}>
 									{t.blocks !== 0 ? t.blocks.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'plusMinus' ? 'team-stats-table-sorted-col' : null}>
+								<td
+									id={activeSort === 'plusMinus' ? 'team-stats-table-sorted-col' : null}
+									className="team-stats-table-last-row"
+								>
 									{t.plusMinus !== 0 ? t.plusMinus.toFixed(1) : 0}
 								</td>
 							</tr>

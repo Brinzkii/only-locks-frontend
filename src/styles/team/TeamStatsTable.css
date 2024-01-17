@@ -1,11 +1,41 @@
 .team-stats-table-logo {
-    width: 35px;
+    height: 40px;
 }
 
-.team-stats-table-category-header:hover { 
+.team-stats-table-category-header:hover, .team-stats-table-team-box:hover { 
     cursor: pointer;
 }
 
+.sort-icon {
+    position: relative;
+    top: 5px;
+}
+
+span.category {
+    position: relative;
+    top: 15px;
+}
+
+th.team-stats-table-first-row {
+    min-width: 200px;
+}
+
+.team-stats-table-team-box {
+    border-right: 2px solid #dee2e6;
+    height: 50px;
+    text-align: center;
+    font-weight: 500;
+}
+
 #team-stats-table-sorted-col {
-    background: aquamarine
+    background: #5071a777;
+    font-weight: bold;
+}
+
+.team-stats-table-metric-button {
+    width: 50px;
+    height: 25px;
+    font-size: 10px;
+    padding: 0px;
+    margin: 0;
 }

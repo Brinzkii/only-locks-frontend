@@ -13,7 +13,6 @@ import { CaretLeftFill, CaretRightFill } from 'react-bootstrap-icons';
 import '../../styles/player/PlayerList.css';
 
 function PlayerList({ data, setData }) {
-	// const [datePicker, setDatePicker] = useState(Moment(data.date).format('YYYY-MM-DD'));
 	const conversions = {
 		Points: 'points',
 		'3 Pointers': 'tpm',

@@ -245,9 +245,11 @@ function GameDetails({ quarters }) {
 				</Tabs>
 
 				{/* All picks placed for current game */}
-				<div className="game-details-picks mb-3">
-					<GamePicks picks={data.picks} quarters={quarters} navToPlayer={navToPlayer} />
-				</div>
+				{data.picks.picks.length ? (
+					<div className="game-details-picks mb-3">
+						<GamePicks picks={data.picks} quarters={quarters} navToPlayer={navToPlayer} />
+					</div>
+				) : null}
 			</div>
 		);
 	}

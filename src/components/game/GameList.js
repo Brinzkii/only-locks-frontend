@@ -6,7 +6,7 @@ import GameCard from '../game/GameCard';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Stack from 'react-bootstrap/Stack';
 import Form from 'react-bootstrap/Form';
-import Spinner from 'react-bootstrap/Spinner';
+import Loading from '../Loading';
 import Button from 'react-bootstrap/Button';
 import { CaretLeftFill, CaretRightFill } from 'react-bootstrap-icons';
 import uuid from 'react-uuid';
@@ -52,10 +52,10 @@ function GameList({ data, setData, quarters }) {
 	}
 	console.log('GAMES:', data.games);
 	if (data.games === undefined) {
-		return <Spinner animation="border" variant="info" />;
+		return <Loading size="100px" />;
 	} else {
 		return (
-			<div className="gamelist text-center mx-auto">
+			<div className="gamelist text-center mx-auto mb-3">
 				<h2 className="gamelist-date-header mt-4">{Moment(data.date).format('LL')}</h2>
 				<Stack direction="horizontal" gap={0}>
 					<Button className="pb-2 mx-auto" onClick={handlePrevClick}>

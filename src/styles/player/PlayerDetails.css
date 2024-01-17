@@ -1,0 +1,7 @@
+.player-details {
+    width: 95%;
+}
+
+.player-details-season-stats-container, .player-details-game-stats-container {
+    overflow-x: scroll;
+}

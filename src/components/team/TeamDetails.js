@@ -5,17 +5,16 @@ import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import PlayerSeasonStatsTable from '../player/PlayerSeasonStatsTable';
 import TeamGames from '../team/TeamGames';
 import GamesCalendar from '../game/GamesCalendar';
-import Spinner from 'react-bootstrap/Spinner';
+import Loading from '../Loading';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import FollowButton from '../user/FollowButton';
 import Utils from '../../utils/utils';
 import '../../styles/team/TeamDetails.css';
 
-function TeamDetails({ categories }) {
+function TeamDetails({ categories, user, conversion, notifySuccess, notifyError }) {
 	const { teamId } = useParams();
 	const INITIAL_STATE = {
 		team: undefined,
@@ -117,7 +116,7 @@ function TeamDetails({ categories }) {
 	}, [teamId]);
 
 	if (data.team === undefined) {
-		return <Spinner animation="border" variant="info" />;
+		return <Loading size="100px" />;
 	} else {
 		return (
 			<div className="team-details mt-4 mb-3 mx-auto text-center">
@@ -127,8 +126,16 @@ function TeamDetails({ categories }) {
 						{data.team.name} ({data.teamStats.wins}-{data.teamStats.losses})
 					</h2>
 					<h5>
-						{data.team.conference}ern Conference&emsp;|&emsp;{data.team.division} Division
+						{`${conversion[data.team.conferenceRank]} in ${data.team.conference}ern Conference     |     ${
+							conversion[data.team.divisionRank]
+						} in ${data.team.division} Division`}
 					</h5>
+					<FollowButton
+						team={data.team}
+						user={user}
+						notifySuccess={notifySuccess}
+						notifyError={notifyError}
+					/>
 				</div>
 
 				<Tabs
