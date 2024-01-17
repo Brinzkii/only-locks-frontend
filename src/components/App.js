@@ -18,6 +18,7 @@ import LoginForm from './user/LoginForm';
 import RegisterForm from './user/RegisterForm';
 import OnlyLocksAPI from '../api/OnlyLocksAPI';
 import PrivateRoutes from './PrivateRoutes';
+import '../styles/index.css';
 import '../styles/App.css';
 
 function App() {

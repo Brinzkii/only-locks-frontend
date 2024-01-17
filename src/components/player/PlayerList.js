@@ -98,101 +98,74 @@ function PlayerList({ data, setData }) {
 		getStats(Moment(evt.target.value).format('YYYYMMDD'));
 	}
 	return (
-		<div className="player-list text-center mt-4">
+		<div className="player-list text-center mt-4 mb-3">
 			<h2>{Moment(data.date).format('LL')}</h2>
-			<Stack>
-				<Row className="mt-3">
-					<Col></Col>
-					<Col>
-						<Button className="pb-2" onClick={handlePrevClick}>
-							<CaretLeftFill></CaretLeftFill>
-						</Button>
-					</Col>
-					<Col xs>
-						<Form.Control
-							type="date"
-							value={Moment(data.date).format('YYYY-MM-DD')}
-							onChange={handleDateSelection}
-						/>
-					</Col>
-					<Col>
-						<Button className="pb-2" onClick={handleNextClick}>
-							<CaretRightFill></CaretRightFill>
-						</Button>
-					</Col>
-					<Col></Col>
-				</Row>
+			<Stack direction="horizontal" gap={0}>
+				<Button className="pb-2 mx-auto" onClick={handlePrevClick}>
+					<CaretLeftFill></CaretLeftFill>
+				</Button>
+				<Form.Control
+					className="player-list-date-picker"
+					type="date"
+					value={Moment(data.date).format('YYYY-MM-DD')}
+					onChange={handleDateSelection}
+				/>
+				<Button className="pb-2 mx-auto" onClick={handleNextClick}>
+					<CaretRightFill></CaretRightFill>
+				</Button>
 			</Stack>
 			{!data.players ? (
 				<Spinner animation="border" variant="info" />
 			) : (
-				<Stack direction="vertical" className="player-list-cards-container mt-4">
-					<Row className="player-list-cards-row mx-auto">
-						<Col className="player-list-cards-col">
-							<div className="player-list-stat-table-container">
-								<PlayerStatsCard
-									title="Points"
-									stats={data.players.points}
-									conversions={conversions}
-									navToPlayer={navToPlayer}
-								/>
-							</div>
-						</Col>
-						<Col className="player-list-cards-col">
-							<div className="player-list-stat-table-container">
-								<PlayerStatsCard
-									title="3 Pointers"
-									stats={data.players.tpm}
-									conversions={conversions}
-									navToPlayer={navToPlayer}
-								/>
-							</div>
-						</Col>
-					</Row>
-					<Row className="player-list-cards-row mt-4 mx-auto">
-						<Col className="player-list-cards-col">
-							<div className="player-list-stat-table-container">
-								<PlayerStatsCard
-									title="Assists"
-									stats={data.players.assists}
-									conversions={conversions}
-									navToPlayer={navToPlayer}
-								/>
-							</div>
-						</Col>
-						<Col className="player-list-cards-col">
-							<div className="player-list-stat-table-container">
-								<PlayerStatsCard
-									title="Rebounds"
-									stats={data.players.rebounds}
-									conversions={conversions}
-									navToPlayer={navToPlayer}
-								/>
-							</div>
-						</Col>
-					</Row>
-					<Row className="player-list-cards-row mt-4 mx-auto">
-						<Col className="player-list-cards-col">
-							<div className="player-list-stat-table-container">
-								<PlayerStatsCard
-									title="Blocks"
-									stats={data.players.blocks}
-									conversions={conversions}
-									navToPlayer={navToPlayer}
-								/>
-							</div>
-						</Col>
-						<Col className="player-list-cards-col">
-							<div className="player-list-stat-table-container">
-								<PlayerStatsCard
-									title="Steals"
-									stats={data.players.steals}
-									conversions={conversions}
-									navToPlayer={navToPlayer}
-								/>
-							</div>
-						</Col>
-					</Row>
+				<Stack direction="vertical" gap={5} className="player-list-cards-container mt-4 mx-auto col-5">
+					<div className="player-list-stat-table-container">
+						<PlayerStatsCard
+							title="Points"
+							stats={data.players.points}
+							conversions={conversions}
+							navToPlayer={navToPlayer}
+						/>
+					</div>
+					<div className="player-list-stat-table-container">
+						<PlayerStatsCard
+							title="3 Pointers"
+							stats={data.players.tpm}
+							conversions={conversions}
+							navToPlayer={navToPlayer}
+						/>
+					</div>
+					<div className="player-list-stat-table-container">
+						<PlayerStatsCard
+							title="Assists"
+							stats={data.players.assists}
+							conversions={conversions}
+							navToPlayer={navToPlayer}
+						/>
+					</div>
+					<div className="player-list-stat-table-container">
+						<PlayerStatsCard
+							title="Rebounds"
+							stats={data.players.rebounds}
+							conversions={conversions}
+							navToPlayer={navToPlayer}
+						/>
+					</div>
+					<div className="player-list-stat-table-container">
+						<PlayerStatsCard
+							title="Blocks"
+							stats={data.players.blocks}
+							conversions={conversions}
+							navToPlayer={navToPlayer}
+						/>
+					</div>
+					<div className="player-list-stat-table-container">
+						<PlayerStatsCard
+							title="Steals"
+							stats={data.players.steals}
+							conversions={conversions}
+							navToPlayer={navToPlayer}
+						/>
+					</div>
 				</Stack>
 			)}
 		</div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
-import PlayerStatsTable from '../player/PlayerSeasonStatsTable';
+import PlayerSeasonStatsTable from '../player/PlayerSeasonStatsTable';
 import TeamGames from '../team/TeamGames';
 import GamesCalendar from '../game/GamesCalendar';
 import Spinner from 'react-bootstrap/Spinner';
@@ -120,10 +120,10 @@ function TeamDetails({ categories }) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<div className="TeamDetails mt-4 text-center">
-				<div className="TeamDetails-header">
-					<Image className="TeamDetails-logo" src={data.team.logo} />
-					<h2 className="TeamDetails-name">
+			<div className="team-details mt-4 mb-3 mx-auto text-center">
+				<div className="team-details-header">
+					<Image className="team-details-logo" src={data.team.logo} />
+					<h2 className="team-details-name">
 						{data.team.name} ({data.teamStats.wins}-{data.teamStats.losses})
 					</h2>
 					<h5>
@@ -131,10 +131,16 @@ function TeamDetails({ categories }) {
 					</h5>
 				</div>
 
-				<Tabs className="mt-3" justify activeKey={key} onSelect={(k) => setKey(k)}>
+				<Tabs
+					id="team-details-tabs"
+					className="team-details-tabs mt-3"
+					justify
+					activeKey={key}
+					onSelect={(k) => setKey(k)}
+				>
 					<Tab eventKey="roster" title="Roster">
-						<div className="TeamDetails-player-stats mt-4">
-							<PlayerStatsTable
+						<div className="team-details-player-stats mt-4">
+							<PlayerSeasonStatsTable
 								stats={data.playerStats}
 								categories={categories}
 								navToPlayer={navToPlayer}
@@ -144,7 +150,7 @@ function TeamDetails({ categories }) {
 					</Tab>
 					<Tab eventKey="recentGames" title="Recent Games">
 						<Stack direction="horizontal" className="mt-4">
-							<div className="TeamDetails-recent-games ms-auto">
+							<div className="team-details-recent-games ms-auto">
 								<h5>Last 5</h5>
 								<TeamGames
 									team={data.team}
@@ -153,7 +159,7 @@ function TeamDetails({ categories }) {
 									navToTeam={navToTeam}
 								/>
 							</div>
-							<div className="TeamDetails-next-games mx-auto">
+							<div className="team-details-next-games mx-auto">
 								<h5>Next 5</h5>
 								<TeamGames
 									team={data.team}

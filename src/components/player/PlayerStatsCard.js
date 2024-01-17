@@ -10,7 +10,7 @@ function PlayerStatsCard({ title, stats, conversions, navToPlayer }) {
 		if (evt.target.id !== metric) setMetric(evt.target.id);
 	};
 	return (
-		<Table className="player-stats-card-table mx-auto">
+		<Table className="player-stats-card-table mx-auto" size="sm" striped hover>
 			<thead>
 				<tr className="player-stats-card-title">{title}</tr>
 			</thead>

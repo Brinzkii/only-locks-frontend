@@ -25,14 +25,14 @@ function PlayerSeasonStatsTable({
 	};
 
 	return (
-		<Table className="TeamDetails-player-stats-table" size="sm">
+		<Table className="player-season-stats-table" size="sm" striped hover>
 			<thead>
 				<tr key={uuid()}>
 					<th>
 						<Button
 							id="per36"
 							variant="outline-primary"
-							className="TeamDetails-stat-sort-button"
+							className="player-season-stats-table-metric-button"
 							onClick={handleMetricClick}
 							active={metric === 'per36'}
 						>
@@ -41,7 +41,7 @@ function PlayerSeasonStatsTable({
 						<Button
 							id="perGame"
 							variant="outline-primary"
-							className="TeamDetails-stat-sort-button"
+							className="player-season-stats-table-metric-button"
 							onClick={handleMetricClick}
 							active={metric === 'perGame'}
 						>
@@ -50,7 +50,7 @@ function PlayerSeasonStatsTable({
 						<Button
 							id="totals"
 							variant="outline-primary"
-							className="TeamDetails-stat-sort-button"
+							className="player-season-stats-table-metric-button"
 							onClick={handleMetricClick}
 							active={metric === 'totals'}
 						>

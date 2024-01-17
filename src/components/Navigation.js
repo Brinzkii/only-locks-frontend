@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -31,79 +31,62 @@ function Navigation({ logoutUser, teams, players }) {
 		}
 	}, [players, teams]);
 	return (
-		<div className="Navigation">
+		<div className="navigation d-lg-flex align-items-center">
 			<Navbar className="bg-body-tertiary" sticky="top" expand="lg">
-				<Container>
-					<Navbar.Brand className="Navigation-brand" href="/">
-						<img className="Navigation-logo" src={Logo} alt="OnlyLocks" />
-					</Navbar.Brand>
-					<Navbar.Toggle aria-controls="onlylocks-navbar-nav" />
-					<Navbar.Collapse className="flex-column align-items-end" id="onlylocks-navbar-nav">
+				<Navbar.Brand className="navigation-brand" href="/">
+					<img className="navigation-logo" src={Logo} alt="OnlyLocks" />
+				</Navbar.Brand>
+				<Navbar.Toggle aria-controls="onlylocks-navbar-nav" />
+				<Navbar.Collapse className="align-items-center" id="onlylocks-navbar-nav">
+					{!localStorage.token ? (
 						<Nav>
-							{!localStorage.token ? (
-								<Stack
-									className="Navigation-container-right ms-4"
-									direction="horizontal"
-									gap={2}
-									key={uuid()}
-								>
-									<Button href="/login" variant="success" key={uuid()}>
-										Login
-									</Button>
-									<Button href="/register" className="p-2 ms-auto" variant="info" key={uuid()}>
-										Register
-									</Button>
-								</Stack>
-							) : (
-								<>
-									<Nav.Link href="/games">Games</Nav.Link>
-
-									<Nav.Link href="/players">Players</Nav.Link>
-
-									<NavDropdown title="Stats" id="stats-dropdown">
-										<NavDropdown.Item href={`/players/stats`}>Players</NavDropdown.Item>
-
-										<NavDropdown.Item href={`/teams/stats`}>Teams</NavDropdown.Item>
-									</NavDropdown>
-
-									<NavDropdown title="Teams" id="teams-dropdown">
-										{data.teams.map((t) => (
-											<NavDropdown.Item href={`/teams/${t.id}`} key={uuid()}>
-												{t.name}
-											</NavDropdown.Item>
-										))}
-									</NavDropdown>
-
-									<Stack
-										className="Navigation-container-right ps-4"
-										direction="horizontal"
-										gap={2}
-										key={uuid()}
-									>
-										<SelectSearch
-											options={data.options}
-											onChange={handleSearchSelect}
-											search={true}
-											autoComplete="on"
-											placeholder="Search"
-										/>
-										<Button href={`/users/${localStorage.username}`} variant="info" key={uuid()}>
-											{localStorage.username}
-										</Button>
-										<Button
-											onClick={logoutUser}
-											className="p-2 ms-auto"
-											variant="warning"
-											key={uuid()}
-										>
-											Logout
-										</Button>
-									</Stack>
-								</>
-							)}
+							<Button href="/login" variant="success" key={uuid()}>
+								Login
+							</Button>
+							<Button href="/register" className="p-2 ms-auto" variant="info" key={uuid()}>
+								Register
+							</Button>
 						</Nav>
-					</Navbar.Collapse>
-				</Container>
+					) : (
+						<Nav>
+							<Nav.Link className="h-100" href="/games">
+								Games
+							</Nav.Link>
+
+							<Nav.Link className="h-100" href="/players">
+								Players
+							</Nav.Link>
+
+							<NavDropdown className="h-100" title="Stats" id="stats-dropdown">
+								<NavDropdown.Item href={`/players/stats`}>Players</NavDropdown.Item>
+
+								<NavDropdown.Item href={`/teams/stats`}>Teams</NavDropdown.Item>
+							</NavDropdown>
+
+							<NavDropdown className="h-100" title="Teams" id="teams-dropdown">
+								{data.teams.map((t) => (
+									<NavDropdown.Item href={`/teams/${t.id}`} key={uuid()}>
+										{t.name}
+									</NavDropdown.Item>
+								))}
+							</NavDropdown>
+
+							<SelectSearch
+								options={data.options}
+								onChange={handleSearchSelect}
+								search={true}
+								autoComplete="on"
+								placeholder="Search"
+							/>
+							<Button href={`/users/${localStorage.username}`} variant="info" key={uuid()}>
+								{localStorage.username}
+							</Button>
+							<Button onClick={logoutUser} className="p-2 ms-auto" variant="warning" key={uuid()}>
+								Logout
+							</Button>
+						</Nav>
+					)}
+				</Navbar.Collapse>
 			</Navbar>
 		</div>
 	);

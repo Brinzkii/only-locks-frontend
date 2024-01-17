@@ -1,17 +1,38 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import CommunityPlayerPick from '../picks/CommunityPlayerPick';
+import CommunityTeamPick from '../picks/CommunityTeamPick';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Spinner from 'react-bootstrap/Spinner';
+import '../../styles/game/GamePicks.css';
+import uuid from 'react-uuid';
 
-function GamePicks({ picks }) {
+function GamePicks({ picks, quarters, navToPlayer }) {
+	const navigate = useNavigate();
+	const navToUser = (evt) => {
+		navigate(`/users/${evt.target.id}`);
+	};
 	if (!picks) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<ListGroup horizontal>
-				{picks.map((p) => (
-					<ListGroup.Item>{p.username}</ListGroup.Item>
-				))}
-			</ListGroup>
+			<div className="game-picks mt-4 mx-auto">
+				<h4>
+					Community Picks{' '}
+					{picks.communityRecord.wins > 0 || picks.communityRecord.losses > 0
+						? `(${picks.communityRecord.wins} - ${picks.communityRecord.losses})`
+						: null}
+				</h4>
+				<ListGroup horizontal className="game-picks-group mx-auto">
+					{picks.picks.map((p) => {
+						if (p.playerId) {
+							return <CommunityPlayerPick key={uuid()} pick={p} navToUser={navToUser} />;
+						} else {
+							return <CommunityTeamPick key={uuid()} pick={p} navToUser={navToUser} />;
+						}
+					})}
+				</ListGroup>
+			</div>
 		);
 	}
 }

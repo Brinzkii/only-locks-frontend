@@ -1,11 +1,17 @@
 .player-stats-card-table {
-    min-width: 400px;
+    margin-bottom: 0;
+    min-width: 350px;
     max-width: 500px;
+    border: 2px solid var(--bs-border-color-translucent);
 }
 
 .player-stats-card-title {
     font-size: 20px;
     font-weight:500;
+}
+
+span.player-stats-card-value {
+    font-weight: bold;
 }
 
 

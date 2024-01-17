@@ -1,12 +1,9 @@
-.TeamDetails-logo{
-    width: 30%;
+.team-details {
+    width: 90%;
 }
 
-.TeamDetails-stat-sort-button{
-    font-size: x-small;
-    width: 50px;
-    height: 15px;
-    padding: 0px;
+.team-details-logo{
+    width: 30%;
 }
 
 a {
@@ -15,4 +12,21 @@ a {
 
 .team-details-calendar-container {
     height: 650px;
+}
+
+#team-details-tabs-tab-roster.nav-link, #team-details-tabs-tab-recentGames.nav-link, #team-details-tabs-tab-allGames.nav-link {
+    color: black;
+}
+
+#team-details-tabs-tab-roster.nav-link.active, #team-details-tabs-tab-recentGames.nav-link.active, #team-details-tabs-tab-allGames.nav-link.active {
+    font-weight: bold;
+    background-color: #0d6dfd65;
+}
+
+#team-details-tabs-tabpane-roster{
+    border: 2px solid grey;
+    border-collapse: collapse;
+    max-width: 100%;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
 }

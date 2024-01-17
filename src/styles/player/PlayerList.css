@@ -2,18 +2,15 @@
     margin: 5px 5px 5px 5px;
 }
 
-.player-list-stat-table-container {
-    border: 2px solid var(--bs-border-color-translucent);
-}
-
 .player-stats-card-player-row:hover, .player-stats-card-player-row > td:hover {
     cursor: pointer;
     color: #25cff2;
 }
 
-.player-list-cards-col {
-    margin-right: 100px;
-    margin-left: 100px;
-    margin-top: 15px;
-    margin-bottom: 15px
+.player-list-cards-container {
+    width: 90%;
+}
+
+.player-list-date-picker {
+    width: 250px;
 }

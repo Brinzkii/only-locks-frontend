@@ -1,3 +1,8 @@
+.gamelist {
+    width: 90%;
+}
+
 .gamelist-list-group-item {
     border: none;
+    max-width: 100%;
 }

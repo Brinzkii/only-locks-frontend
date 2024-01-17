@@ -1,3 +1,10 @@
-#PlayerSeasonStatsTable-sorted-col {
+#player-season-stats-table-sorted-col {
     background: aquamarine;
+}
+
+.player-season-stats-table-metric-button{
+    font-size: x-small;
+    width: 50px;
+    height: 15px;
+    padding: 0px;
 }

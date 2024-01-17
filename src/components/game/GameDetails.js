@@ -139,17 +139,17 @@ function GameDetails({ quarters }) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<div className="GameDetails mt-4 text-center">
-				<h2 className="GameDetails-header">
+			<div className="game-details mt-4 mx-auto text-center">
+				<h2 className="game-details-header">
 					{data.game.homeName} vs. {data.game.awayName}
 				</h2>
-				<h4 className="GameDetails-location">{data.game.location}</h4>
+				<h4 className="game-details-location">{data.game.location}</h4>
 				{data.game.status === 'scheduled' ? (
 					<h4>{Moment(data.game.date).format('LLL')}</h4>
 				) : (
 					<>
 						<h4>{data.game.status === 'scheduled' ? Moment(data.game.date).format('LLL') : null}</h4>
-						<h4 className="GameDetails-clock mb-0">
+						<h4 className="game-details-clock mb-0">
 							<Stack direction="vertical">
 								{data.game.clock ? (
 									<Stack className="mx-auto" gap={2} direction="horizontal">
@@ -161,15 +161,21 @@ function GameDetails({ quarters }) {
 								)}
 							</Stack>
 						</h4>
-						<h4 className="GameDetails-score mt-0">
+						<h4 className="game-details-score mt-0">
 							<small>{data.game.homeCode}</small> {data.game.score} <small>{data.game.awayCode}</small>
 						</h4>
 					</>
 				)}
 
-				<Tabs id="game-details-tabs" justify activeKey={key} onSelect={(k) => setKey(k)} className="mx-auto">
+				<Tabs
+					id="game-details-tabs"
+					justify
+					activeKey={key}
+					onSelect={(k) => setKey(k)}
+					className="mx-auto mt-3"
+				>
 					<Tab eventKey="matchup" title="Matchup">
-						<div className="GameDetails-matchup">
+						<div className="game-details-matchup">
 							{!data.gameStats.home && !data.gameStats.away ? (
 								<TeamComparisonTable
 									title="stat (per game)"
@@ -192,7 +198,7 @@ function GameDetails({ quarters }) {
 					</Tab>
 					{data.h2h.gameStats.length && !data.gameStats.home && !data.gameStats.away ? (
 						<Tab eventKey="h2h" title="Head 2 Head">
-							<div className="GameDetails-h2h">
+							<div className="game-details-h2h">
 								<TeamH2HTable
 									game={data.game}
 									h2h={data.h2h}
@@ -203,11 +209,11 @@ function GameDetails({ quarters }) {
 						</Tab>
 					) : null}
 					<Tab
-						eventKey="Top Performers"
+						eventKey="top"
 						title={data.gameTopPlayers.length ? 'Top Performers (game)' : 'Top Performers (season)'}
 					>
 						{Object.keys(data.gameTopPlayers.home).length === 0 ? (
-							<div className="GameDetails-top-performers mt-5">
+							<div className="game-details-top-performers mt-5">
 								<TeamTopPerformersTable
 									seasonTopPlayers={data.seasonTopPlayers}
 									navToPlayer={navToPlayer}
@@ -215,7 +221,7 @@ function GameDetails({ quarters }) {
 								/>
 							</div>
 						) : (
-							<div className="GameDetails-top-performers mt-5">
+							<div className="game-details-top-performers mt-5">
 								<TeamTopPerformersTable
 									seasonTopPlayers={data.seasonTopPlayers}
 									gameTopPlayers={data.gameTopPlayers}
@@ -227,7 +233,7 @@ function GameDetails({ quarters }) {
 					</Tab>
 					{data.playerGameStats.length ? (
 						<Tab eventKey="boxscore" title="Box Score">
-							<div className="GameDetails-player-game-stats-table mt-4">
+							<div className="game-details-player-game-stats-table mt-4">
 								<PlayerGameStatsTable
 									gameStats={data.playerGameStats}
 									navToPlayer={navToPlayer}
@@ -239,8 +245,8 @@ function GameDetails({ quarters }) {
 				</Tabs>
 
 				{/* All picks placed for current game */}
-				<div className="game-details-picks">
-					<GamePicks picks={data.picks} />
+				<div className="game-details-picks mb-3">
+					<GamePicks picks={data.picks} quarters={quarters} navToPlayer={navToPlayer} />
 				</div>
 			</div>
 		);

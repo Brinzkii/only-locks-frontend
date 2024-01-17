@@ -1,5 +1,5 @@
 .gamecard {
-    width: 600px;
+    width: 650px;
 }
 
 .gamecard-logos-row {
@@ -12,12 +12,16 @@
     margin-right: 0;
 }
 
-.gamecard-vs-col {
-    padding-top: 15%;
+.gamecard-score, .gamecard-clock {
+    font-family: 'Oxanium', sans-serif;
 }
 
-.gamecard-vs-text {
-    font-weight: bold;
+.gamecard-clock {
+    font-weight: 400;
+}
+
+.gamecard-score {
+    font-weight: 600;
 }
 
 .gamecard-logo {
@@ -25,6 +29,6 @@
     height: 125px;
 }
 
-.gamecard-logo:hover, .card-body {
+.gamecard:hover {
     cursor: pointer;
 }

@@ -4,8 +4,7 @@ import Moment from 'moment';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import GameCard from '../game/GameCard';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Stack from 'react-bootstrap/Stack';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
@@ -56,29 +55,22 @@ function GameList({ data, setData, quarters }) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<div className="gamelist text-center">
+			<div className="gamelist text-center mx-auto">
 				<h2 className="gamelist-date-header mt-4">{Moment(data.date).format('LL')}</h2>
-				<Row className="mt-3">
-					<Col></Col>
-					<Col>
-						<Button className="pb-2" onClick={handlePrevClick}>
-							<CaretLeftFill></CaretLeftFill>
-						</Button>
-					</Col>
-					<Col xs>
-						<Form.Control
-							type="date"
-							value={Moment(data.date).format('YYYY-MM-DD')}
-							onChange={handleDateSelection}
-						/>
-					</Col>
-					<Col>
-						<Button className="pb-2" onClick={handleNextClick}>
-							<CaretRightFill></CaretRightFill>
-						</Button>
-					</Col>
-					<Col></Col>
-				</Row>
+				<Stack direction="horizontal" gap={0}>
+					<Button className="pb-2 mx-auto" onClick={handlePrevClick}>
+						<CaretLeftFill></CaretLeftFill>
+					</Button>
+					<Form.Control
+						className="player-list-date-picker"
+						type="date"
+						value={Moment(data.date).format('YYYY-MM-DD')}
+						onChange={handleDateSelection}
+					/>
+					<Button className="pb-2 mx-auto" onClick={handleNextClick}>
+						<CaretRightFill></CaretRightFill>
+					</Button>
+				</Stack>
 
 				<ListGroup className="gamelist-list-group mt-3 mx-auto">
 					{data.games.map((g) => (

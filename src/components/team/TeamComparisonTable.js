@@ -4,7 +4,7 @@ import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
-// import '../styles/GameDetails.css';
+import '../../styles/team/TeamComparisonTable.css';
 
 function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefined, navToTeam, title }) {
 	const categories = {
@@ -34,8 +34,8 @@ function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefine
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<div className="GameDetails-matchup">
-				<Table className="GameDetails-matchup-stats-table" size="sm" striped bordered hover>
+			<div className="team-comparison-table-container">
+				<Table className="team-comparison-table" size="sm" striped bordered hover>
 					<thead>
 						<tr>
 							<th>
@@ -43,7 +43,7 @@ function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefine
 									<Image
 										id={game.homeId}
 										onClick={navToTeam}
-										className="GameDetails-matchup-logo mx-auto"
+										className="team-comparison-table-logo mx-auto"
 										src={game.homeLogo}
 									/>
 									<h5>
@@ -61,7 +61,7 @@ function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefine
 									<Image
 										id={game.awayId}
 										onClick={navToTeam}
-										className="GameDetails-matchup-logo mx-auto"
+										className="team-comparison-table-logo mx-auto"
 										src={game.awayLogo}
 									/>
 
