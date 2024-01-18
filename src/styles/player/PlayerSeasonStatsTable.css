@@ -7,16 +7,6 @@
     cursor: pointer;
 }
 
-.sort-icon {
-    position: relative;
-    top: 5px;
-}
-
-span.category {
-    position: relative;
-    top: 15px;
-}
-
 .player-season-stats-table-player-box {
     border-right: 2px solid #dee2e6;
     height: 35px;

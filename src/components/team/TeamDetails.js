@@ -24,6 +24,7 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 		players: undefined,
 		teamStats: undefined,
 		playerStats: undefined,
+		activeSort: 'points',
 	};
 	const [key, setKey] = useState('roster');
 	const [data, setData] = useState(INITIAL_STATE);
@@ -37,7 +38,7 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 	const navToPlayer = (evt) => {
 		navigate(`/players/${evt.target.id}`);
 	};
-	const handleCategoryClick = (evt) => {
+	const handleCategoryClick = (stat) => {
 		async function sortPlayers(teamId, stat) {
 			setData({ ...data, playerStats: undefined });
 			const conversions = {
@@ -49,9 +50,9 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 			stat = conversions[stat] || stat;
 			const playerStats = await OnlyLocksAPI.sortPlayerStats({ teamId, stat });
 
-			setData({ ...data, playerStats });
+			setData({ ...data, activeSort: stat, playerStats });
 		}
-		sortPlayers(data.team.id, evt.target.id);
+		sortPlayers(data.team.id, stat);
 	};
 
 	const eventPropGetter = (event, isSelected) => ({
@@ -109,8 +110,27 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 
 			const events = Utils.createEvents(games, team);
 
-			setData({ team, teamStats, players, playerStats, games, recentGames, nextGames, events });
-			console.log({ team, teamStats, players, playerStats, games, recentGames, nextGames, events });
+			setData({
+				team,
+				teamStats,
+				players,
+				playerStats,
+				games,
+				recentGames,
+				nextGames,
+				events,
+				activeSort: 'points',
+			});
+			console.log({
+				team,
+				teamStats,
+				players,
+				playerStats,
+				games,
+				recentGames,
+				nextGames,
+				events,
+			});
 		}
 		getData(teamId);
 	}, [teamId]);
@@ -152,6 +172,7 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 								categories={categories}
 								navToPlayer={navToPlayer}
 								handleCategoryClick={handleCategoryClick}
+								activeSort={data.activeSort}
 							/>
 						</div>
 					</Tab>

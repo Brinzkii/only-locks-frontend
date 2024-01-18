@@ -10,7 +10,7 @@ import PlayerGameStatsTable from '../player/PlayerGameStatsTable';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Stack from 'react-bootstrap/Stack';
-import Spinner from 'react-bootstrap/Spinner';
+import Loading from '../Loading';
 import '../../styles/game/GameDetails.css';
 
 function GameDetails({ quarters }) {
@@ -136,7 +136,7 @@ function GameDetails({ quarters }) {
 		getData(gameId);
 	}, [gameId]);
 	if (data.game === undefined) {
-		return <Spinner animation="border" variant="info" />;
+		return <Loading size="100px" />;
 	} else {
 		return (
 			<div className="game-details mt-4 mx-auto text-center">

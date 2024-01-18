@@ -6,16 +6,6 @@
     cursor: pointer;
 }
 
-.sort-icon {
-    position: relative;
-    top: 5px;
-}
-
-span.category {
-    position: relative;
-    top: 15px;
-}
-
 th.team-stats-table-first-row {
     min-width: 200px;
 }

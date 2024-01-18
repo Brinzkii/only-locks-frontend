@@ -3,21 +3,17 @@ import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
 import { CaretDown } from 'react-bootstrap-icons';
+import Stack from 'react-bootstrap/Stack';
 import uuid from 'react-uuid';
 import '../../styles/player/PlayerSeasonStatsTable.css';
 
-function PlayerSeasonStatsTable({
-	stats,
-	categories,
-	navToPlayer,
-	handleCategoryClick = undefined,
-	activeSort = 'points',
-}) {
+function PlayerSeasonStatsTable({ stats, categories, navToPlayer, handleCategoryClick = undefined, activeSort }) {
 	const [metric, setMetric] = useState('perGame');
 	const handleMetricClick = (evt) => {
 		if (evt.target.id !== metric) setMetric(evt.target.id);
 	};
 	const handleSortClick = async (evt) => {
+		console.log(evt.target.id);
 		const stat = evt.target.id;
 		if (stat !== activeSort) {
 			await handleCategoryClick(stat);
@@ -68,10 +64,12 @@ function PlayerSeasonStatsTable({
 									onClick={!handleCategoryClick ? null : handleSortClick}
 								>
 									{key === activeSort ? (
-										<>
-											<span className="category">{categories[key]}</span>
-											<CaretDown className="sort-icon" />
-										</>
+										<Stack id={key} gap={1}>
+											<span id={key} className="category mx-auto">
+												{categories[key]}
+											</span>
+											<CaretDown id={key} className="sort-icon mx-auto" />
+										</Stack>
 									) : (
 										categories[key]
 									)}

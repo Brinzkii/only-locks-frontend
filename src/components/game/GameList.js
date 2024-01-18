@@ -51,7 +51,7 @@ function GameList({ data, setData, quarters }) {
 		getGames(Moment(evt.target.value).format('YYYYMMDD'));
 	}
 	console.log('GAMES:', data.games);
-	if (data.games === undefined) {
+	if (data.games === undefined || !data.games.length) {
 		return <Loading size="100px" />;
 	} else {
 		return (

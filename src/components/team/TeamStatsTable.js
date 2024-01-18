@@ -54,10 +54,10 @@ function TeamStatsTable({ stats, categories, navToTeam, handleCategoryClick, act
 							return (
 								<th className="team-stats-table-category-header" id={key} onClick={handleSortClick}>
 									{key === activeSort ? (
-										<>
-											<span className="category">{categories[key]}</span>
-											<CaretDown className="sort-icon" />
-										</>
+										<Stack gap={0}>
+											<span className="category mx-auto">{categories[key]}</span>
+											<CaretDown className="sort-icon mx-auto" />
+										</Stack>
 									) : (
 										categories[key]
 									)}
