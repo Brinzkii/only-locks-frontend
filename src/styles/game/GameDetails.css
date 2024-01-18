@@ -8,6 +8,18 @@
     margin: 0px;
 }
 
+.game-details-clock, .game-details-score {
+    font-family: 'Oxanium', sans-serif;
+}
+
+.game-details-clock {
+    font-weight: 400;
+}
+
+.game-details-score {
+    font-weight: 600;
+}
+
 #game-details-tabs-tab-top.nav-link, #game-details-tabs-tab-matchup.nav-link, #game-details-tabs-tab-h2h.nav-link, #game-details-tabs-tab-boxscore.nav-link {
     color: black;
 }

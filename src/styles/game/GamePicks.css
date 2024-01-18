@@ -1,5 +1,6 @@
 .game-picks-group { 
     width: 100%;
+    min-height: fit-content;
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
 }

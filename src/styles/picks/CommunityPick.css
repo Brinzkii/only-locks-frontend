@@ -1,4 +1,13 @@
 .community-pick{
     min-width: 175px;
-    height: 125px;
+    height: 145px;
+}
+
+.community-pick-stack {
+    height: 100%;
+}
+
+.community-pick-user {
+    position: absolute;
+    bottom: 0px;
 }

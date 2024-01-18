@@ -1,3 +1,7 @@
 .team-comparison-table-logo {
     width: 100px;
 }
+
+.team-comparison-table-logo:hover {
+    cursor: pointer;
+}

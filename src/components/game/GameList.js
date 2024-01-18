@@ -51,7 +51,7 @@ function GameList({ data, setData, quarters }) {
 		getGames(Moment(evt.target.value).format('YYYYMMDD'));
 	}
 	console.log('GAMES:', data.games);
-	if (data.games === undefined || !data.games.length) {
+	if (data.games === undefined) {
 		return <Loading size="100px" />;
 	} else {
 		return (
@@ -72,19 +72,23 @@ function GameList({ data, setData, quarters }) {
 					</Button>
 				</Stack>
 
-				<ListGroup className="gamelist-list-group mt-3 mx-auto">
-					{data.games.map((g) => (
-						<ListGroup.Item className="gamelist-list-group-item mx-auto" key={uuid()}>
-							<GameCard
-								game={g}
-								navToGame={navToGame}
-								navToTeam={navToTeam}
-								quarters={quarters}
-								key={uuid()}
-							/>
-						</ListGroup.Item>
-					))}
-				</ListGroup>
+				{!data.games.length ? (
+					<Loading size="100px" />
+				) : (
+					<ListGroup className="gamelist-list-group mt-3 mx-auto">
+						{data.games.map((g) => (
+							<ListGroup.Item className="gamelist-list-group-item mx-auto" key={uuid()}>
+								<GameCard
+									game={g}
+									navToGame={navToGame}
+									navToTeam={navToTeam}
+									quarters={quarters}
+									key={uuid()}
+								/>
+							</ListGroup.Item>
+						))}
+					</ListGroup>
+				)}
 			</div>
 		);
 	}

@@ -4,7 +4,7 @@ import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
-// import '../styles/GameDetails.css';
+import '../../styles/team/TeamH2HTable.css';
 
 function TeamH2HTable({ game, h2h, categories, navToTeam }) {
 	if (!h2h) {
@@ -12,7 +12,7 @@ function TeamH2HTable({ game, h2h, categories, navToTeam }) {
 	} else {
 		return (
 			<>
-				<Table className="GameDetails-h2h-table" striped bordered hover size="sm">
+				<Table className="team-h2h-table" striped bordered hover size="sm">
 					<thead>
 						<tr>
 							<th>
@@ -20,7 +20,7 @@ function TeamH2HTable({ game, h2h, categories, navToTeam }) {
 									<Image
 										id={game.homeId}
 										onClick={navToTeam}
-										className="GameDetails-matchup-logo mx-auto"
+										className="team-h2h-table-logo mx-auto"
 										src={game.homeLogo}
 									/>
 									<h5>
@@ -38,7 +38,7 @@ function TeamH2HTable({ game, h2h, categories, navToTeam }) {
 									<Image
 										id={game.awayId}
 										onClick={navToTeam}
-										className="GameDetails-matchup-logo mx-auto"
+										className="team-h2h-table-logo mx-auto"
 										src={game.awayLogo}
 									/>
 

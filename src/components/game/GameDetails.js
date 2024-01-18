@@ -141,7 +141,7 @@ function GameDetails({ quarters }) {
 		return (
 			<div className="game-details mt-4 mx-auto text-center">
 				<h2 className="game-details-header">
-					{data.game.homeName} vs. {data.game.awayName}
+					{data.game.homeName.toUpperCase()} vs {data.game.awayName.toUpperCase()}
 				</h2>
 				<h4 className="game-details-location">{data.game.location}</h4>
 				{data.game.status === 'scheduled' ? (
@@ -210,7 +210,9 @@ function GameDetails({ quarters }) {
 					) : null}
 					<Tab
 						eventKey="top"
-						title={data.gameTopPlayers.length ? 'Top Performers (game)' : 'Top Performers (season)'}
+						title={
+							Object.keys(data.gameTopPlayers.home).length ? 'Top Performers' : 'Top Performers (season)'
+						}
 					>
 						{Object.keys(data.gameTopPlayers.home).length === 0 ? (
 							<div className="game-details-top-performers mt-5">
