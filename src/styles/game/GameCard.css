@@ -28,7 +28,7 @@
 
 .gamecard-logo {
     width: 125px;
-    height: 125px;
+    height: auto;
 }
 
 .gamecard:hover {
@@ -43,12 +43,12 @@
 
 @media only screen and (max-width: 599px){
     .gamecard-logo {
-        width: 90px;
-        height: 90px;
+        width: 75px;
+        height: auto;
     }
 
     .gamecard-team {
-        font-size: 18px;
+        font-size: 15px;
     }
 
     .gamecard-clock {

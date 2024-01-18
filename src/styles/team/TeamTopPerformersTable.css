@@ -2,12 +2,29 @@
     width: 30px;
 }
 
+.team-top-performers-table-team-record {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.team-top-performers-table-separator{
+    height: 125px;
+}
+
 .team-top-performers-table-player-name {
     font-weight: 500;
 }
 
+.team-top-performers-table-category-stack {
+    height: 75px;
+}
+
+.team-top-performers-table-category-last-stack {
+    height: 50px;
+}
+
 .team-top-performers-table-category {
-    text-decoration: underline;
+    font-size: 16px;
     width: 50px;
 }
 

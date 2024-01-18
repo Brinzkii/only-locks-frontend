@@ -1,5 +1,4 @@
 .pick-list-group {
-    min-width: 400px;
     max-width: 500px;
     max-height: 400px;
     min-height: 400px;
@@ -13,14 +12,21 @@
 
 .pick-loser {
     background-color: rgba(255, 0, 0, 0.150);
+    border: 2px solid red;
 }
 
 .pick-bad-value, .pick-loss-text {
     color: red;
 }
 
+.pick-pending {
+    background-color: hsla(0, 0%, 50%, 0.151);
+    border: 2px solid gray;
+}
+
 .pick-winner {
     background-color: rgba(0, 128, 0, 0.150);
+    border: 3px solid green;
 }
 
 .pick-good-value, .pick-win-text {

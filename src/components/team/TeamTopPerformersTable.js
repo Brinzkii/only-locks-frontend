@@ -1,23 +1,70 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import Stack from 'react-bootstrap/Stack';
+import Image from 'react-bootstrap/Image';
+import Row from 'react-bootstrap/Row';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
 import '../../styles/team/TeamTopPerformersTable.css';
-import TeamTopPerformersStatsStack from './TeamTopPerformersStatsStack';
+import StatStack from './StatStack';
 
-function TeamTopPerformersTable({ gameTopPlayers = undefined, seasonTopPlayers = undefined, navToPlayer, categories }) {
+function TeamTopPerformersTable({
+	teamStats,
+	gameTopPlayers = undefined,
+	seasonTopPlayers = undefined,
+	navToPlayer,
+	navToTeam,
+	categories,
+}) {
 	if (!gameTopPlayers && !seasonTopPlayers) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<Table className="GameDetails-top-performers-table mx-auto">
+			<Table striped action className="GameDetails-top-performers-table mx-auto mb-0">
+				<thead>
+					<tr>
+						<th>
+							<Stack>
+								<Image
+									id={teamStats.home.id}
+									onClick={navToTeam}
+									className="team-h2h-table-logo mx-auto"
+									src={teamStats.home.logo}
+								/>
+								<h5>
+									<small className="team-top-performers-table-team-record">
+										({teamStats.home.wins}-{teamStats.home.losses})
+									</small>
+								</h5>
+							</Stack>
+						</th>
+						<th>
+							<div className="vr team-top-performers-table-separator"></div>
+						</th>
+						<th>
+							<Stack>
+								<Image
+									id={teamStats.away.id}
+									onClick={navToTeam}
+									className="team-h2h-table-logo mx-auto"
+									src={teamStats.away.logo}
+								/>
+
+								<h5>
+									<small className="team-top-performers-table-team-record">
+										({teamStats.away.wins}-{teamStats.away.losses})
+									</small>
+								</h5>
+							</Stack>
+						</th>
+					</tr>
+				</thead>
 				<tbody>
 					{!gameTopPlayers
 						? Object.keys(seasonTopPlayers.home).map((key) => {
 								if (key !== 'team') {
 									return (
-										<tr key={uuid()}>
+										<tr className="align-items-center" key={uuid()}>
 											<td
 												id={seasonTopPlayers.home[key].id}
 												onClick={navToPlayer}
@@ -41,7 +88,9 @@ function TeamTopPerformersTable({ gameTopPlayers = undefined, seasonTopPlayers =
 												</Stack>
 											</td>
 
-											<td className="team-top-performers-table-category">{categories[key]}</td>
+											<td className="team-top-performers-table-category pt-3">
+												{categories[key]}
+											</td>
 											<td
 												id={seasonTopPlayers.away[key].id}
 												onClick={navToPlayer}
@@ -72,32 +121,42 @@ function TeamTopPerformersTable({ gameTopPlayers = undefined, seasonTopPlayers =
 								if (key !== 'team') {
 									return (
 										<tr key={uuid()}>
-											<td id={gameTopPlayers.home[key].id} onClick={navToPlayer}>
-												<Stack>
-													<div className="team-top-performers-table-player-name">
+											<td
+												className="mx-auto"
+												id={gameTopPlayers.home[key].id}
+												onClick={navToPlayer}
+											>
+												<Stack className="mx-auto">
+													<div className="team-top-performers-table-player-name mx-auto">
 														{gameTopPlayers.home[key].name}
 													</div>
-													<div>
-														<TeamTopPerformersStatsStack
-															stats={gameTopPlayers}
-															category={key}
-															team="home"
-														/>
+													<div className="mx-auto">
+														<StatStack stats={gameTopPlayers} category={key} team="home" />
 													</div>
 												</Stack>
 											</td>
-											<td className="team-top-performers-table-category">{categories[key]}</td>
-											<td id={gameTopPlayers.away[key].id} onClick={navToPlayer}>
-												<Stack>
+											<td className="team-top-performers-table-category game-stats-category mx-auto">
+												<Stack
+													className={
+														key === 'plusMinus'
+															? 'team-top-performers-table-category-last-stack'
+															: 'team-top-performers-table-category-stack'
+													}
+												>
+													<div className="mt-auto mb-auto">{categories[key]}</div>
+												</Stack>
+											</td>
+											<td
+												className="mx-auto"
+												id={gameTopPlayers.away[key].id}
+												onClick={navToPlayer}
+											>
+												<Stack className="mx-auto">
 													<div className="team-top-performers-table-player-name">
 														{gameTopPlayers.away[key].name}
 													</div>
-													<div>
-														<TeamTopPerformersStatsStack
-															stats={gameTopPlayers}
-															category={key}
-															team="away"
-														/>
+													<div className="mx-auto">
+														<StatStack stats={gameTopPlayers} category={key} team="away" />
 													</div>
 												</Stack>
 											</td>

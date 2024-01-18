@@ -14,7 +14,7 @@ function UserFollowedPlayers({ players, navToPlayer }) {
 	} else {
 		return (
 			<Card>
-				<Card.Header className="following-header text-center">Followed Teams</Card.Header>
+				<Card.Header className="following-header text-center">Followed Players</Card.Header>
 				<Card.Body>
 					<ListGroup className="following-list-group" variant="flush">
 						{players.map((p, idx) => (

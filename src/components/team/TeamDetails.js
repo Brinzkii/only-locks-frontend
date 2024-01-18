@@ -3,13 +3,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import PlayerSeasonStatsTable from '../player/PlayerSeasonStatsTable';
-import TeamGames from '../team/TeamGames';
+import TeamGames from './TeamGames';
 import GamesCalendar from '../game/GamesCalendar';
 import Loading from '../Loading';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import FollowButton from '../user/FollowButton';
 import Utils from '../../utils/utils';
 import '../../styles/team/TeamDetails.css';
@@ -65,17 +67,27 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 			event.resource.game.winner === event.resource.team.id && {
 				style: {
 					backgroundColor: '#008000',
+					height: '30px',
+					'font-size': '12px',
+					'text-wrap': 'wrap',
 				},
 			}),
 		...(event.resource.game.winner &&
 			event.resource.game.winner !== event.resource.team.id && {
 				style: {
 					backgroundColor: '#ff0000',
+					height: '30px',
+					'font-size': '12px',
+					'text-wrap': 'wrap',
 				},
 			}),
 		...(!event.resource.game.winner && {
 			style: {
-				backgroundColor: '#808080',
+				backgroundColor: '#c6c6c6',
+				height: '30px',
+				'font-size': '12px',
+				color: 'black',
+				'text-wrap': 'wrap',
 			},
 		}),
 	});
@@ -135,7 +147,7 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 		getData(teamId);
 	}, [teamId]);
 
-	if (data.team === undefined) {
+	if (data.team === undefined || data.games === undefined) {
 		return <Loading size="100px" />;
 	} else {
 		return (
@@ -161,7 +173,7 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 				<Tabs
 					id="team-details-tabs"
 					className="team-details-tabs mt-3"
-					justify
+					fill
 					activeKey={key}
 					onSelect={(k) => setKey(k)}
 				>
@@ -177,26 +189,34 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 						</div>
 					</Tab>
 					<Tab eventKey="recentGames" title="Recent Games">
-						<Stack direction="horizontal" className="mt-4">
-							<div className="team-details-recent-games ms-auto">
-								<h5>Last 5</h5>
-								<TeamGames
-									team={data.team}
-									games={data.recentGames}
-									navToGame={navToGame}
-									navToTeam={navToTeam}
-								/>
-							</div>
-							<div className="team-details-next-games mx-auto">
-								<h5>Next 5</h5>
-								<TeamGames
-									team={data.team}
-									games={data.nextGames}
-									navToGame={navToGame}
-									navToTeam={navToTeam}
-								/>
-							</div>
-						</Stack>
+						<Row className="mt-4">
+							<Col>
+								<div className="team-details-next-games mx-auto">
+									<h4>Next 5</h4>
+									<TeamGames
+										team={data.team}
+										games={data.nextGames}
+										navToGame={navToGame}
+										navToTeam={navToTeam}
+										data={data}
+										setData={setData}
+									/>
+								</div>
+							</Col>
+							<Col>
+								<div className="team-details-recent-games ms-auto">
+									<h4>Last 5</h4>
+									<TeamGames
+										team={data.team}
+										games={data.recentGames}
+										navToGame={navToGame}
+										navToTeam={navToTeam}
+										data={data}
+										setData={setData}
+									/>
+								</div>
+							</Col>
+						</Row>
 					</Tab>
 					<Tab eventKey="allGames" title="All Games">
 						<div className="team-details-calendar-container mt-4">

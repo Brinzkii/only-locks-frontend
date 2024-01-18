@@ -11,7 +11,7 @@ a {
 }
 
 .team-details-calendar-container {
-    height: 650px;
+    height: 660px;
 }
 
 #team-details-tabs-tab-roster.nav-link, #team-details-tabs-tab-recentGames.nav-link, #team-details-tabs-tab-allGames.nav-link {
@@ -29,4 +29,10 @@ a {
     max-width: 100%;
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
+}
+
+@media only screen and (max-width: 693px){
+    .team-details-recent-games {
+        margin-top: 25px;
+    }
 }

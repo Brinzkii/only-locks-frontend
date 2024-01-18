@@ -1,23 +1,29 @@
-.TeamGame-card-win {
+.team-games-card-win {
     border: 3px solid green;
 }
 
-.TeamGame-card-loss {
+.team-games-card-loss {
     border: 3px solid red;
 }
 
-.TeamGame-logo{
-    width: 75px;
+.team-games-logo{
+    width: 90px;
+    height: auto;
 }
 
-.TeamGame-recent-games, .TeamGame-next-games{
+.team-games-logo:hover, .team-games-card-body{
+    cursor: pointer;
+}
+
+.team-games-recent-games, .team-games-next-games{
     width: 100%;
     margin: auto;
 }
 
-.TeamGame-card {
+.team-games-card {
     min-width: 300px;
     max-width: 450px;
+    height: 250px;
 }
 
 a {

@@ -16,6 +16,7 @@ function GamesCalendar({ games, eventPropGetter = undefined }) {
 			views={['month', 'agenda']}
 			onSelectEvent={(evt) => navigate(`/games/${evt.resource.game.id}`)}
 			eventPropGetter={eventPropGetter ? eventPropGetter : null}
+			messages={{ agenda: 'Upcoming' }}
 		/>
 	);
 }

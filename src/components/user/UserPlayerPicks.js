@@ -16,7 +16,7 @@ function UserPlayerPicks({ picks, quarters, navToPlayer, navToGame }) {
 					Player Picks <small>({picks.playerPickRecord})</small>
 				</Card.Header>
 				<Card.Body>
-					<ListGroup variant="flush" className="pick-list-group text-center">
+					<ListGroup className="pick-list-group text-center">
 						{picks.playerPicks.map((p, idx) => (
 							<PlayerPick
 								key={uuid()}

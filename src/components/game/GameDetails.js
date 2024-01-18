@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
+import GameDetailsHeader from './GameDetailsHeader';
 import TeamComparisonTable from '../team/TeamComparisonTable';
 import GamePicks from './GamePicks';
 import TeamH2HTable from '../team/TeamH2HTable';
 import TeamTopPerformersTable from '../team/TeamTopPerformersTable';
 import PlayerGameStatsTable from '../player/PlayerGameStatsTable';
+import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Image from 'react-bootstrap/Image';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Stack from 'react-bootstrap/Stack';
@@ -140,40 +145,14 @@ function GameDetails({ quarters }) {
 	} else {
 		return (
 			<div className="game-details mt-4 mx-auto text-center">
-				<h2 className="game-details-header">
-					{data.game.homeName.toUpperCase()} vs {data.game.awayName.toUpperCase()}
-				</h2>
-				<h4 className="game-details-location">{data.game.location}</h4>
-				{data.game.status === 'scheduled' ? (
-					<h4>{Moment(data.game.date).format('LLL')}</h4>
-				) : (
-					<>
-						<h4>{data.game.status === 'scheduled' ? Moment(data.game.date).format('LLL') : null}</h4>
-						<h4 className="game-details-clock mb-0">
-							<Stack direction="vertical">
-								{data.game.clock ? (
-									<Stack className="mx-auto" gap={2} direction="horizontal">
-										<div>{data.game.clock}</div>
-										<small>{quarters[data.game.quarter]} Qtr</small>
-									</Stack>
-								) : (
-									<div>Final</div>
-								)}
-							</Stack>
-						</h4>
-						<h4 className="game-details-score mt-0">
-							<small>{data.game.homeCode}</small> {data.game.score} <small>{data.game.awayCode}</small>
-						</h4>
-					</>
-				)}
-
-				<Tabs
-					id="game-details-tabs"
-					justify
-					activeKey={key}
-					onSelect={(k) => setKey(k)}
-					className="mx-auto mt-3"
-				>
+				<GameDetailsHeader
+					game={data.game}
+					homeRecord={`${data.teamStats.home.wins} - ${data.teamStats.home.losses}`}
+					awayRecord={`${data.teamStats.away.wins} - ${data.teamStats.away.losses}`}
+					quarters={quarters}
+					navToTeam={navToTeam}
+				/>
+				<Tabs id="game-details-tabs" fill activeKey={key} onSelect={(k) => setKey(k)} className="mx-auto mt-3">
 					<Tab eventKey="matchup" title="Matchup">
 						<div className="game-details-matchup">
 							{!data.gameStats.home && !data.gameStats.away ? (
@@ -215,19 +194,23 @@ function GameDetails({ quarters }) {
 						}
 					>
 						{Object.keys(data.gameTopPlayers.home).length === 0 ? (
-							<div className="game-details-top-performers mt-5">
+							<div className="game-details-top-performers mb-3">
 								<TeamTopPerformersTable
 									seasonTopPlayers={data.seasonTopPlayers}
+									teamStats={data.teamStats}
 									navToPlayer={navToPlayer}
+									navToTeam={navToTeam}
 									categories={categories}
 								/>
 							</div>
 						) : (
-							<div className="game-details-top-performers mt-5">
+							<div className="game-details-top-performers mb-3">
 								<TeamTopPerformersTable
 									seasonTopPlayers={data.seasonTopPlayers}
 									gameTopPlayers={data.gameTopPlayers}
+									teamStats={data.teamStats}
 									navToPlayer={navToPlayer}
+									navToTeam={navToTeam}
 									categories={categories}
 								/>
 							</div>

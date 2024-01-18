@@ -5,8 +5,11 @@ import UserPlayerPicks from './UserPlayerPicks';
 import UserTeamPicks from './UserTeamPicks';
 import UserFollowedTeams from './UserFollowedTeams';
 import UserFollowedPlayers from './UserFollowedPlayers';
-import Spinner from 'react-bootstrap/Spinner';
+import Loading from '../Loading';
 import Stack from 'react-bootstrap/Stack';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import '../../styles/user/User.css';
 
 function User({ quarters }) {
 	const ranks = {
@@ -43,47 +46,47 @@ function User({ quarters }) {
 		getDetails(username);
 	}, [username]);
 	if (user === undefined) {
-		return <Spinner animation="border" variant="info" />;
+		return <Loading size="100px" />;
 	} else {
 		return (
-			<div className="UserDetails mt-4 text-center">
-				<h2 className="UserDetails-username">
+			<div className="user mt-3 mb-3 mx-auto text-center">
+				<h2 className="user-username">
 					{user.username}{' '}
-					<small className="UserDetails-record">
+					<small className="user-record">
 						({user.wins || 0} - {user.losses || 0})
 					</small>
 				</h2>
 				<h6>Rank: {ranks[Object.keys(ranks).find((k, idx) => Number(k) > user.points)]}</h6>
 
-				<Stack direction="horizontal" className="mt-4">
-					<div className="UserDetails-playerpicks-container mx-auto">
-						<UserPlayerPicks
-							picks={user.picks}
-							quarters={quarters}
-							navToPlayer={navToPlayer}
-							navToGame={navToGame}
-						/>
-					</div>
+				<Row className="user-stuff-container mt-4">
+					<Col>
+						<div className="user-playerpicks-container mx-auto">
+							<UserPlayerPicks
+								picks={user.picks}
+								quarters={quarters}
+								navToPlayer={navToPlayer}
+								navToGame={navToGame}
+							/>
+						</div>
+						<div className="user-teampicks-container mx-auto">
+							<UserTeamPicks
+								picks={user.picks}
+								navToGame={navToGame}
+								navToTeam={navToTeam}
+								quarters={quarters}
+							/>
+						</div>
+					</Col>
+					<Col>
+						<div className="user-followed-players-container mx-auto">
+							<UserFollowedPlayers players={user.followedPlayers} navToPlayer={navToPlayer} />
+						</div>
 
-					<div className="UserDetails-teampicks-container mx-auto">
-						<UserTeamPicks
-							picks={user.picks}
-							navToGame={navToGame}
-							navToTeam={navToTeam}
-							quarters={quarters}
-						/>
-					</div>
-				</Stack>
-
-				<Stack direction="horizontal" className="mt-5">
-					<div className="UserDetails-followed-players-container mx-auto">
-						<UserFollowedPlayers players={user.followedPlayers} navToPlayer={navToPlayer} />
-					</div>
-
-					<div className="UserDetails-followed-teams-container mx-auto">
-						<UserFollowedTeams teams={user.followedTeams} navToTeam={navToTeam} />
-					</div>
-				</Stack>
+						<div className="user-followed-teams-container mx-auto">
+							<UserFollowedTeams teams={user.followedTeams} navToTeam={navToTeam} />
+						</div>
+					</Col>
+				</Row>
 			</div>
 		);
 	}

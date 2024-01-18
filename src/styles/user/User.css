@@ -1,0 +1,16 @@
+.user{
+    width: 95%;
+}
+
+.user-teampicks-container, .user-followed-teams-container { 
+    margin-top: 35px;
+}
+
+@media only screen and (max-width: 693px){
+    .user-teampicks-container, .user-followed-players-container, .user-followed-teams-container {
+        margin-top: 35px;
+    }
+    .user{
+        width: 90%;
+    }
+}

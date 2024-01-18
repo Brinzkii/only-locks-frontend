@@ -18,19 +18,23 @@ function CommunityTeamPick({ pick, navToUser }) {
 			className="pick-pending community-pick"
 			key={uuid()}
 		>
-			<h6 id={pick.gameId}>
-				{pick.selectedCode} TO WIN -{' '}
-				{pick.isLeading ? (
-					<Badge pill bg="success">
-						<strong>+{pick.difference}</strong>
-					</Badge>
-				) : (
-					<Badge pill bg="danger">
-						<strong>{pick.difference}</strong>
-					</Badge>
-				)}
-			</h6>
-			<h6 id={pick.username}>Placed by: {pick.username}</h6>
+			<Stack gap={1} className="community-pick-stack align-items-center">
+				<h6 id={pick.gameId}>
+					{pick.selectedCode} TO WIN -{' '}
+					{pick.isLeading ? (
+						<Badge pill bg="success">
+							<strong>+{pick.difference}</strong>
+						</Badge>
+					) : (
+						<Badge pill bg="danger">
+							<strong>{pick.difference}</strong>
+						</Badge>
+					)}
+				</h6>
+				<h6 className="community-pick-user" id={pick.username}>
+					Placed by: {pick.username}
+				</h6>
+			</Stack>
 		</ListGroup.Item>
 	) : pick.status === 'finished' ? (
 		// Finished pick
@@ -42,19 +46,23 @@ function CommunityTeamPick({ pick, navToUser }) {
 			className={pick.result === true ? 'pick-winner community-pick' : 'pick-loser community-pick'}
 			key={uuid()}
 		>
-			{pick.result === true ? (
-				<h4 className="pick-win-text text-center mx-auto" id={pick.username}>
-					<Stack>
-						<Trophy className="mx-auto"></Trophy> <small>+{pick.pointValue || 0}pts</small>
-					</Stack>
-				</h4>
-			) : (
-				<h4 className="pick-loss-text text-center" id={pick.username}>
-					<XCircle></XCircle>
-				</h4>
-			)}
-			<h6 id={pick.username}>{pick.selectedCode} TO WIN</h6>
-			<h6 id={pick.username}>Placed by: {pick.username}</h6>
+			<Stack gap={1} className="community-pick-stack align-items-center">
+				{pick.result === true ? (
+					<h4 className="pick-win-text text-center mx-auto" id={pick.username}>
+						<Stack>
+							<Trophy className="mx-auto"></Trophy> <small>+{pick.pointValue || 0}pts</small>
+						</Stack>
+					</h4>
+				) : (
+					<h4 className="pick-loss-text text-center" id={pick.username}>
+						<XCircle></XCircle>
+					</h4>
+				)}
+				<h6 id={pick.username}>{pick.selectedCode} TO WIN</h6>
+				<h6 className="community-pick-user" id={pick.username}>
+					Placed by: {pick.username}
+				</h6>
+			</Stack>
 		</ListGroup.Item>
 	) : (
 		// Pending pick
@@ -66,8 +74,12 @@ function CommunityTeamPick({ pick, navToUser }) {
 			className="pick-pending community-pick"
 			key={uuid()}
 		>
-			<h6 id={pick.username}>{pick.selectedCode} TO WIN</h6>
-			<h6 id={pick.username}>Placed by: {pick.username}</h6>
+			<Stack gap={1} className="community-pick-stack align-items-center">
+				<h6 id={pick.username}>{pick.selectedCode} TO WIN</h6>
+				<h6 className="community-pick-user" id={pick.username}>
+					Placed by: {pick.username}
+				</h6>
+			</Stack>
 		</ListGroup.Item>
 	);
 }

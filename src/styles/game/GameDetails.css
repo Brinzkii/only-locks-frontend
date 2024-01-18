@@ -1,5 +1,5 @@
 .game-details {
-    width: 90%;
+    width: 95%;
 }
 
 .game-details-player-link {
@@ -27,4 +27,14 @@
 #game-details-tabs-tab-top.nav-link.active, #game-details-tabs-tab-matchup.nav-link.active, #game-details-tabs-tab-h2h.nav-link.active, #game-details-tabs-tab-boxscore.nav-link.active {
     font-weight: bold;
     background-color: #0d6dfd65;
+}
+
+.game-details-top-performers {
+    border: 2px solid #dee2e6
+}
+
+@media only screen and (max-width: 599px){
+    button#game-details-tabs {
+        min-height: 130px;
+    }
 }

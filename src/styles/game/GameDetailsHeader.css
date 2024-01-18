@@ -1,0 +1,55 @@
+.game-details-header {
+    width: 100%;
+}
+
+.game-details-header-logos-row {
+    width: 110%;
+    padding-right: 0;
+}
+
+.game-details-header-logos-container {
+    width: 100%;
+    margin-right: 0;
+}
+
+.game-details-header-score, .gamecard-clock {
+    font-family: 'Oxanium', sans-serif;
+}
+
+.game-details-header-clock {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.game-details-header-score {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.game-details-header-logo {
+    max-width: 70%;
+    height: auto;
+}
+
+.game-details-header:hover {
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 599px){
+    .game-details-header-logo {
+        max-width: 100px;
+        height: auto;
+    }
+
+    .game-details-header-team {
+        font-size: 18px;
+    }
+
+    .game-details-header-clock {
+        font-size: 20px;
+    }
+    
+    .game-details-header-score {
+        font-size: 22px;
+    }
+}
