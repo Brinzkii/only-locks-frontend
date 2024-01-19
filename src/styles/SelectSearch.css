@@ -5,12 +5,12 @@
  */
 .select-search-container {
     --select-search-background: #fff;
-    --select-search-border: #dce0e8;
-    --select-search-selected: #1e66f5;
+    --select-search-border: #AED6F1;
+    --select-search-selected: #2C3E50;
     --select-search-text: #000;
     --select-search-subtle-text: #6c6f85;
     --select-search-inverted-text: var(--select-search-background);
-    --select-search-highlight: #eff1f5;
+    --select-search-highlight: #AED6F1;
     --select-search-font: 'Inter', sans-serif;
 
     width: 70%;
@@ -50,7 +50,7 @@ body.is-dark-mode .select-search-container {
 body.is-light-mode .select-search-container {
     --select-search-background: #fff;
     --select-search-border: #dce0e8;
-    --select-search-selected: #1e66f5;
+    --select-search-selected: #AED6F1;
     --select-search-text: #000;
     --select-search-subtle-text: #6c6f85;
     --select-search-highlight: #eff1f5;

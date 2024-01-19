@@ -20,7 +20,7 @@ function TeamTopPerformersTable({
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<Table striped action className="GameDetails-top-performers-table mx-auto mb-0">
+			<Table striped action variant="dark" className="GameDetails-top-performers-table mx-auto mb-0">
 				<thead>
 					<tr>
 						<th>

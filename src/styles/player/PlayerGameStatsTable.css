@@ -1,7 +1,14 @@
 #player-game-stats-table-sorted-col {
-    background: #5071a777;
+    background: var(--sort-color);
     font-weight: bold;
+    color: var(--background-color);
 }
+
+tr:hover td#player-game-stats-table-col, #player-game-stats-table-sorted-col, .player-game-stats-table-first-box {
+    font-weight: bold;
+    --bs-table-hover-color: var(--background-color);
+    --bs-table-hover-bg: var(--sort-color);
+  }
 
 .player-game-stats-table-vs-stack {
     font-weight: 500;

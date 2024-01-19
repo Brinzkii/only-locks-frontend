@@ -33,7 +33,7 @@ function Navigation({ logoutUser, teams, players }) {
 		}
 	}, [players, teams]);
 	return (
-		<Navbar expand="lg" className="navigation bg-body-tertiary">
+		<Navbar expand="lg" bg="secondary" data-bs-theme="dark" className="navigation">
 			<Container className="navigation-container">
 				<Navbar.Brand className="navigation-brand ma-auto" href="/">
 					<img className="navigation-logo" src={Logo} alt="OnlyLocks" />
@@ -42,10 +42,10 @@ function Navigation({ logoutUser, teams, players }) {
 				<Navbar.Collapse id="onlylocks-navbar-nav">
 					{!localStorage.token ? (
 						<Nav className="ms-auto align-items-center">
-							<Button href="/login" variant="success" key={uuid()}>
+							<Button href="/login" variant="primary" className="m-2" key={uuid()}>
 								Login
 							</Button>
-							<Button href="/register" className="p-2" variant="info" key={uuid()}>
+							<Button href="/register" className="m-2" variant="warning" key={uuid()}>
 								Register
 							</Button>
 						</Nav>
@@ -53,17 +53,21 @@ function Navigation({ logoutUser, teams, players }) {
 						<Nav className="ms-auto align-items-center">
 							<Nav.Link href="/games">Games</Nav.Link>
 
-							<Nav.Link href="/players">Players</Nav.Link>
+							<Nav.Link href="/players">Top Players</Nav.Link>
 
-							<NavDropdown title="Stats" id="stats-dropdown">
-								<NavDropdown.Item href={`/players/stats`}>Players</NavDropdown.Item>
+							<NavDropdown title="Season Stats" id="stats-dropdown">
+								<NavDropdown.Item className="text-center" href={`/players/stats`}>
+									Players
+								</NavDropdown.Item>
 
-								<NavDropdown.Item href={`/teams/stats`}>Teams</NavDropdown.Item>
+								<NavDropdown.Item className="text-center" href={`/teams/stats`}>
+									Teams
+								</NavDropdown.Item>
 							</NavDropdown>
 
 							<NavDropdown title="Teams" id="teams-dropdown">
 								{data.teams.map((t) => (
-									<NavDropdown.Item href={`/teams/${t.id}`} key={uuid()}>
+									<NavDropdown.Item className="text-center" href={`/teams/${t.id}`} key={uuid()}>
 										{t.name}
 									</NavDropdown.Item>
 								))}
@@ -84,7 +88,7 @@ function Navigation({ logoutUser, teams, players }) {
 										<Button
 											className="nav-profile-button"
 											href={`/users/${localStorage.username}`}
-											variant="info"
+											variant="primary"
 											key={uuid()}
 										>
 											{localStorage.username}

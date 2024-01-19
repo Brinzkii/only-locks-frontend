@@ -1,27 +1,25 @@
 .follow-button, .unfollow-button {
     width: 50px;
     font-size: 20px;
+    border: 2px solid var(--form-background);
 }
 
 .follow-button {
     background-color: white;
-    border:2px solid gold;
     color: gold;
 }
 
 .follow-button:hover{
     background-color: gold;
     color: white;
-    border: 2px solid white;
 }
 
 .unfollow-button {
     background-color: gold;
-    border: 2px solid white;
+    color: white;
 }
 
 .unfollow-button:hover{
     background-color: white;
-    border:2px solid gold;
     color: gold;
 }

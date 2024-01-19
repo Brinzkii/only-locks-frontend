@@ -12,7 +12,7 @@ function TeamH2HTable({ game, h2h, categories, navToTeam }) {
 	} else {
 		return (
 			<>
-				<Table className="team-h2h-table" striped bordered hover size="sm">
+				<Table className="team-h2h-table" striped bordered hover size="sm" variant="dark">
 					<thead>
 						<tr>
 							<th>

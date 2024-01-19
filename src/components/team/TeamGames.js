@@ -59,7 +59,7 @@ function TeamGames({ team, games, navToGame, navToTeam, data, setData }) {
 								</Stack>
 							</Card.Header>
 							<Card.Body className="team-games-card-body" id={`${g.id}`} onClick={navToGame}>
-								<Card.Title id={`${g.id}`}>
+								<Card.Title id={`${g.id}`} className={g.score === 'TBD' ? null : 'team-games-score'}>
 									{g.score === 'TBD' ? Moment(g.date).format('MMMM Do h:mm a') : g.score}
 								</Card.Title>
 								<Card.Text id={`${g.id}`}>

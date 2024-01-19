@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import TeamStatsTable from './TeamStatsTable';
-import Spinner from 'react-bootstrap/Spinner';
+import Loading from '../Loading';
 import '../../styles/team/TeamStats.css';
 
 function TeamStats() {
@@ -63,7 +63,7 @@ function TeamStats() {
 		<div className="team-stats mx-auto text-center mt-3">
 			<h4>Team Season Stats</h4>
 			{!data.stats ? (
-				<Spinner animation="border" variant="info" />
+				<Loading size="100px" />
 			) : (
 				<div className="team-stats-table-container">
 					<TeamStatsTable

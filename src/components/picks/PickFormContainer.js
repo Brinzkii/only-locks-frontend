@@ -17,7 +17,7 @@ function PickFormContainer({ notifySuccess, notifyError }) {
 	const handlePickButton = () => (!data.show ? setData({ ...data, show: true }) : setData({ ...data, show: false }));
 	return (
 		<>
-			<Modal show={data.show} onHide={handlePickButton}>
+			<Modal className="pick-form-container" show={data.show} onHide={handlePickButton}>
 				<Modal.Header closeButton className="pick-form-container-header">
 					<Modal.Title className="text-center">Ready to lock in your next pick?</Modal.Title>
 				</Modal.Header>

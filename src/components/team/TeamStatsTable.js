@@ -24,7 +24,7 @@ function TeamStatsTable({ stats, categories, navToTeam, handleCategoryClick, act
 		}
 	};
 	return (
-		<Table className="team-stats-table mb-1" size="sm" action striped>
+		<Table className="team-stats-table mb-1" size="sm" hover variant="dark">
 			<thead>
 				<tr key={uuid()}>
 					<th className="team-stats-table-first-row">
@@ -83,65 +83,119 @@ function TeamStatsTable({ stats, categories, navToTeam, handleCategoryClick, act
 									</Stack>
 								</td>
 
-								<td id={activeSort === 'gp' ? 'team-stats-table-sorted-col' : null}>{t.games}</td>
-								<td id={activeSort === 'wins' ? 'team-stats-table-sorted-col' : null}>{t.wins}</td>
-								<td id={activeSort === 'losses' ? 'team-stats-table-sorted-col' : null}>{t.losses}</td>
-								<td id={activeSort === 'points' ? 'team-stats-table-sorted-col' : null}>
+								<td id={activeSort === 'gp' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}>
+									{t.games}
+								</td>
+								<td id={activeSort === 'wins' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}>
+									{t.wins}
+								</td>
+								<td
+									id={
+										activeSort === 'losses' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'
+									}
+								>
+									{t.losses}
+								</td>
+								<td
+									id={
+										activeSort === 'points' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'
+									}
+								>
 									{t.points !== 0 ? t.points.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'fgm' ? 'team-stats-table-sorted-col' : null}>
+								<td id={activeSort === 'fgm' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}>
 									{t.fgm !== 0 ? t.fgm.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'fga' ? 'team-stats-table-sorted-col' : null}>
+								<td id={activeSort === 'fga' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}>
 									{t.fga !== 0 ? t.fga.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'fgp' ? 'team-stats-table-sorted-col' : null}>
+								<td id={activeSort === 'fgp' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}>
 									{t.fgp !== 0 ? t.fgp.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'ftm' ? 'team-stats-table-sorted-col' : null}>
+								<td id={activeSort === 'ftm' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}>
 									{t.ftm !== 0 ? t.ftm.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'fta' ? 'team-stats-table-sorted-col' : null}>
+								<td id={activeSort === 'fta' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}>
 									{t.fta !== 0 ? t.fta.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'ftp' ? 'team-stats-table-sorted-col' : null}>
+								<td id={activeSort === 'ftp' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}>
 									{t.ftp !== 0 ? t.ftp.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'tpm' ? 'team-stats-table-sorted-col' : null}>
+								<td id={activeSort === 'tpm' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}>
 									{t.tpm !== 0 ? t.tpm.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'tpa' ? 'team-stats-table-sorted-col' : null}>
+								<td id={activeSort === 'tpa' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}>
 									{t.tpa !== 0 ? t.tpa.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'tpp' ? 'team-stats-table-sorted-col' : null}>
+								<td id={activeSort === 'tpp' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}>
 									{t.tpp !== 0 ? t.tpp.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'totalReb' ? 'team-stats-table-sorted-col' : null}>
+								<td
+									id={
+										activeSort === 'totalReb'
+											? 'team-stats-table-sorted-col'
+											: 'team-stats-table-col'
+									}
+								>
 									{t.totalReb !== 0 ? t.totalReb.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'offReb' ? 'team-stats-table-sorted-col' : null}>
+								<td
+									id={
+										activeSort === 'offReb' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'
+									}
+								>
 									{t.offReb !== 0 ? t.offReb.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'defReb' ? 'team-stats-table-sorted-col' : null}>
+								<td
+									id={
+										activeSort === 'defReb' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'
+									}
+								>
 									{t.defReb !== 0 ? t.defReb.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'assists' ? 'team-stats-table-sorted-col' : null}>
+								<td
+									id={
+										activeSort === 'assists'
+											? 'team-stats-table-sorted-col'
+											: 'team-stats-table-col'
+									}
+								>
 									{t.assists !== 0 ? t.assists.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'fouls' ? 'team-stats-table-sorted-col' : null}>
+								<td
+									id={activeSort === 'fouls' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'}
+								>
 									{t.fouls !== 0 ? t.fouls.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'steals' ? 'team-stats-table-sorted-col' : null}>
+								<td
+									id={
+										activeSort === 'steals' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'
+									}
+								>
 									{t.steals !== 0 ? t.steals.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'turnovers' ? 'team-stats-table-sorted-col' : null}>
+								<td
+									id={
+										activeSort === 'turnovers'
+											? 'team-stats-table-sorted-col'
+											: 'team-stats-table-col'
+									}
+								>
 									{t.turnovers !== 0 ? t.turnovers.toFixed(1) : 0}
 								</td>
-								<td id={activeSort === 'blocks' ? 'team-stats-table-sorted-col' : null}>
+								<td
+									id={
+										activeSort === 'blocks' ? 'team-stats-table-sorted-col' : 'team-stats-table-col'
+									}
+								>
 									{t.blocks !== 0 ? t.blocks.toFixed(1) : 0}
 								</td>
 								<td
-									id={activeSort === 'plusMinus' ? 'team-stats-table-sorted-col' : null}
+									id={
+										activeSort === 'plusMinus'
+											? 'team-stats-table-sorted-col'
+											: 'team-stats-table-col'
+									}
 									className="team-stats-table-last-row"
 								>
 									{t.plusMinus !== 0 ? t.plusMinus.toFixed(1) : 0}

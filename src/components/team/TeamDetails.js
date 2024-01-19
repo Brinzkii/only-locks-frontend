@@ -152,8 +152,8 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 	} else {
 		return (
 			<div className="team-details mt-4 mb-3 mx-auto text-center">
-				<div className="team-details-header">
-					<Image className="team-details-logo" src={data.team.logo} />
+				<div className="team-details-header pb-3">
+					<Image className="team-details-logo mt-3" src={data.team.logo} />
 					<h2 className="team-details-name">
 						{data.team.name} ({data.teamStats.wins}-{data.teamStats.losses})
 					</h2>
@@ -162,12 +162,14 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 							conversion[data.team.divisionRank]
 						} in ${data.team.division} Division`}
 					</h5>
-					<FollowButton
-						team={data.team}
-						user={user}
-						notifySuccess={notifySuccess}
-						notifyError={notifyError}
-					/>
+					<div className="pt-1">
+						<FollowButton
+							team={data.team}
+							user={user}
+							notifySuccess={notifySuccess}
+							notifyError={notifyError}
+						/>
+					</div>
 				</div>
 
 				<Tabs
@@ -178,7 +180,7 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 					onSelect={(k) => setKey(k)}
 				>
 					<Tab eventKey="roster" title="Roster">
-						<div className="team-details-player-stats mt-4">
+						<div className="team-details-player-stats">
 							<PlayerSeasonStatsTable
 								stats={data.playerStats}
 								categories={categories}

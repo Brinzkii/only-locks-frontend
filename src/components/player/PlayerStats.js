@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
 import PlayerSeasonStatsTable from './PlayerSeasonStatsTable';
-import Spinner from 'react-bootstrap/Spinner';
+import Loading from '../Loading';
 import '../../styles/player/PlayerStats.css';
 
 function PlayerStats({ categories }) {
@@ -38,7 +38,7 @@ function PlayerStats({ categories }) {
 		<div className="player-stats text-center mx-auto mt-3">
 			<h4>Player Season Stats</h4>
 			{!data.stats ? (
-				<Spinner animation="border" variant="info" />
+				<Loading size="100px" />
 			) : (
 				<div className="player-stats-table-container">
 					<PlayerSeasonStatsTable

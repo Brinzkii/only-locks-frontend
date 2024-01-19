@@ -1,0 +1,14 @@
+:root{
+    --background-color: #2C3E50;
+    --form-background: #5D6D7E;
+    --sort-color: #AED6F1;
+};
+
+$theme-colors: (
+    'primary': #AED6F1,
+    'secondary': #5D6D7E,
+    'dark': #2C3E50,
+    'warning': #FAC898
+);
+
+@import '~bootstrap/scss/bootstrap.scss';

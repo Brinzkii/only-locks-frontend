@@ -122,8 +122,8 @@ function PlayerPickForm({ notifySuccess, notifyError }) {
 	return (
 		<Form className="pick-form text-center" onSubmit={handleSubmit}>
 			{data.selectedPlayer ? (
-				<Form.Text className="pick-form-pick-details mb-4">
-					<Stack className="pick-form-pick-details-stack mx-auto">
+				<Form.Text className="pick-form-pick-details">
+					<Stack className="pick-form-pick-details-stack mx-auto mb-4">
 						<div className="pick-form-pick-details-header">Pick Details</div>
 						<div>
 							{data.players[data.selectedPlayer].name}{' '}

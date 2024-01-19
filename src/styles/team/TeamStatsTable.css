@@ -18,9 +18,16 @@ th.team-stats-table-first-row {
 }
 
 #team-stats-table-sorted-col {
-    background: #5071a777;
+    background: var(--sort-color);
     font-weight: bold;
+    color: var(--background-color);
 }
+
+tr:hover td#team-stats-table-col, #team-stats-table-sorted-col, .team-stats-table-team-box {
+    font-weight: bold;
+    --bs-table-hover-color: var(--background-color);
+    --bs-table-hover-bg: var(--sort-color);
+  }
 
 .team-stats-table-metric-button {
     width: 50px;

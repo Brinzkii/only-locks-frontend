@@ -107,7 +107,7 @@ function PlayerList({ data, setData }) {
 		setLoading(true);
 		setTimeout(() => {
 			setLoading(false);
-		}, 1500);
+		}, 2000);
 	}, []);
 	return (
 		<div className="player-list text-center mt-4 mb-3">

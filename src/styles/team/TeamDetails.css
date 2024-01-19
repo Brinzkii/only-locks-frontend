@@ -1,5 +1,10 @@
 .team-details {
-    width: 90%;
+    width: 95%;
+}
+
+.team-details-header {
+    background-color: var(--form-background);
+    border-radius: .15cm;
 }
 
 .team-details-logo{
@@ -12,15 +17,22 @@ a {
 
 .team-details-calendar-container {
     height: 660px;
+    background-color: #5D6D7E;
+}
+
+.team-details-calendar-container > button {
+    color: white;
 }
 
 #team-details-tabs-tab-roster.nav-link, #team-details-tabs-tab-recentGames.nav-link, #team-details-tabs-tab-allGames.nav-link {
-    color: black;
+    color: white;
+    font-size: 18px
 }
 
 #team-details-tabs-tab-roster.nav-link.active, #team-details-tabs-tab-recentGames.nav-link.active, #team-details-tabs-tab-allGames.nav-link.active {
     font-weight: bold;
-    background-color: #0d6dfd65;
+    color: black;
+    background-color: var(--sort-color);
 }
 
 #team-details-tabs-tabpane-roster{

@@ -1,4 +1,13 @@
+.player-info-card {
+    background-color: var(--form-background);
+    color: white;
+}
+
 .player-info-card-image {
     width: 25%;
     height: auto;
+}
+
+.player-info-card-image:hover{
+    cursor: pointer;
 }

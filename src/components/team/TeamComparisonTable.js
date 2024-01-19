@@ -35,7 +35,7 @@ function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefine
 	} else {
 		return (
 			<div className="team-comparison-table-container">
-				<Table className="team-comparison-table" size="sm" striped bordered hover>
+				<Table className="team-comparison-table" size="sm" striped bordered hover variant="dark">
 					<thead>
 						<tr>
 							<th>

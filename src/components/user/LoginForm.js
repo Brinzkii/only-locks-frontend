@@ -37,35 +37,35 @@ function LoginForm({ updateUser, notifySuccess, notifyError }) {
 	};
 
 	return (
-		<Form className="LoginForm" onSubmit={handleSubmit}>
-			<h1 className="LoginForm-title">Login</h1>
+		<Form className="login-form" onSubmit={handleSubmit}>
+			<h1 className="login-form-title">Login</h1>
 			<Form.Group>
-				<Form.Label htmlFor="username" className="LoginForm-label">
+				<Form.Label htmlFor="username" className="login-form-label">
 					Username:
 				</Form.Label>
 				<Form.Control
 					type="text"
 					name="username"
 					onChange={handleChange}
-					className="LoginForm-input"
+					className="login-form-input"
 					autoComplete="username"
 				/>
 			</Form.Group>
 
 			<Form.Group>
-				<Form.Label htmlFor="password" className="LoginForm-label">
+				<Form.Label htmlFor="password" className="login-form-label">
 					Password:
 				</Form.Label>
 				<Form.Control
 					name="password"
 					type="password"
 					onChange={handleChange}
-					className="LoginForm-input"
+					className="login-form-input"
 					autoComplete="current-password"
 				/>
 			</Form.Group>
 
-			<Button className="LoginForm-button" type="submit">
+			<Button className="login-form-button pb-2" type="submit">
 				Login
 			</Button>
 		</Form>

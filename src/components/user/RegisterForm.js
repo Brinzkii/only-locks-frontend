@@ -32,35 +32,35 @@ function RegisterForm({ updateUser, notifySuccess, notifyError }) {
 	};
 
 	return (
-		<Form className="RegisterForm" onSubmit={handleSubmit}>
-			<h1 className="RegisterForm-title">Sign Up</h1>
+		<Form className="register-form" onSubmit={handleSubmit}>
+			<h1 className="register-form-title">Sign Up</h1>
 			<Form.Group>
-				<Form.Label htmlFor="username" className="RegisterForm-label">
+				<Form.Label htmlFor="username" className="register-form-label">
 					Username:
 				</Form.Label>
 				<Form.Control
 					type="text"
 					name="username"
 					onChange={handleChange}
-					className="RegisterForm-input"
+					className="register-form-input"
 					autoComplete="new-username"
 				/>
 			</Form.Group>
 
 			<Form.Group>
-				<Form.Label htmlFor="password" className="RegisterForm-label">
+				<Form.Label htmlFor="password" className="register-form-label">
 					Password:
 				</Form.Label>
 				<Form.Control
 					name="password"
 					type="password"
 					onChange={handleChange}
-					className="RegisterForm-input"
+					className="register-form-input"
 					autoComplete="new-password"
 				/>
 			</Form.Group>
 
-			<Button className="RegisterForm-button" type="submit">
+			<Button className="register-form-button" type="submit">
 				Register
 			</Button>
 		</Form>

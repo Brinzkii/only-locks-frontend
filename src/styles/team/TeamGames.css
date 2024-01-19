@@ -29,3 +29,8 @@
 a {
     text-decoration: none;
 }
+
+.team-games-score {
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 600;
+}

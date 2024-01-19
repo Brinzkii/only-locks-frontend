@@ -1,8 +1,10 @@
 .gamelist {
-    width: 90%;
+    width: 95%;
+    
 }
 
 .gamelist-list-group-item {
     border: none;
     padding: 0;
+    background-color: var(--background-color);
 }

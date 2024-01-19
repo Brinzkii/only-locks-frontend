@@ -1,12 +1,19 @@
+.modal-body {
+    background-color: var(--form-background);
+}
+
 .pick-form-container-header {
     border: none;
+    background-color: var(--form-background);
 }
 
 #pick-form-container-tabs-tab-player.nav-link, #pick-form-container-tabs-tab-team.nav-link {
-    color: black;
+    color: white;
+    font-size: 18px
 }
 
 #pick-form-container-tabs-tab-player.nav-link.active, #pick-form-container-tabs-tab-team.nav-link.active {
     font-weight: bold;
-    background-color: #0d6dfd65;
+    color: black;
+    background-color: var(--sort-color);
 }

@@ -1,7 +1,14 @@
 #player-season-stats-table-sorted-col {
-    background: #5071a777;
+    background: var(--sort-color);
     font-weight: bold;
+    color: var(--background-color);
 }
+
+tr:hover td#player-season-stats-table-col, #player-season-stats-table-sorted-col, .player-season-stats-table-player-box {
+    font-weight: bold;
+    --bs-table-hover-color: var(--background-color);
+    --bs-table-hover-bg: var(--sort-color);
+  }
 
 .player-season-stats-table-category-header:hover, .player-season-stats-table-player-box:hover { 
     cursor: pointer;
