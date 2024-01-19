@@ -1,6 +1,8 @@
 .community-pick{
     width: 175px;
-    height: 145px;
+    min-height: 160px;
+    background-color: white;
+    color: var(--background-color)
 }
 
 .community-pick-stack {

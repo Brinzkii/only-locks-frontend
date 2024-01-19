@@ -7,7 +7,7 @@ import Loading from '../Loading';
 import '../../styles/game/GamePicks.css';
 import uuid from 'react-uuid';
 
-function GamePicks({ picks, quarters, navToPlayer }) {
+function GamePicks({ picks }) {
 	const navigate = useNavigate();
 	const navToUser = (evt) => {
 		navigate(`/users/${evt.target.id}`);

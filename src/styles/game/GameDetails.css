@@ -35,6 +35,10 @@
     font-size: 20px;
 }
 
+.game-details-picks {
+    background-color: var(--form-background);
+}
+
 #game-details-tabs-tab-top.nav-link, #game-details-tabs-tab-matchup.nav-link, #game-details-tabs-tab-h2h.nav-link, #game-details-tabs-tab-boxscore.nav-link {
     color: white;
     font-size: 18px

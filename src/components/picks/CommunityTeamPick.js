@@ -18,15 +18,15 @@ function CommunityTeamPick({ pick, navToUser }) {
 			className="pick-pending community-pick"
 			key={uuid()}
 		>
-			<Stack gap={1} className="community-pick-stack align-items-center">
+			<Stack id={pick.username} gap={1} className="community-pick-stack align-items-center">
 				<h6 id={pick.gameId}>
 					{pick.selectedCode} TO WIN -{' '}
 					{pick.isLeading ? (
-						<Badge pill bg="success">
+						<Badge id={pick.username} pill bg="success">
 							<strong>+{pick.difference}</strong>
 						</Badge>
 					) : (
-						<Badge pill bg="danger">
+						<Badge id={pick.username} pill bg="danger">
 							<strong>{pick.difference}</strong>
 						</Badge>
 					)}
@@ -46,11 +46,12 @@ function CommunityTeamPick({ pick, navToUser }) {
 			className={pick.result === true ? 'pick-winner community-pick' : 'pick-loser community-pick'}
 			key={uuid()}
 		>
-			<Stack gap={1} className="community-pick-stack align-items-center">
+			<Stack id={pick.username} gap={1} className="community-pick-stack align-items-center">
 				{pick.result === true ? (
 					<h4 className="pick-win-text text-center mx-auto" id={pick.username}>
-						<Stack>
-							<Trophy className="mx-auto"></Trophy> <small>+{pick.pointValue || 0}pts</small>
+						<Stack id={pick.username}>
+							<Trophy id={pick.username} className="mx-auto"></Trophy>{' '}
+							<small id={pick.username}>+{pick.pointValue || 0}pts</small>
 						</Stack>
 					</h4>
 				) : (
@@ -74,7 +75,7 @@ function CommunityTeamPick({ pick, navToUser }) {
 			className="pick-pending community-pick"
 			key={uuid()}
 		>
-			<Stack gap={1} className="community-pick-stack align-items-center">
+			<Stack id={pick.username} gap={1} className="community-pick-stack align-items-center">
 				<h6 id={pick.username}>{pick.selectedCode} TO WIN</h6>
 				<h6 className="community-pick-user" id={pick.username}>
 					Placed by: {pick.username}

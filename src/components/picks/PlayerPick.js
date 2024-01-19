@@ -15,6 +15,7 @@ function PlayerPick({ pick, quarters, navToPlayer, navToGame }) {
 			<h6 id={pick.gameId}>
 				{pick.player} {pick.overUnder} {pick.value} {pick.stat === 'tpm' ? 'threes' : pick.stat} -{' '}
 				<Badge
+					id={pick.gameId}
 					pill
 					bg={
 						!pick[pick.stat]
@@ -52,9 +53,9 @@ function PlayerPick({ pick, quarters, navToPlayer, navToGame }) {
 		>
 			{pick.result === true ? (
 				<h4 className="pick-win-text text-center" id={pick.gameId}>
-					<Stack>
-						<Trophy className="pick-win-trophy mx-auto"></Trophy>
-						<small>+{pick.pointValue}pts</small>
+					<Stack id={pick.gameId}>
+						<Trophy id={pick.gameId} className="pick-win-trophy mx-auto"></Trophy>
+						<small id={pick.gameId}>+{pick.pointValue}pts</small>
 					</Stack>
 				</h4>
 			) : (
@@ -65,6 +66,7 @@ function PlayerPick({ pick, quarters, navToPlayer, navToGame }) {
 			<h6 id={pick.gameId}>
 				{pick.player} {pick.overUnder} {pick.value} {pick.stat === 'tpm' ? 'threes' : pick.stat} -{' '}
 				<Badge
+					id={pick.gameId}
 					pill
 					bg={
 						pick.overUnder === 'OVER' && pick.value >= pick[pick.stat]
@@ -84,7 +86,7 @@ function PlayerPick({ pick, quarters, navToPlayer, navToGame }) {
 			<>
 				<h6 id={pick.gameId}>{pick.score}</h6>
 				<h6 id={pick.gameId}>
-					<small>
+					<small id={pick.gameId}>
 						{pick.location} - ({Moment(pick.date).format('M/DD/YY')})
 					</small>
 				</h6>
@@ -100,10 +102,10 @@ function PlayerPick({ pick, quarters, navToPlayer, navToGame }) {
 			<>
 				<h6 id={pick.playerId}>
 					{pick.game}
-					<small>({Moment(pick.date).format('MMM Do h:mm a')})</small>
+					<small id={pick.playerId}>({Moment(pick.date).format('MMM Do h:mm a')})</small>
 				</h6>
-				<h6 id={pick.gameId}>
-					<small>{pick.location}</small>
+				<h6 id={pick.playerId}>
+					<small id={pick.playerId}>{pick.location}</small>
 				</h6>
 			</>
 		</ListGroup.Item>
