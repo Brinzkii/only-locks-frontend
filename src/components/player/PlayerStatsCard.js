@@ -16,7 +16,6 @@ function PlayerStatsCard({ title, stats, conversions, navToPlayer }) {
 	if (!stats) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
-		console.log(stats);
 		return (
 			<Table className="player-stats-card-table mx-auto" size="sm" striped hover>
 				<thead>

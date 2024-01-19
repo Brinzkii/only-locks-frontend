@@ -40,7 +40,6 @@ function PlayerGameStatsTable({
 		plusMinus: '+/-',
 	};
 	const handleSortClick = async (evt) => {
-		console.log(evt.target.id);
 		const stat = evt.target.id;
 		if (stat !== activeSort) {
 			await handleCategoryClick(stat);

@@ -2,7 +2,6 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 import Stack from 'react-bootstrap/Stack';
 import Image from 'react-bootstrap/Image';
-import Row from 'react-bootstrap/Row';
 import Spinner from 'react-bootstrap/Spinner';
 import uuid from 'react-uuid';
 import '../../styles/team/TeamTopPerformersTable.css';

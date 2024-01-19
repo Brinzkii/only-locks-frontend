@@ -31,7 +31,6 @@ function User({ quarters, standingsConversion }) {
 		navigate(`/games/${evt.target.id}`);
 	};
 	const navToPlayer = (evt) => {
-		console.log(evt.target);
 		navigate(`/players/${evt.target.id}`);
 	};
 	const navToTeam = (evt) => {
@@ -40,7 +39,6 @@ function User({ quarters, standingsConversion }) {
 	useEffect(() => {
 		async function getDetails(username) {
 			let user = await OnlyLocksAPI.getUser(username);
-			console.log(user);
 			setUser(user);
 		}
 		getDetails(username);

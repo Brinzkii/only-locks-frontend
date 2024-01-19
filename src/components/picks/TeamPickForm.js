@@ -17,10 +17,7 @@ function TeamPickForm({ notifySuccess, notifyError }) {
 	};
 	const [data, setData] = useState(INITIAL_STATE);
 	const handleTeamSelection = (teamId) => {
-		console.log('SELECTED:', data.teams[teamId]);
 		const gameId = data.teams[teamId].gameId;
-		console.log('GAME INFO:', data.games[gameId].homeCode);
-		console.log('GAME ID:', gameId);
 		setData({ ...data, selectedTeam: teamId, gameId });
 	};
 	const handleSubmit = async (evt) => {
@@ -31,7 +28,6 @@ function TeamPickForm({ notifySuccess, notifyError }) {
 				teamId: data.selectedTeam,
 				gameId: data.gameId,
 			});
-			console.log('PICK:', pick);
 			const msg = `Your ${data.teams[data.selectedTeam].name} pick has been locked in!`;
 			setData({ ...data, selectedTeam: undefined, gameId: undefined });
 			notifySuccess(msg);
@@ -54,13 +50,6 @@ function TeamPickForm({ notifySuccess, notifyError }) {
 			setData({
 				games,
 				teams,
-				selectOptions,
-				selectedTeam: undefined,
-				gameId: undefined,
-			});
-			console.log({
-				teams,
-				games,
 				selectOptions,
 				selectedTeam: undefined,
 				gameId: undefined,

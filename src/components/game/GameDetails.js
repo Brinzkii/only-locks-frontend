@@ -76,7 +76,6 @@ function GameDetails({ quarters }) {
 				time: 'all games',
 				gameId: data.game.id,
 			});
-			console.log(playerGameStats);
 
 			setData({ ...data, activeSort: stat, playerGameStats });
 		}
@@ -117,28 +116,6 @@ function GameDetails({ quarters }) {
 				playerGameStats,
 				picks,
 				activeSort: 'minutes',
-			});
-			console.log({
-				game,
-				gameStats: {
-					home: gameStats.home,
-					away: gameStats.away,
-				},
-				teamStats: {
-					home: homeTeamStats,
-					away: awayTeamStats,
-				},
-				gameTopPlayers: {
-					home: topGamePerformers.home,
-					away: topGamePerformers.away,
-				},
-				seasonTopPlayers: {
-					home: homeSeasonPerformers,
-					away: awaySeasonPerformers,
-				},
-				h2h,
-				playerGameStats,
-				picks,
 			});
 		}
 		getData(gameId);

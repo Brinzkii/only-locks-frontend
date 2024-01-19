@@ -26,7 +26,6 @@ function PlayerPickForm({ notifySuccess, notifyError }) {
 
 	const [data, setData] = useState(INITIAL_STATE);
 	const handlePlayerSelection = (playerId) => {
-		console.log('SELECTED:', data.players[playerId]);
 		const gameId = data.players[playerId].gameId;
 		setData({
 			...data,
@@ -58,7 +57,6 @@ function PlayerPickForm({ notifySuccess, notifyError }) {
 		const selectedValue = data.pickOptions[choice].name;
 		const pointValue = Utils.calcPlayerPickPointValue(data.selectedStat, data.overUnder, choice);
 		setData({ ...data, selectedValue, pointValue, valueSelectIdx: choice });
-		console.log('DATA AFTER SELECTION:', { ...data, selectedValue, pointValue, valueSelectIdx: choice });
 	};
 	const handleSubmit = async (evt) => {
 		evt.preventDefault();
@@ -74,7 +72,6 @@ function PlayerPickForm({ notifySuccess, notifyError }) {
 			};
 
 			const pickRes = await OnlyLocksAPI.playerPick(pick);
-			console.log('PICK:', pickRes);
 			const msg = `Your ${data.players[pick.playerId].name} ${pick.over_under.toUpperCase()} ${pick.value} ${
 				pick.stat
 			} pick has been locked in!`;

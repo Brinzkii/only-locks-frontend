@@ -11,7 +11,7 @@ function UserTeamPicks({ picks, navToTeam, navToGame, quarters }) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<Card>
+			<Card className="pick-card">
 				<Card.Header className="pick-header text-center">
 					Team Picks <small>({picks.teamPickRecord})</small>
 				</Card.Header>

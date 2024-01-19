@@ -7,9 +7,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import '../../styles/game/GameCard.css';
 
-function GameCard({ game, navToGame, navToTeam, quarters }) {
+function GameCard({ game, navToGame, quarters }) {
 	return (
-		<Card className="gamecard mt-5 mx-auto">
+		<Card className="gamecard mx-auto">
 			<Card.Header id={game.id} onClick={navToGame}>
 				<Stack className="gamecard-logos-container" direction="horizontal" id={game.id}>
 					<Row id={game.id} className="gamecard-logos-row align-items-center">

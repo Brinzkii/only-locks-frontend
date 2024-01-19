@@ -28,8 +28,6 @@ function TeamComparisonTable({ game, gameStats = undefined, teamStats = undefine
 		blocks: 'Blocks',
 		plusMinus: 'Plus/Minus',
 	};
-	console.log('TEAM STATS:', teamStats);
-	console.log('GAME STATS:', gameStats);
 	if (gameStats === undefined && teamStats === undefined) {
 		return <Spinner animation="border" variant="info" />;
 	} else {

@@ -11,14 +11,12 @@ import '../../styles/team/TeamDetails.css';
 import '../../styles/team/TeamStatsTable.css';
 
 function TeamStatsTable({ stats, categories, navToTeam, handleCategoryClick, activeSort }) {
-	console.log(stats);
 	const [metric, setMetric] = useState('perGame');
 	const handleStatClick = (evt) => {
 		if (evt.target.id !== metric) setMetric(evt.target.id);
 	};
 	const handleSortClick = async (evt) => {
 		const stat = evt.target.id;
-		console.log(stat);
 		if (stat !== activeSort) {
 			await handleCategoryClick(evt);
 		}

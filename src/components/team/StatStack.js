@@ -3,7 +3,6 @@ import Stack from 'react-bootstrap/Stack';
 import '../../styles/team/StatStack.css';
 
 function TeamTopPerformersStatsStack({ stats, category, team }) {
-	console.log(stats);
 	if (category === 'points') {
 		return (
 			<Stack id={stats[team][category].id} direction="horizontal" gap={5} className="stat-stack mx-auto">

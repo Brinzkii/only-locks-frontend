@@ -13,13 +13,11 @@ function PlayerSeasonStatsTable({ stats, categories, navToPlayer, handleCategory
 		if (evt.target.id !== metric) setMetric(evt.target.id);
 	};
 	const handleSortClick = async (evt) => {
-		console.log(evt.target.id);
 		const stat = evt.target.id;
 		if (stat !== activeSort) {
 			await handleCategoryClick(stat);
 		}
 	};
-	console.log('SEASON STATS:', stats);
 
 	return (
 		<Table className="player-season-stats-table mb-0" size="sm" hover variant="dark">

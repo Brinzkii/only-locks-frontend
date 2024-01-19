@@ -60,7 +60,6 @@ function PlayerDetails({ categories, user, notifySuccess, notifyError }) {
 				games,
 				activeSort: undefined,
 			});
-			console.log({ player, team: player.team, games, seasonStats, gameStats });
 		}
 		getData(playerId);
 	}, [playerId]);

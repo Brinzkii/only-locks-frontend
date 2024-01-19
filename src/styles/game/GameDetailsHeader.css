@@ -52,4 +52,30 @@
     .game-details-header-score {
         font-size: 22px;
     }
+    .game-details-header-location {
+        font-size: 13px;
+    }
+}
+
+@media only screen and (max-width: 349px) {
+    .game-details-header-logo {
+        max-width: 75px;
+        height: auto;
+    }
+
+    .game-details-header-team {
+        font-size: 16px;
+    }
+
+    .game-details-header-clock {
+        font-size: 16px;
+    }
+    
+    .game-details-header-score {
+        font-size: 18px;
+    }
+    .game-details-header-location {
+        font-size: 12px;
+    }
+
 }

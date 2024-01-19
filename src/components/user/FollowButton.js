@@ -45,8 +45,6 @@ function FollowButton({ player = false, team = false, user, notifySuccess, notif
 		}
 	};
 	useEffect(() => {
-		console.log('TEAM:', team);
-		console.log('PLAYER:', player);
 		if (!player) {
 			user.following.teams.forEach((t) => {
 				if (t.id === team.id) setIsFollowing(true);

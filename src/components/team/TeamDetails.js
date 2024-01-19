@@ -9,7 +9,6 @@ import Loading from '../Loading';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Image from 'react-bootstrap/Image';
-import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import FollowButton from '../user/FollowButton';
@@ -94,6 +93,7 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 
 	useEffect(() => {
 		async function getData(teamId) {
+			setData({ team: undefined, games: undefined });
 			const team = await OnlyLocksAPI.team(teamId);
 			const teamStats = await OnlyLocksAPI.teamStats(teamId);
 			const players = await OnlyLocksAPI.teamPlayers(teamId);
@@ -132,16 +132,6 @@ function TeamDetails({ categories, user, conversion, notifySuccess, notifyError 
 				nextGames,
 				events,
 				activeSort: 'points',
-			});
-			console.log({
-				team,
-				teamStats,
-				players,
-				playerStats,
-				games,
-				recentGames,
-				nextGames,
-				events,
 			});
 		}
 		getData(teamId);

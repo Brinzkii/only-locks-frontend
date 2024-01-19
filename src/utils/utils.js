@@ -6,13 +6,23 @@ class Utils {
 		let count = 0;
 		switch (stat) {
 			case 'points':
-				if (avg < 15) {
-					for (let i = avg - 3; i <= avg + 3; i++) {
+				if (avg > 24) {
+					for (let i = avg - 9; i <= avg + 9; i += 3) {
+						pickOptions.push({ value: count, name: i });
+						count++;
+					}
+				} else if (24 > avg > 15) {
+					for (let i = avg - 6; i <= avg + 6; i += 2) {
+						pickOptions.push({ value: count, name: i });
+						count++;
+					}
+				} else if (avg < 5) {
+					for (let i = 1.5; i <= 7.5; i++) {
 						pickOptions.push({ value: count, name: i });
 						count++;
 					}
 				} else {
-					for (let i = avg - 6; i <= avg + 6; i += 2) {
+					for (let i = avg - 3; i <= avg + 3; i++) {
 						pickOptions.push({ value: count, name: i });
 						count++;
 					}
@@ -20,13 +30,13 @@ class Utils {
 				break;
 
 			case 'tpm':
-				if (avg <= 2) {
-					for (let i = 1; i <= 4; i++) {
+				if (avg < 2) {
+					for (let i = 0.5; i <= 3.5; i++) {
 						pickOptions.push({ value: count, name: i });
 						count++;
 					}
 				} else {
-					for (let i = 2; i <= 5; i++) {
+					for (let i = 1; i <= 4; i++) {
 						pickOptions.push({ value: count, name: i });
 						count++;
 					}
@@ -35,8 +45,8 @@ class Utils {
 
 			case 'rebounds':
 			case 'assists':
-				if (avg <= 4) {
-					for (let i = 2; i <= 6; i++) {
+				if (avg < 4) {
+					for (let i = 1; i <= 5; i++) {
 						pickOptions.push({ value: count, name: i });
 						count++;
 					}
@@ -49,8 +59,8 @@ class Utils {
 				break;
 
 			case 'blocks':
-				if (avg <= 2) {
-					for (let i = 1; i <= 3; i++) {
+				if (avg < 2) {
+					for (let i = 0.5; i <= 2.5; i++) {
 						pickOptions.push({ value: count, name: i });
 						count++;
 					}
@@ -63,7 +73,7 @@ class Utils {
 				break;
 
 			case 'steals':
-				for (let i = 1; i <= 3; i++) {
+				for (let i = 0.5; i <= 2.5; i++) {
 					pickOptions.push({ value: count, name: i });
 					count++;
 				}
@@ -96,14 +106,14 @@ class Utils {
 		};
 		const overThreesConversion = {
 			0: 25,
-			1: 50,
+			1: 75,
 			2: 125,
 			3: 175,
 		};
 		const underThreesConversion = {
 			0: 175,
 			1: 125,
-			2: 50,
+			2: 75,
 			3: 25,
 		};
 		const overAssistsAndReboundConversion = {

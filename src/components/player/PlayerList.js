@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
@@ -21,19 +21,15 @@ function PlayerList({ data, setData }) {
 		Blocks: 'blocks',
 		Steals: 'steals',
 	};
-	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
 	const navToPlayer = (evt) => {
 		navigate(`/players/${evt.target.id}`);
 	};
 	function handlePrevClick() {
 		async function prevDayGames() {
-			setLoading(true);
-			setData({ ...data, players: undefined });
-			console.debug('Players', data.players);
+			setData({ ...data, players: undefined, isLoading: true });
 			const currDay = data.date;
 			const prevDay = Moment(currDay).subtract(1, 'days').format('YYYYMMDD');
-			console.log('Prev:', prevDay);
 			let players = {};
 			let points = await OnlyLocksAPI.sortPlayerStats({ time: prevDay, stat: 'points' });
 			let tpm = await OnlyLocksAPI.sortPlayerStats({ time: prevDay, stat: 'tpm' });
@@ -47,19 +43,15 @@ function PlayerList({ data, setData }) {
 			players.rebounds = rebounds;
 			players.blocks = blocks;
 			players.steals = steals;
-			setData({ ...data, players, date: prevDay });
-			setLoading(false);
+			setData({ ...data, players, date: prevDay, isLoading: false });
 		}
 		prevDayGames();
 	}
 	function handleNextClick() {
 		async function nextDayGames() {
-			setLoading(true);
-			setData({ ...data, players: undefined });
-			console.debug('Players', data.players);
+			setData({ ...data, players: undefined, isLoading: true });
 			const currDay = data.date;
 			const nextDay = Moment(currDay).add(1, 'days').format('YYYYMMDD');
-			console.log('Next:', nextDay);
 			let players = {};
 			let points = await OnlyLocksAPI.sortPlayerStats({ time: nextDay, stat: 'points' });
 			let tpm = await OnlyLocksAPI.sortPlayerStats({ time: nextDay, stat: 'tpm' });
@@ -73,17 +65,13 @@ function PlayerList({ data, setData }) {
 			players.rebounds = rebounds;
 			players.blocks = blocks;
 			players.steals = steals;
-			setData({ ...data, players, date: nextDay });
-			setLoading(false);
+			setData({ ...data, players, date: nextDay, isLoading: false });
 		}
 		nextDayGames();
 	}
 	function handleDateSelection(evt) {
-		console.log('DATE SELECTED');
-		console.log(evt.target);
 		async function getStats(date) {
-			setLoading(true);
-			setData({ ...data, date: Moment(date), players: undefined });
+			setData({ ...data, date: Moment(date), players: undefined, isLoading: true });
 			let players = {};
 			let points = await OnlyLocksAPI.sortPlayerStats({ time: date, stat: 'points' });
 			let tpm = await OnlyLocksAPI.sortPlayerStats({ time: date, stat: 'tpm' });
@@ -97,18 +85,11 @@ function PlayerList({ data, setData }) {
 			players.rebounds = rebounds;
 			players.blocks = blocks;
 			players.steals = steals;
-			setData({ ...data, date: Moment(date), players });
-			setLoading(false);
-			console.log('DATA:', data);
+			setData({ ...data, date: Moment(date), players, isLoading: false });
 		}
 		getStats(Moment(evt.target.value).format('YYYYMMDD'));
 	}
-	useEffect(() => {
-		setLoading(true);
-		setTimeout(() => {
-			setLoading(false);
-		}, 2000);
-	}, []);
+
 	return (
 		<div className="player-list text-center mt-4 mb-3">
 			<h2>{Moment(data.date).format('LL')}</h2>
@@ -126,7 +107,7 @@ function PlayerList({ data, setData }) {
 					<CaretRightFill></CaretRightFill>
 				</Button>
 			</Stack>
-			{loading ? (
+			{data.isLoading ? (
 				<Loading size="100px" />
 			) : (
 				<Row className="player-list-cards-container mx-auto mt-2 mb-3">

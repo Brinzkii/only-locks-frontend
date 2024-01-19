@@ -1,3 +1,7 @@
+.pick-card {
+    background-color: white;
+}
+
 .pick-list-group {
     max-height: 400px;
     min-height: 400px;
@@ -7,6 +11,8 @@
 
 .pick-header {
     font-size: 22px;
+    background-color:var(--form-background);
+    color: white
 }
 
 .pick-loser {

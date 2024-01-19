@@ -15,7 +15,6 @@ import '../../styles/game/GameList.css';
 function GameList({ data, setData, quarters }) {
 	const navigate = useNavigate();
 	const navToGame = (evt) => {
-		console.log('GAME ID:', evt.target);
 		navigate(`/games/${evt.target.id}`);
 	};
 	const navToTeam = (evt) => {
@@ -23,38 +22,35 @@ function GameList({ data, setData, quarters }) {
 	};
 	function handlePrevClick() {
 		async function prevDayGames() {
-			setData({ ...data, games: undefined });
+			setData({ ...data, games: undefined, isLoading: true });
 			const currDay = data.date;
 			const prevDay = Moment(currDay).subtract(1, 'days').format('YYYYMMDD');
 			let games = await OnlyLocksAPI.gamesByDate(prevDay);
-			setData({ ...data, games, date: prevDay });
+			setData({ ...data, games, date: prevDay, isLoading: false });
 		}
 		prevDayGames();
 	}
 	function handleNextClick() {
 		async function nextDayGames() {
-			setData({ ...data, games: undefined });
-			console.debug('Games', data.games);
+			setData({ ...data, games: undefined, isLoading: true });
 			const currDay = data.date;
 			const nextDay = Moment(currDay).add(1, 'days').format('YYYYMMDD');
 			let games = await OnlyLocksAPI.gamesByDate(nextDay);
-			setData({ ...data, games, date: nextDay });
+			setData({ ...data, games, date: nextDay, isLoading: false });
 		}
 		nextDayGames();
 	}
 	function handleDateSelection(evt) {
 		async function getGames(date) {
-			setData({ ...data, games: undefined });
+			setData({ ...data, games: undefined, isLoading: true });
 			let games = await OnlyLocksAPI.gamesByDate(date);
-			setData({ ...data, date: Moment(date), games });
+			setData({ ...data, date: Moment(date), games, isLoading: false });
 		}
 		getGames(Moment(evt.target.value).format('YYYYMMDD'));
 	}
-	console.log('GAMES:', data.games);
-	if (data.games === undefined) {
-		return <Loading size="100px" />;
-	} else {
-		return (
+
+	return (
+		<>
 			<div className="gamelist text-center mx-auto mb-3">
 				<h2 className="gamelist-date-header mt-4">{Moment(data.date).format('LL')}</h2>
 				<Stack direction="horizontal" gap={0}>
@@ -71,10 +67,14 @@ function GameList({ data, setData, quarters }) {
 						<CaretRightFill></CaretRightFill>
 					</Button>
 				</Stack>
+			</div>
 
-				{!data.games.length ? (
-					<Loading size="100px" />
-				) : (
+			{data.isLoading ? (
+				<Loading size="100px" />
+			) : data.games.length === 0 ? (
+				<h3 className="mt-5">There are no games today :(</h3>
+			) : (
+				<div className="gamelist text-center mx-auto mb-3">
 					<ListGroup className="gamelist-list-group mt-3 mx-auto">
 						{data.games.map((g) => (
 							<ListGroup.Item className="gamelist-list-group-item mx-auto" key={uuid()}>
@@ -88,10 +88,11 @@ function GameList({ data, setData, quarters }) {
 							</ListGroup.Item>
 						))}
 					</ListGroup>
-				)}
-			</div>
-		);
-	}
+				</div>
+			)}
+		</>
+	);
+
 }
 
 export default GameList;

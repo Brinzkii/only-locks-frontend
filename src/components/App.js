@@ -1,4 +1,3 @@
-// import dotenv from 'dotenv';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
@@ -29,6 +28,7 @@ function App() {
 		playerList: [],
 		standings: {},
 		date: Moment(),
+		isLoading: true,
 	});
 	const [user, setUser] = useState({});
 
@@ -81,14 +81,17 @@ function App() {
 
 	const updateUser = ({ username, token, picks, following }) => {
 		async function getData() {
+			setData({ ...data, isLoading: true });
 			if (username) localStorage.setItem('username', username);
 			if (token) localStorage.setItem('token', token);
 			if (picks) localStorage.setItem('picks', JSON.stringify(picks));
 			if (following) localStorage.setItem('following', JSON.stringify(following));
 			setUser({ ...user, username, token });
+			const today = Moment().format('YYYYMMDD');
+			const games = await OnlyLocksAPI.gamesByDate(today);
 			const teams = await OnlyLocksAPI.allTeams();
 			const playerList = await OnlyLocksAPI.allPlayers();
-			setData({ ...data, teams, playerList });
+			setData({ ...data, teams, games, playerList, isLoading: false });
 		}
 
 		getData();
@@ -107,6 +110,15 @@ function App() {
 	useEffect(() => {
 		async function checkForUser() {
 			if (localStorage.token) {
+				setData({
+					teams: [],
+					games: [],
+					players: { points: [], tpm: [], assists: [], rebounds: [], blocks: [], steals: [] },
+					playerList: [],
+					standings: {},
+					date: Moment(),
+					isLoading: true,
+				});
 				let user = await OnlyLocksAPI.getUser(localStorage.username);
 				const info = {
 					username: user.username,
@@ -118,7 +130,6 @@ function App() {
 				localStorage.setItem('picks', JSON.stringify(info.picks));
 				localStorage.setItem('following', JSON.stringify(user.following));
 				setUser(info);
-				console.log('USER:', info);
 
 				let teams = await OnlyLocksAPI.allTeams();
 				const today = Moment().format('YYYYMMDD');
@@ -139,8 +150,7 @@ function App() {
 				players.blocks = blocks;
 				players.steals = steals;
 
-				console.log({ teams, games, players, playerList, standings });
-				setData({ teams, games, players, playerList, standings });
+				setData({ teams, games, players, playerList, standings, isLoading: false });
 			}
 		}
 		checkForUser();
@@ -152,7 +162,7 @@ function App() {
 				<Navigation user={user} logoutUser={logoutUser} players={data.playerList} teams={data.teams} />
 				<Routes>
 					{/* Home */}
-					<Route path="/" element={<Home standings={data.standings} />} />
+					<Route path="/" element={<Home data={data} quarters={quarters} />} />
 
 					{/* Register New User */}
 					<Route
