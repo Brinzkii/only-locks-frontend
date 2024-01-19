@@ -1,5 +1,5 @@
-.community-pick{
-    width: 175px;
+button.community-pick{
+    min-width: 160px;
     min-height: 160px;
     background-color: white;
     color: var(--background-color)
