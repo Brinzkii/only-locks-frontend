@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Moment from 'moment';
 import OnlyLocksAPI from '../../api/OnlyLocksAPI';
@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
-import Spinner from 'react-bootstrap/Spinner';
+import Loading from '../Loading';
 import Button from 'react-bootstrap/Button';
 import { CaretLeftFill, CaretRightFill } from 'react-bootstrap-icons';
 import '../../styles/player/PlayerList.css';
@@ -21,12 +21,14 @@ function PlayerList({ data, setData }) {
 		Blocks: 'blocks',
 		Steals: 'steals',
 	};
+	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
 	const navToPlayer = (evt) => {
 		navigate(`/players/${evt.target.id}`);
 	};
 	function handlePrevClick() {
 		async function prevDayGames() {
+			setLoading(true);
 			setData({ ...data, players: undefined });
 			console.debug('Players', data.players);
 			const currDay = data.date;
@@ -46,11 +48,13 @@ function PlayerList({ data, setData }) {
 			players.blocks = blocks;
 			players.steals = steals;
 			setData({ ...data, players, date: prevDay });
+			setLoading(false);
 		}
 		prevDayGames();
 	}
 	function handleNextClick() {
 		async function nextDayGames() {
+			setLoading(true);
 			setData({ ...data, players: undefined });
 			console.debug('Players', data.players);
 			const currDay = data.date;
@@ -70,6 +74,7 @@ function PlayerList({ data, setData }) {
 			players.blocks = blocks;
 			players.steals = steals;
 			setData({ ...data, players, date: nextDay });
+			setLoading(false);
 		}
 		nextDayGames();
 	}
@@ -77,6 +82,7 @@ function PlayerList({ data, setData }) {
 		console.log('DATE SELECTED');
 		console.log(evt.target);
 		async function getStats(date) {
+			setLoading(true);
 			setData({ ...data, date: Moment(date), players: undefined });
 			let players = {};
 			let points = await OnlyLocksAPI.sortPlayerStats({ time: date, stat: 'points' });
@@ -92,10 +98,17 @@ function PlayerList({ data, setData }) {
 			players.blocks = blocks;
 			players.steals = steals;
 			setData({ ...data, date: Moment(date), players });
+			setLoading(false);
 			console.log('DATA:', data);
 		}
 		getStats(Moment(evt.target.value).format('YYYYMMDD'));
 	}
+	useEffect(() => {
+		setLoading(true);
+		setTimeout(() => {
+			setLoading(false);
+		}, 1500);
+	}, []);
 	return (
 		<div className="player-list text-center mt-4 mb-3">
 			<h2>{Moment(data.date).format('LL')}</h2>
@@ -113,59 +126,64 @@ function PlayerList({ data, setData }) {
 					<CaretRightFill></CaretRightFill>
 				</Button>
 			</Stack>
-			{!data.players ? (
-				<Spinner animation="border" variant="info" />
+			{loading ? (
+				<Loading size="100px" />
 			) : (
-				<Stack direction="vertical" gap={5} className="player-list-cards-container mt-4 mx-auto col-5">
-					<div className="player-list-stat-table-container">
-						<PlayerStatsCard
-							title="Points"
-							stats={data.players.points}
-							conversions={conversions}
-							navToPlayer={navToPlayer}
-						/>
-					</div>
-					<div className="player-list-stat-table-container">
-						<PlayerStatsCard
-							title="3 Pointers"
-							stats={data.players.tpm}
-							conversions={conversions}
-							navToPlayer={navToPlayer}
-						/>
-					</div>
-					<div className="player-list-stat-table-container">
-						<PlayerStatsCard
-							title="Assists"
-							stats={data.players.assists}
-							conversions={conversions}
-							navToPlayer={navToPlayer}
-						/>
-					</div>
-					<div className="player-list-stat-table-container">
-						<PlayerStatsCard
-							title="Rebounds"
-							stats={data.players.rebounds}
-							conversions={conversions}
-							navToPlayer={navToPlayer}
-						/>
-					</div>
-					<div className="player-list-stat-table-container">
-						<PlayerStatsCard
-							title="Blocks"
-							stats={data.players.blocks}
-							conversions={conversions}
-							navToPlayer={navToPlayer}
-						/>
-					</div>
-					<div className="player-list-stat-table-container">
-						<PlayerStatsCard
-							title="Steals"
-							stats={data.players.steals}
-							conversions={conversions}
-							navToPlayer={navToPlayer}
-						/>
-					</div>
-				</Stack>
+				<Row className="player-list-cards-container mx-auto mt-2 mb-3">
+					<Col>
+						<div className="player-list-stat-table-container mt-3">
+							<PlayerStatsCard
+								title="Points"
+								stats={data.players.points}
+								conversions={conversions}
+								navToPlayer={navToPlayer}
+							/>
+						</div>
+						<div className="player-list-stat-table-container mt-3">
+							<PlayerStatsCard
+								title="3 Pointers"
+								stats={data.players.tpm}
+								conversions={conversions}
+								navToPlayer={navToPlayer}
+							/>
+						</div>
+						<div className="player-list-stat-table-container mt-3">
+							<PlayerStatsCard
+								title="Assists"
+								stats={data.players.assists}
+								conversions={conversions}
+								navToPlayer={navToPlayer}
+							/>
+						</div>
+					</Col>
+
+					<Col>
+						<div className="player-list-stat-table-container mt-3">
+							<PlayerStatsCard
+								title="Rebounds"
+								stats={data.players.rebounds}
+								conversions={conversions}
+								navToPlayer={navToPlayer}
+							/>
+						</div>
+						<div className="player-list-stat-table-container mt-3">
+							<PlayerStatsCard
+								title="Blocks"
+								stats={data.players.blocks}
+								conversions={conversions}
+								navToPlayer={navToPlayer}
+							/>
+						</div>
+						<div className="player-list-stat-table-container mt-3">
+							<PlayerStatsCard
+								title="Steals"
+								stats={data.players.steals}
+								conversions={conversions}
+								navToPlayer={navToPlayer}
+							/>
+						</div>
+					</Col>
+				</Row>
 			)}
 		</div>
 	);

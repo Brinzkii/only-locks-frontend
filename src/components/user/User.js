@@ -11,7 +11,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import '../../styles/user/User.css';
 
-function User({ quarters }) {
+function User({ quarters, standingsConversion }) {
 	const ranks = {
 		500: 'Rookie',
 		1000: 'Novice',
@@ -83,7 +83,11 @@ function User({ quarters }) {
 						</div>
 
 						<div className="user-followed-teams-container mx-auto">
-							<UserFollowedTeams teams={user.followedTeams} navToTeam={navToTeam} />
+							<UserFollowedTeams
+								teams={user.followedTeams}
+								navToTeam={navToTeam}
+								standingsConversion={standingsConversion}
+							/>
 						</div>
 					</Col>
 				</Row>

@@ -2,6 +2,17 @@
     width: 95%;
 }
 
+.game-details-top-performers {
+    max-width: 100%;
+    overflow-x: scroll;
+}
+
+.game-details-player-game-stats-table {
+    max-width: 100%;
+    overflow-x: scroll;
+    border: 2px solid #dee2e6;
+}
+
 .game-details-player-link {
     text-decoration: none;
     padding: 0px;
@@ -18,6 +29,10 @@
 
 .game-details-score {
     font-weight: 600;
+}
+
+.game-details-header-date {
+    font-size: 20px;
 }
 
 #game-details-tabs-tab-top.nav-link, #game-details-tabs-tab-matchup.nav-link, #game-details-tabs-tab-h2h.nav-link, #game-details-tabs-tab-boxscore.nav-link {

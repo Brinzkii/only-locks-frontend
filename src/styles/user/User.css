@@ -2,6 +2,10 @@
     width: 95%;
 }
 
+.user-teampicks-container, .user-followed-teams-container, .user-playerpicks-container, .user-followed-players-container {
+    max-width: 775px;
+}
+
 .user-teampicks-container, .user-followed-teams-container { 
     margin-top: 35px;
 }

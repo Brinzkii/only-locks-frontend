@@ -4,4 +4,6 @@
 
 .player-details-season-stats-container, .player-details-game-stats-container {
     overflow-x: scroll;
+    max-width: 100%;
+    border: 2px solid #dee2e6;
 }

@@ -27,7 +27,7 @@ function PlayerStatsCard({ title, stats, conversions, navToPlayer }) {
 						stats.map((p) => {
 							return (
 								<tr id={p.id} onClick={navToPlayer} key={uuid()}>
-									<td id={p.id}>
+									<td className="player-stats-card-player" id={p.id}>
 										{p.name} {`(${p.code})`} {p[conversions[title]]}
 									</td>
 								</tr>
@@ -39,7 +39,7 @@ function PlayerStatsCard({ title, stats, conversions, navToPlayer }) {
 								<Button
 									id="per36"
 									onClick={handleMetricClick}
-									className="player-stats-card-metric-button"
+									className="player-stats-card-metric-button pt-0"
 									active={metric === 'per36'}
 								>
 									per36
@@ -47,7 +47,7 @@ function PlayerStatsCard({ title, stats, conversions, navToPlayer }) {
 								<Button
 									id="perGame"
 									onClick={handleMetricClick}
-									className="player-stats-card-metric-button"
+									className="player-stats-card-metric-button pt-0"
 									active={metric === 'perGame'}
 								>
 									perGame
@@ -55,7 +55,7 @@ function PlayerStatsCard({ title, stats, conversions, navToPlayer }) {
 								<Button
 									id="totals"
 									onClick={handleMetricClick}
-									className="player-stats-card-metric-button"
+									className="player-stats-card-metric-button pt-0"
 									active={metric === 'totals'}
 								>
 									totals
@@ -69,7 +69,7 @@ function PlayerStatsCard({ title, stats, conversions, navToPlayer }) {
 										onClick={navToPlayer}
 										key={uuid()}
 									>
-										<td id={p.id}>
+										<td className="player-stats-card-player" id={p.id}>
 											{p.name} {`(${p.code})`}{' '}
 											{metric === 'perGame' || metric === 'per36'
 												? p[conversions[title]].toFixed(1)

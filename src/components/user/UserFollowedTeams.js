@@ -6,18 +6,18 @@ import Stack from 'react-bootstrap/Stack';
 import uuid from 'react-uuid';
 import '../../styles/user/UserFollowing.css';
 
-function UserFollowedTeams({ teams, navToTeam }) {
+function UserFollowedTeams({ teams, navToTeam, standingsConversion }) {
 	if (!teams) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<Card>
-				<Card.Header className="following-header text-center">Followed Teams</Card.Header>
+			<Card className="user-following-card">
+				<Card.Header className="user-following-header text-center">Followed Teams</Card.Header>
 				<Card.Body>
-					<ListGroup className="following-list-group" variant="flush">
+					<ListGroup className="user-following-list-group" variant="flush">
 						{teams.map((t, idx) => (
 							<ListGroup.Item
-								className="following-list-group-item"
+								className="user-following-list-group-item mb-2"
 								action
 								key={uuid()}
 								onClick={navToTeam}
@@ -28,11 +28,12 @@ function UserFollowedTeams({ teams, navToTeam }) {
 								</h5>
 								<Stack id={t.id} direction="horizontal" gap={3}>
 									<small className="mx-auto" id={t.id}>
-										{t.conference}ern Conference
+										{`${standingsConversion[t.conferenceRank]} 
+										 in ${t.conference}ern Conference`}
 									</small>
 									<div className="vr"></div>
 									<small className="mx-auto" id={t.id}>
-										{t.division} Division
+										{`${standingsConversion[t.divisionRank]} in ${t.division} Division`}
 									</small>
 								</Stack>
 							</ListGroup.Item>

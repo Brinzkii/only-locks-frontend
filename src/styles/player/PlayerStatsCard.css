@@ -14,5 +14,9 @@ span.player-stats-card-value {
     font-weight: bold;
 }
 
+.player-stats-card-player:hover {
+    cursor: pointer;
+}
+
 
 

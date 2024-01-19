@@ -1,11 +1,18 @@
-.following-list-group {
-    max-width: 500px;
+.user-following-list-group {
     min-height: 400px;
     max-height: 400px;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
 
-.following-header {
-    font-size: 20px;
+.user-following-header {
+    font-size: 22px;
+}
+
+.user-following-list-group-item {
+    border: 3px solid black;
+}
+
+.user-following-divider {
+    width: 70%;
 }

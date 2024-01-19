@@ -1,10 +1,12 @@
 .player-stats-card-metric-button {
     margin: 5px 5px 5px 5px;
+    height: 22px;
+
+    font-size: 10px;
 }
 
 .player-stats-card-player-row:hover, .player-stats-card-player-row > td:hover {
     cursor: pointer;
-    color: #25cff2;
 }
 
 .player-list-cards-container {

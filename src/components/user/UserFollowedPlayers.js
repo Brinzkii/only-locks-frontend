@@ -13,13 +13,13 @@ function UserFollowedPlayers({ players, navToPlayer }) {
 		return <Spinner animation="border" variant="info" />;
 	} else {
 		return (
-			<Card>
-				<Card.Header className="following-header text-center">Followed Players</Card.Header>
+			<Card className="user-following-card">
+				<Card.Header className="user-following-header text-center">Followed Players</Card.Header>
 				<Card.Body>
-					<ListGroup className="following-list-group" variant="flush">
+					<ListGroup className="user-following-list-group" variant="flush">
 						{players.map((p, idx) => (
 							<ListGroup.Item
-								className="following-list-group-item"
+								className="user-following-list-group-item mb-2"
 								action
 								key={uuid()}
 								id={p.id}
@@ -37,7 +37,7 @@ function UserFollowedPlayers({ players, navToPlayer }) {
 										<div></div>
 										<h6 className="mx-auto">{p.position}</h6>
 									</Stack>
-									<hr className="mt-0" />
+									<hr className="user-following-divider mt-0 mx-auto" />
 									<Stack id={p.id}>
 										<Row id={p.id}>
 											<Col id={p.id}>

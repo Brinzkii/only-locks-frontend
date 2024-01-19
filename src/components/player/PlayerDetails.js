@@ -14,6 +14,7 @@ function PlayerDetails({ categories, user, notifySuccess, notifyError }) {
 		games: undefined,
 		seasonStats: undefined,
 		gameStats: undefined,
+		activeSort: undefined,
 	};
 	const [data, setData] = useState(INITIAL_STATE);
 	const { playerId } = useParams();
@@ -26,17 +27,21 @@ function PlayerDetails({ categories, user, notifySuccess, notifyError }) {
 	};
 	function handleCategoryClick(stat) {
 		async function sortGameStats(stat) {
-			setData({ ...data, gameStats: undefined });
+			setData({ ...data, activeSort: stat, gameStats: undefined });
 			const conversions = {
 				totalReb: 'total_reb',
 				offReb: 'off_reb',
 				defReb: 'def_reb',
 				plusMinus: 'plus_minus',
 			};
-			stat = conversions[stat] || stat;
-			const gameStats = await OnlyLocksAPI.sortPlayerStats({ stat, time: 'all games', playerId: data.player.id });
+			const cleanStat = conversions[stat] || stat;
+			const gameStats = await OnlyLocksAPI.sortPlayerStats({
+				stat: cleanStat,
+				time: 'all games',
+				playerId: data.player.id,
+			});
 
-			setData({ ...data, gameStats });
+			setData({ ...data, activeSort: stat, gameStats });
 		}
 		sortGameStats(stat);
 	}
@@ -47,7 +52,14 @@ function PlayerDetails({ categories, user, notifySuccess, notifyError }) {
 			const seasonStats = await OnlyLocksAPI.playerSeasonStats(playerId);
 			const gameStats = await OnlyLocksAPI.allPlayerGameStats(playerId);
 			const games = await OnlyLocksAPI.teamGames(player.teamId);
-			setData({ player, team: player.team, seasonStats, gameStats: gameStats.reverse(), games });
+			setData({
+				player,
+				team: player.team,
+				seasonStats,
+				gameStats: gameStats.reverse(),
+				games,
+				activeSort: undefined,
+			});
 			console.log({ player, team: player.team, games, seasonStats, gameStats });
 		}
 		getData(playerId);
@@ -69,14 +81,15 @@ function PlayerDetails({ categories, user, notifySuccess, notifyError }) {
 				<div className="player-details-season-stats-container">
 					<PlayerSeasonStatsTable stats={data.seasonStats} categories={categories} />
 				</div>
-				<h4 className="mt-5 mb-0">Game Stats</h4>
-				<div className="player-details-game-stats-container">
+				<h4 className="mt-5 mb-1">Game Stats</h4>
+				<div className="player-details-game-stats-container mb-3">
 					<PlayerGameStatsTable
 						gameStats={data.gameStats}
 						games={data.games}
 						navToGame={navToGame}
 						player={data.player}
 						handleCategoryClick={handleCategoryClick}
+						activeSort={data.activeSort}
 					/>
 				</div>
 			</div>

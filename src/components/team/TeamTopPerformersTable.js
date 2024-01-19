@@ -70,11 +70,14 @@ function TeamTopPerformersTable({
 												onClick={navToPlayer}
 												className="team-top-performers-table-season-td"
 											>
-												<Stack>
-													<div className="team-top-performers-table-player-name mx-auto">
+												<Stack id={seasonTopPlayers.home[key].id}>
+													<div
+														id={seasonTopPlayers.home[key].id}
+														className="team-top-performers-table-player-name mx-auto"
+													>
 														{seasonTopPlayers.home[key].name}
 													</div>
-													<div className="mx-auto">
+													<div id={seasonTopPlayers.home[key].id} className="mx-auto">
 														{key === 'plusMinus'
 															? `+${Math.round(
 																	seasonTopPlayers.home[key].value /
@@ -96,11 +99,14 @@ function TeamTopPerformersTable({
 												onClick={navToPlayer}
 												className="team-top-performers-table-season-td"
 											>
-												<Stack>
-													<div className="team-top-performers-table-player-name">
+												<Stack id={seasonTopPlayers.away[key].id}>
+													<div
+														id={seasonTopPlayers.away[key].id}
+														className="team-top-performers-table-player-name"
+													>
 														{seasonTopPlayers.away[key].name}
 													</div>
-													<div>
+													<div id={seasonTopPlayers.away[key].id}>
 														{key === 'plusMinus'
 															? `+${Math.round(
 																	seasonTopPlayers.away[key].value /
@@ -126,12 +132,20 @@ function TeamTopPerformersTable({
 												id={gameTopPlayers.home[key].id}
 												onClick={navToPlayer}
 											>
-												<Stack className="mx-auto">
-													<div className="team-top-performers-table-player-name mx-auto">
+												<Stack id={gameTopPlayers.home[key].id} className="mx-auto">
+													<div
+														id={gameTopPlayers.home[key].id}
+														className="team-top-performers-table-player-name mx-auto"
+													>
 														{gameTopPlayers.home[key].name}
 													</div>
-													<div className="mx-auto">
-														<StatStack stats={gameTopPlayers} category={key} team="home" />
+													<div id={gameTopPlayers.home[key].id} className="mx-auto">
+														<StatStack
+															id={gameTopPlayers.home[key].id}
+															stats={gameTopPlayers}
+															category={key}
+															team="home"
+														/>
 													</div>
 												</Stack>
 											</td>
@@ -151,12 +165,20 @@ function TeamTopPerformersTable({
 												id={gameTopPlayers.away[key].id}
 												onClick={navToPlayer}
 											>
-												<Stack className="mx-auto">
-													<div className="team-top-performers-table-player-name">
+												<Stack id={gameTopPlayers.away[key].id} className="mx-auto">
+													<div
+														id={gameTopPlayers.away[key].id}
+														className="team-top-performers-table-player-name"
+													>
 														{gameTopPlayers.away[key].name}
 													</div>
-													<div className="mx-auto">
-														<StatStack stats={gameTopPlayers} category={key} team="away" />
+													<div id={gameTopPlayers.away[key].id} className="mx-auto">
+														<StatStack
+															id={gameTopPlayers.away[key].id}
+															stats={gameTopPlayers}
+															category={key}
+															team="away"
+														/>
 													</div>
 												</Stack>
 											</td>

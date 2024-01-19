@@ -28,6 +28,7 @@ function GameDetails({ quarters }) {
 		seasonTopPlayers: { home: undefined, away: undefined },
 		h2h: { totals: undefined, games: undefined, gameStats: undefined },
 		picks: [],
+		activeSort: 'minutes',
 	};
 	const [key, setKey] = useState('matchup');
 	const categories = {
@@ -62,21 +63,22 @@ function GameDetails({ quarters }) {
 	};
 	function handleCategoryClick(stat) {
 		async function sortGameStats(stat) {
-			setData({ ...data, playerGameStats: undefined });
+			setData({ ...data, activeSort: stat, playerGameStats: undefined });
 			const conversions = {
 				totalReb: 'total_reb',
 				offReb: 'off_reb',
 				defReb: 'def_reb',
 				plusMinus: 'plus_minus',
 			};
-			stat = conversions[stat] || stat;
+			const cleanStat = conversions[stat] || stat;
 			const playerGameStats = await OnlyLocksAPI.sortPlayerStats({
-				stat,
+				stat: cleanStat,
 				time: 'all games',
 				gameId: data.game.id,
 			});
+			console.log(playerGameStats);
 
-			setData({ ...data, playerGameStats });
+			setData({ ...data, activeSort: stat, playerGameStats });
 		}
 		sortGameStats(stat);
 	}
@@ -114,6 +116,7 @@ function GameDetails({ quarters }) {
 				h2h,
 				playerGameStats,
 				picks,
+				activeSort: 'minutes',
 			});
 			console.log({
 				game,
@@ -140,7 +143,7 @@ function GameDetails({ quarters }) {
 		}
 		getData(gameId);
 	}, [gameId]);
-	if (data.game === undefined) {
+	if (data.game === undefined || data.gameStats === undefined || data.picks.picks === undefined) {
 		return <Loading size="100px" />;
 	} else {
 		return (
@@ -175,7 +178,7 @@ function GameDetails({ quarters }) {
 							)}
 						</div>
 					</Tab>
-					{data.h2h.gameStats.length && !data.gameStats.home && !data.gameStats.away ? (
+					{data.h2h.gameStats && data.h2h.gameStats.length && !data.gameStats.home && !data.gameStats.away ? (
 						<Tab eventKey="h2h" title="Head 2 Head">
 							<div className="game-details-h2h">
 								<TeamH2HTable
@@ -190,10 +193,12 @@ function GameDetails({ quarters }) {
 					<Tab
 						eventKey="top"
 						title={
-							Object.keys(data.gameTopPlayers.home).length ? 'Top Performers' : 'Top Performers (season)'
+							data.gameTopPlayers.home && Object.keys(data.gameTopPlayers.home).length
+								? 'Top Performers'
+								: 'Top Performers (season)'
 						}
 					>
-						{Object.keys(data.gameTopPlayers.home).length === 0 ? (
+						{data.gameTopPlayers.home && Object.keys(data.gameTopPlayers.home).length === 0 ? (
 							<div className="game-details-top-performers mb-3">
 								<TeamTopPerformersTable
 									seasonTopPlayers={data.seasonTopPlayers}
@@ -216,13 +221,14 @@ function GameDetails({ quarters }) {
 							</div>
 						)}
 					</Tab>
-					{data.playerGameStats.length ? (
+					{data.playerGameStats && data.playerGameStats.length ? (
 						<Tab eventKey="boxscore" title="Box Score">
-							<div className="game-details-player-game-stats-table mt-4">
+							<div className="game-details-player-game-stats-table mt-0">
 								<PlayerGameStatsTable
 									gameStats={data.playerGameStats}
 									navToPlayer={navToPlayer}
 									handleCategoryClick={handleCategoryClick}
+									activeSort={data.activeSort}
 								/>
 							</div>
 						</Tab>
@@ -230,7 +236,7 @@ function GameDetails({ quarters }) {
 				</Tabs>
 
 				{/* All picks placed for current game */}
-				{data.picks.picks.length ? (
+				{data.picks.picks && data.picks.picks.length ? (
 					<div className="game-details-picks mb-3">
 						<GamePicks picks={data.picks} quarters={quarters} navToPlayer={navToPlayer} />
 					</div>

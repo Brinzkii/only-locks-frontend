@@ -13,16 +13,16 @@ function GameDetailsHeader({ game, homeRecord, awayRecord, quarters, navToTeam }
 			<Card.Header className="game-details-header-box" id={game.id}>
 				<Stack className="game-details-header-logos-container" direction="horizontal" id={game.id}>
 					<Row id={game.id} className="game-details-header-logos-row align-items-center">
-						<Col id={game.id} className="mb-auto mt-auto">
+						<Col id={game.homeId} className="mb-auto mt-auto">
 							<Image
-								id={game.id}
+								id={game.homeId}
 								className="game-details-header-logo GameList-logo-home"
 								src={game.homeLogo}
 								onClick={navToTeam}
 							/>
 							<h2 className="game-details-header-team mb-0">{game.homeName}</h2>
 							<h5>
-								<small id={game.id} className="mt-0">
+								<small id={game.homeId} className="mt-0">
 									({homeRecord})
 								</small>
 							</h5>
@@ -55,20 +55,21 @@ function GameDetailsHeader({ game, homeRecord, awayRecord, quarters, navToTeam }
 									<div id={game.id} className="game-details-header-score">
 										{game.score}
 									</div>
+									<div className="game-details-header-date">{Moment(game.date).format('LL')}</div>
 								</Stack>
 							)}
 						</Col>
 
-						<Col className="ms-auto" id={game.id}>
+						<Col className="ms-auto" id={game.awayId}>
 							<Image
-								id={game.id}
+								id={game.awayId}
 								className="game-details-header-logo GameList-logo-away"
 								src={game.awayLogo}
 								onClick={navToTeam}
 							/>
 							<h2 className="game-details-header-team mb-0">{game.awayName}</h2>
 							<h5>
-								<small id={game.id} className="mt-0">
+								<small id={game.awayId} className="mt-0">
 									({awayRecord})
 								</small>
 							</h5>

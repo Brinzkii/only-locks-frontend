@@ -1,7 +1,30 @@
-#PlayerGameStatsTable-sorted-col {
-    background: aquamarine;
+#player-game-stats-table-sorted-col {
+    background: #5071a777;
+    font-weight: bold;
 }
 
-.PlayerGameStatsTable-logo {
-    width: 35px;
+.player-game-stats-table-vs-stack {
+    font-weight: 500;
+    min-width: 65px;
+}
+
+.player-game-stats-table-category-header:hover, .player-game-stats-table-first-box:hover { 
+    cursor: pointer;
+}
+
+.player-game-stats-table-first-box {
+    height: 40px;
+}
+
+.player-game-stats-table-player-box {
+    border-right: 2px solid #dee2e6;
+    height: 35px;
+    text-align: center;
+    font-weight: 500;
+}
+
+@media only screen and (max-width: 599px){
+    .player-game-stats-table-first-box {
+        font-size: 14px;
+    }
 }
